@@ -1,0 +1,1 @@
+# renting_stuffs_project
