@@ -8,9 +8,10 @@ public class Booking implements Serializable {
     //Enum variables
     public static enum STATUS{
 
-        PENDING("Pending"),
-        ACCEPTED("Accepted"),
-        REJECTED("Rejected");
+        PENDING("Pending"),//Borrower requests a Booking
+        ACCEPTED("Accepted"),//Owner accepts a Booking
+        REJECTED("Rejected"),//Owner rejects a Booking
+        DONE("Done");//when item is returned
 
         private String displayName;
 

@@ -7,7 +7,8 @@ public class User implements Serializable {
     //user fields
     private int id;
     private String email, username;
-    private double lat, lng;
+    private int numberOfReview;//Owner reviews Borrower
+    private double lat, lng, averageRating;
     private boolean isActive, isAdmin;
 
     //constructor

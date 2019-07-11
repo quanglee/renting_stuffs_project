@@ -46,7 +46,8 @@ public class Item implements Serializable {
             category, // enum CATEGORY
             imageURL, // comma separate string
             tags;// comma separate string
-    private double lat, lng, price;
+    private int numberOfReview;//Borrower reviews Item
+    private double lat, lng, price, averageRating;
     private boolean isActive;
 
     //getter & setter
