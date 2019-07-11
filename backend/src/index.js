@@ -10,6 +10,7 @@ const HOST = '0.0.0.0';
 const app = express();
 const userRoutes = require('./routes/user');
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // Place your main routers here
 app.use('/users', userRoutes);
