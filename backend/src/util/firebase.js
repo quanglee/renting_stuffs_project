@@ -1,10 +1,12 @@
-var firebase = require('firebase');
-var firebaseApp = firebase.initializeApp({
-    apiKey: "AIzaSyAwILjmaw3ovF_1HdLcBqnpcWmqAfZBtxA",
-    authDomain: "shareandgetapps.firebaseapp.com",
-    databaseURL: "https://shareandgetapps.firebaseio.com",
-    projectId: "shareandgetapps",
-    storageBucket: "",
-    messagingSenderId: "686945793654",
-    appId: "1:686945793654:web:0eca1ef2e99b57cb"
+var admin = require("firebase-admin");
+const { FIREBASE_SERVICE_ACCOUNT_JSON, FIREBASE_DATABASE_URL } = require("../config");
+var serviceAccount = require(FIREBASE_SERVICE_ACCOUNT_JSON);
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: FIREBASE_DATABASE_URL
 });
+
+module.exports = admin;
+
+

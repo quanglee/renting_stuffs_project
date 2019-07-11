@@ -7,10 +7,12 @@ const bodyParser = require('body-parser');
 // App
 const app = express();
 const userRoutes = require('./routes/user');
+const authRoutes = require('./routes/auth');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // Place your main routers here
+app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 // ... //
 

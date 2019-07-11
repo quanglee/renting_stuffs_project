@@ -1,7 +1,7 @@
 # renting_stuffs_project - BACKEND
 Leave your backend stuff in this folder
 
-# run
+# download all dependencies
 npm install
 
 # create .env file
@@ -13,3 +13,10 @@ DB_USER='root'
 DB_PASS='root'
 DB_DATABASE='renting_db'
 DB_CONNECT_LIMIT=10
+FIREBASE_SERVICE_ACCOUNT_JSON="../../service-account-file.json"
+FIREBASE_DATABASE_URL="https://shareandgetapps.firebaseio.com"
+
+# create account service json file on Firebase
+* Firebase Console -> Project settings -> Service Account 
+* Select node js -> generate new private key
+* update .env file to load the file.

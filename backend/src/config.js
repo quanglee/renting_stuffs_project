@@ -9,5 +9,7 @@ module.exports = {
     DB_USER: process.env.DB_USER,
     DB_PASS: process.env.DB_PASS,
     DB_DATABASE: process.env.DB_DATABASE,
-    DB_CONNECT_LIMIT: process.env.DB_CONNECT_LIMIT
+    DB_CONNECT_LIMIT: process.env.DB_CONNECT_LIMIT,
+    FIREBASE_SERVICE_ACCOUNT_JSON: process.env.FIREBASE_SERVICE_ACCOUNT_JSON,
+    FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL
 }
