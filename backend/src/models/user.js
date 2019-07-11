@@ -1,6 +1,6 @@
 const db = require("../util/database");
 
-module.exports = class Product {
+module.exports = class User {
     constructor() {
         // any
     }
