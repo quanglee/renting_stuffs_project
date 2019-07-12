@@ -1,5 +1,6 @@
 // place the users logic here
-const firebaseAdmin = require('../util/firebase');
+const { firebaseAdmin } = require('../util/firebase');
+const User = require('../models/user');
 
 exports.loginUser = (req, res, next) => {
     console.log("login user");
@@ -29,11 +30,23 @@ exports.registerUser = (req, res, next) => {
         displayName: displayName
     }).then(userRecord => {
         // TODO: save user into firebase db
-        res.status(201).json({
-            email: userRecord.email,
-            displayName: userRecord.displayName,
-            uid: userRecord.uid
-        })
+        User.saveUser({
+            email: email,
+            username: displayName,
+            role: false,
+            lat: "",
+            lng: "",
+            isActive: true
+        }).then(resultData => {
+            console.log(resultData);
+            res.status(201).json({
+                email: userRecord.email,
+                displayName: userRecord.displayName,
+                uid: userRecord.uid
+            });
+        }).catch(err => {
+            console.log(err);
+        });
     }).catch(err => {
         console.log(err);
     });
