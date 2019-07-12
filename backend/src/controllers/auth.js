@@ -1,22 +1,35 @@
 // place the users logic here
-const { firebaseAdmin } = require('../util/firebase');
+const { firebaseAdmin, firebase } = require('../util/firebase');
 const User = require('../models/user');
 
 exports.loginUser = (req, res, next) => {
-    console.log("login user");
-    firebaseAdmin.auth().getUserByEmail("admin@shareandget.com")
-    .then(userRecord =>  {
-      // See the UserRecord reference doc for the contents of userRecord.
-      console.log('Successfully fetched user data:', userRecord.toJSON());
-    })
-    .catch(error => {
-      console.log('Error fetching user data:', error);
-    });
-
-    res.status(200).json({
-        message: 'success',
-        token: 'token abac'
-    })
+    const email = req.body.email;
+    const password = req.body.password;
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(result => {
+            User.findUserByEmail(result.user.email)
+                    .then(userDetails => {
+                        res.status(200).json({
+                            message: 'success',
+                            token: result.user.refreshToken,
+                            uid: result.user.uid,
+                            displayName: result.user.displayName,
+                            lat: userDetails.data().lat,
+                            lng: userDetails.data().lng,
+                            role: userDetails.data().role
+                        })
+                    }).catch(err => {
+                        res.status(401).json({
+                            message: "Unable to login"
+                        });
+                    });
+        })
+        .catch(error => {
+            const errorMessage = error.message;
+            res.status(401).json({
+                message: errorMessage
+            });
+        })
 }
 
 exports.registerUser = (req, res, next) => {
@@ -38,16 +51,19 @@ exports.registerUser = (req, res, next) => {
             lng: "",
             isActive: true
         }).then(resultData => {
-            console.log(resultData);
             res.status(201).json({
                 email: userRecord.email,
                 displayName: userRecord.displayName,
                 uid: userRecord.uid
             });
         }).catch(err => {
-            console.log(err);
+            res.status(400).json({
+                message: "unable to create record"
+            });
         });
     }).catch(err => {
-        console.log(err);
+        res.status(400).json({
+            message: "unable to create record"
+        });
     });
 }

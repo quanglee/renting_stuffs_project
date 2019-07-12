@@ -15,6 +15,12 @@ DB_DATABASE='renting_db'
 DB_CONNECT_LIMIT=10
 FIREBASE_SERVICE_ACCOUNT_JSON="../../service-account-file.json"
 FIREBASE_DATABASE_URL="https://shareandgetapps.firebaseio.com"
+FIREBASE_API_KEY="<YOUR KEY>"
+FIREBASE_AUTH_DOMAIN="shareandgetapps.firebaseapp.com"
+FIRE_BASE_PROJECT_ID="shareandgetapps"
+FIREBASE_STORAGEBUCKET="shareandgetapps.appspot.com"
+FIREBASE_MESSAGING_SENDER_ID="<YOUR NUMBER>"
+FIREBASE_APP_ID="<YOUR NUMBER>"
 
 # create account service json file on Firebase
 * Firebase Console -> Project settings -> Service Account 
