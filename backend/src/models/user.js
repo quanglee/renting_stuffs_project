@@ -11,22 +11,13 @@ module.exports = class User {
     }
 
     static findUserByEmail(email) {
-        // return new Promise((res, rej) => {
-        //     const data = firebaseDB.collection("users").doc(email);
-        //     let getDoc = data.get()
-        //         .then(doc => {
-
-        //         })
-        //     res(data);
-        // });
-        
         return firebaseDB.collection("users").doc(email).get();
     }
 
     static saveUser(...data) {
         const userDoc = data[0];
         return firebaseDB.collection("users")
-                                    .doc(userDoc.email)
-                                    .set(userDoc);
+                            .doc(userDoc.email)
+                            .set(userDoc);
     }
 }

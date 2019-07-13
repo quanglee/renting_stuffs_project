@@ -9,15 +9,20 @@ exports.loginUser = (req, res, next) => {
         .then(result => {
             User.findUserByEmail(result.user.email)
                     .then(userDetails => {
-                        res.status(200).json({
-                            message: 'success',
-                            token: result.user.refreshToken,
-                            uid: result.user.uid,
-                            displayName: result.user.displayName,
-                            lat: userDetails.data().lat,
-                            lng: userDetails.data().lng,
-                            role: userDetails.data().role
-                        })
+                        // create token and send back to client
+                        firebaseAdmin.auth().createCustomToken(result.user.uid)
+                            .then(customToken => {
+                                console.log(customToken);
+                                res.status(200).json({
+                                    message: 'success',
+                                    token: customToken,
+                                    uid: result.user.uid,
+                                    displayName: result.user.displayName,
+                                    lat: userDetails.data().lat,
+                                    lng: userDetails.data().lng,
+                                    role: userDetails.data().role
+                                })
+                            });
                     }).catch(err => {
                         res.status(401).json({
                             message: "Unable to login"
