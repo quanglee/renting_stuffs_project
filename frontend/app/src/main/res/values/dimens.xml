@@ -5,6 +5,7 @@
     <dimen name="activity_vertical_margin">24dp</dimen>
 
     <dimen name="activity_horizontal_margin_wide">64dp</dimen>
+    <dimen name="activity_vertical_margin_wide">64dp</dimen>
     <dimen name="activity_recommended_padding">16dp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
