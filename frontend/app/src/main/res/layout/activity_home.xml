@@ -6,21 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.HomeActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/fragmentDisplay"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/include" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigationView"
+        style="@style/AppTheme.BottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/AppTheme.BottomNavigation"
-        app:menu="@menu/guest" />
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
