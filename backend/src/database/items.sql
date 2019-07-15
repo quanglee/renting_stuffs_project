@@ -11,10 +11,10 @@ create table items(
     imageURLs       TEXT,
     tags            TEXT,
     numberOfReview  INT DEFAULT 0,
-    averageRating   DECIMAL DEFAULT 0.0,
-    lat             DECIMAL,
-    lng             DECIMAL,
-    price           DECIMAL,
+    averageRating   DECIMAL(4,2) DEFAULT 0.0,
+    lat             DECIMAL(10,6),
+    lng             DECIMAL(10,6),
+    price           DECIMAL(10,2),
 	isActive        TINYINT DEFAULT 1
 );
 -- 100 items of user1 to user10 (user1's items from 1-10; ... ; user10's items from 91-100) 

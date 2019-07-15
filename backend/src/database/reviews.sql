@@ -5,6 +5,6 @@ create table reviews (
     borrowerId      VARCHAR(255) NOT NULL,
 	title           VARCHAR(255),
 	content         TEXT,
-    rating          DECIMAL NOT NULL DEFAULT 0,
+    rating          DECIMAL(4,2) NOT NULL DEFAULT 0,
     constraint      FK_REVIEW_ITEM foreign key (itemId) references items (id)
 );
