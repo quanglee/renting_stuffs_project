@@ -17,7 +17,7 @@ exports.getItemDetail = (req, res, next) => {
     Item.findByItemId(req.params.item_id)
         .then(([rows, fields]) => {
             res.status(200).json({
-                rows
+                item: rows
             })
         }).catch(err => {
             console.log(err);
