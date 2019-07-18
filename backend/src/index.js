@@ -10,6 +10,7 @@ const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
 const wishlistRoutes = require('./routes/wishlist');
 const itemRoutes = require('./routes/item');
+const bookingRoutes = require('./routes/booking');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -19,6 +20,7 @@ app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/wishlists', wishlistRoutes);
 app.use('/items', itemRoutes);
+app.use('/bookings', bookingRoutes);
 // ... //
 
 app.use((req, res, next) => {
