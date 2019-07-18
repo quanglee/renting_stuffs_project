@@ -6,4 +6,5 @@ const itemController = require('../controllers/items');
 // prefix: /items
 
 routers.get('/', isAuth, itemController.getAllItems);
+routers.get('/:item_id', isAuth, itemController.getItemDetail);
 module.exports = routers;

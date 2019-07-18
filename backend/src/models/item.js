@@ -8,4 +8,10 @@ module.exports = class Items {
     static findAll() {
         return db.execute('SELECT * FROM items;');
     }
+
+    static findByItemId(itemId) {
+        return db.execute(
+            `SELECT * FROM items i 
+            WHERE i.id = ${itemId};`);
+    }
 }

@@ -12,3 +12,14 @@ exports.getAllItems = (req, res, next) => {
             console.log(err);
         });
 };
+
+exports.getItemDetail = (req, res, next) => {
+    Item.findByItemId(req.params.item_id)
+        .then(([rows, fields]) => {
+            res.status(200).json({
+                rows
+            })
+        }).catch(err => {
+            console.log(err);
+        });
+};
