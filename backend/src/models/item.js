@@ -14,4 +14,15 @@ module.exports = class Items {
             `SELECT * FROM items i 
             WHERE i.id = ${itemId};`);
     }
+
+    static addItem(params) {
+        return db.execute(
+            'INSERT INTO items (ownerId, name, description, `condition`, category, imageURLs, tags, lat, lng, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            ,
+            [
+                params.ownerId, params.name, params.description, params.condition, params.category,
+                params.imageURLs, params.tags, params.lat, params.lng, params.price
+            ]
+        );
+    }
 }

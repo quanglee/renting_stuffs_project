@@ -4,6 +4,7 @@ const isAuthenticated = (req, res, next) => {
     firebase.auth().signInWithCustomToken(token)
     .then(decodedToken => {
         let uid = decodedToken.user.uid;
+        req.loggedInEmail = decodedToken.user.email;
         next();
     }).catch(function(error) {
         res.status(401).json({
