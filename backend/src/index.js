@@ -3,13 +3,13 @@
 const { NODE_HOST, NODE_PORT } = require('./config');
 const express = require('express');
 const bodyParser = require('body-parser');
-const wishlistsRoutes = require('./routes/wishlist');
 
 // App
 const app = express();
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
 const wishlistRoutes = require('./routes/wishlist');
+const itemRoutes = require('./routes/item');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/wishlists', wishlistRoutes);
+app.use('/items', itemRoutes);
 // ... //
 
 app.use((req, res, next) => {
