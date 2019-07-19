@@ -21,8 +21,12 @@ FIRE_BASE_PROJECT_ID="shareandgetapps"
 FIREBASE_STORAGEBUCKET="shareandgetapps.appspot.com"
 FIREBASE_MESSAGING_SENDER_ID="<YOUR NUMBER>"
 FIREBASE_APP_ID="<YOUR NUMBER>"
+UPLOAD_IMAGE_FOLDER="0.0.0.0:3000/images/"
 
 # create account service json file on Firebase
 * Firebase Console -> Project settings -> Service Account 
 * Select node js -> generate new private key
 * update .env file to load the file.
+
+# for upload image
+* create images folder inside backend/src/
