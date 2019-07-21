@@ -52,8 +52,8 @@ exports.registerUser = (req, res, next) => {
             email: email,
             username: displayName,
             role: false,
-            lat: "",
-            lng: "",
+            lat: null,
+            lng: null,
             isActive: true
         }).then(resultData => {
             res.status(201).json({
