@@ -3,6 +3,8 @@ package com.quangle.rentingutilities.ui;
 import android.os.Bundle;
 
 import com.google.android.material.textfield.TextInputLayout;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.quangle.rentingutilities.R;
+import com.quangle.rentingutilities.core.model.User;
+import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.utils.Helper;
 import com.quangle.rentingutilities.utils.Validation;
+import com.quangle.rentingutilities.viewmodel.UserViewModel;
+
+import java.util.HashMap;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 public class LoginFragment extends BaseFragment {
 
@@ -29,6 +39,7 @@ public class LoginFragment extends BaseFragment {
         final TextInputLayout tiEmail = view.findViewById(R.id.tiEmail);
         final TextInputLayout tiPassword = view.findViewById(R.id.tiPassword);
         final Button btnSubmit = view.findViewById(R.id.btnSubmit);
+        final UserViewModel userViewModel = ViewModelProviders.of(getActivity()).get(UserViewModel.class);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +52,22 @@ public class LoginFragment extends BaseFragment {
                 if (isEmailValid && isPasswordValid) {
                     btnSubmit.setEnabled(false);
                     showProgressBar();
+                    HashMap<String, String> hashMap = new HashMap<>();
+                    hashMap.put("email", etEmail.getText().toString());
+                    hashMap.put("password", etPassword.getText().toString());
+                    userViewModel.login(hashMap)
+                            .observe(LoginFragment.this, new Observer<NetworkResource<User>>() {
+                        @Override
+                        public void onChanged(NetworkResource<User> userNetworkResource) {
+                            hideProgressBar();
+                            btnSubmit.setEnabled(true);
+                            if (userNetworkResource.code == 401)
+                                tiEmail.setError(getResources().getText(R.string.errorLogin));
+                            else if (userNetworkResource.data != null) {
+                                Log.d(TAG, userNetworkResource.data.getToken());
+                            }
+                        }
+                    });
                 } else {
                     Helper.errorsInForm(getContext());
                 }
