@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.LoginFragment">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tiEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,9 +34,9 @@
             android:drawableLeft="@drawable/baseline_account_circle_black_48px"
             android:drawableTint="@color/colorAccent"
             tools:ignore="AutoFill" tools:targetApi="m"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tiPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tiEmail"
         app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/colorPrimary">
+        app:passwordToggleTint="@color/colorAccent">
 
         <EditText
             android:id="@+id/etPassword"
@@ -65,7 +65,7 @@
             android:drawableLeft="@drawable/baseline_lock_black_48px"
             android:drawableTint="@color/colorAccent"
             tools:ignore="AutoFill" tools:targetApi="m"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnSubmit"
@@ -82,4 +82,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tiPassword" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
