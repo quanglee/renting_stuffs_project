@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.MenuItem;
 
 import com.quangle.rentingutilities.R;
+import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
 
 public class HomeActivity extends BaseActivity {
@@ -27,14 +28,18 @@ public class HomeActivity extends BaseActivity {
             }
         });
 
-        isUserLogged();
+        changeMenu();
+    }
 
+    public void changeMenu() {
+        isUserLogged();
         itemSelectedOnMenu(bottomNavigationView.getMenu().getItem(0));
     }
 
     public void isUserLogged() {
-        String userToken = MySharedPreferences.getLoggedUserToken(this);
-        if (userToken == null)
+        Auth auth = MySharedPreferences.getAuth(this);
+        bottomNavigationView.getMenu().clear();
+        if (auth == null)
             bottomNavigationView.inflateMenu(R.menu.guest);
         else
             bottomNavigationView.inflateMenu(R.menu.user);
