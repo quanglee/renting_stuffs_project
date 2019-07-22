@@ -10,16 +10,18 @@ public class User implements Serializable {
     private String id;
     @SerializedName("email")
     private String email;
-    @SerializedName("displayName")
+    @SerializedName("username")
     private String username;
-    @SerializedName("token")
-    private String token;
-    private int numberOfReview;//Owner reviews Borrower
-    private double lat;
-    private double lng;
-    private double averageRating;
-    private boolean isActive;
+    @SerializedName("isAdmin")
     private boolean isAdmin;
+    @SerializedName("lat")
+    private double lat;
+    @SerializedName("lng")
+    private double lng;
+    @SerializedName("isActive")
+    private boolean isActive;
+    private int numberOfReview;//Owner reviews Borrower
+    private double averageRating;
 
     //constructor
     public User() {}
@@ -31,14 +33,6 @@ public class User implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public String getEmail() {
