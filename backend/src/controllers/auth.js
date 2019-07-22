@@ -77,3 +77,25 @@ exports.registerUser = (req, res, next) => {
         });
     });
 }
+
+exports.refreshToken = (req, res, next) => {
+  if (!req.body.refreshToken) {
+    return res.status(400).send({
+      success: 'false',
+      message: 'refreshToken is required',
+    });
+  }
+  const refreshToken = req.body.refreshToken;
+  const {FIREBASE_API_KEY} = require('../config');
+  const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+
+  let xhr = new XMLHttpRequest();
+
+  xhr.open('POST', 'https://securetoken.googleapis.com/v1/token?key=' + FIREBASE_API_KEY, false);
+  xhr.send(JSON.stringify({
+    refresh_token: refreshToken,
+    grant_type: 'refresh_token'
+  }));
+
+  res.status(xhr.status).json(JSON.parse(xhr.responseText));
+};
