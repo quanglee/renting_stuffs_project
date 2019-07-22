@@ -9,20 +9,25 @@ exports.loginUser = (req, res, next) => {
         .then(result => {
             User.findUserByEmail(result.user.email)
                     .then(userDetails => {
-                        // create token and send back to client
-                        firebaseAdmin.auth().createCustomToken(result.user.uid)
-                            .then(customToken => {
-                                console.log(customToken);
-                                res.status(200).json({
-                                    message: 'success',
-                                    token: customToken,
-                                    uid: result.user.uid,
-                                    displayName: result.user.displayName,
-                                    lat: userDetails.data().lat,
-                                    lng: userDetails.data().lng,
-                                    role: userDetails.data().role
-                                })
-                            });
+                      // create token and send back to client
+                      firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+                        .then(idToken => {
+                          console.log(idToken);
+                          res.status(200).json({
+                            message: 'success',
+                            access_token: idToken,
+                            refresh_token: result.user.refreshToken,
+                            user: {
+                              uid: result.user.uid,
+                              email: result.user.email,
+                              username: result.user.displayName,
+                              isAdmin: userDetails.data().role,
+                              lat: userDetails.data().lat,
+                              lng: userDetails.data().lng,
+                              isActive: userDetails.data().isActive
+                            }
+                          })
+                        });
                     }).catch(err => {
                         res.status(401).json({
                             message: "Unable to login"
@@ -51,7 +56,7 @@ exports.registerUser = (req, res, next) => {
         User.saveUser({
             email: email,
             username: displayName,
-            role: false,
+            isAdmin: false,
             lat: null,
             lng: null,
             isActive: true
