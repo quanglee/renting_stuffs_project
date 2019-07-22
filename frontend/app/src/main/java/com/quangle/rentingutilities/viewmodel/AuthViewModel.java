@@ -1,11 +1,9 @@
 package com.quangle.rentingutilities.viewmodel;
 
 import com.quangle.rentingutilities.core.model.Auth;
-import com.quangle.rentingutilities.core.model.User;
 import com.quangle.rentingutilities.networking.Api;
 import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.networking.RetrofitService;
-import com.quangle.rentingutilities.utils.Helper;
 
 import java.util.HashMap;
 
