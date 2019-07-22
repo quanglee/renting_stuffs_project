@@ -12,11 +12,11 @@ exports.loginUser = (req, res, next) => {
                         // create token and send back to client
                         firebaseAdmin.auth().createCustomToken(result.user.uid)
                             .then(customToken => {
-                                console.log(customToken);
+                                console.log("Login successful");
                                 res.status(200).json({
-                                    message: 'success',
                                     token: customToken,
                                     uid: result.user.uid,
+                                    email: result.user.email,
                                     displayName: result.user.displayName,
                                     lat: userDetails.data().lat,
                                     lng: userDetails.data().lng,
