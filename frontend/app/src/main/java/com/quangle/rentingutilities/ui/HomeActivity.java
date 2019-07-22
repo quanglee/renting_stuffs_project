@@ -64,6 +64,10 @@ public class HomeActivity extends BaseActivity {
                 setTitleActionBar(getResources().getString(R.string.login));
                 fragmentDisplay = new LoginFragment();
                 break;
+            case R.id.profile:
+                setTitleActionBar(getResources().getString(R.string.profile));
+                fragmentDisplay = new ProfileFragment();
+                break;
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentDisplay, fragmentDisplay)
