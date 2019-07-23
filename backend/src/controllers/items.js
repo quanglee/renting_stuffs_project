@@ -12,6 +12,16 @@ exports.getAllItems = (req, res, next) => {
         });
 };
 
+exports.getAllItemsOfUser = (req, res, next) => {
+    // we use promise which is nicer than callback
+    Item.findAllItemsOfUser(req.params.ownerId)
+        .then(([rows, fields]) => {
+            res.status(200).json(rows);
+        }).catch(err => {
+            console.log(err);
+        });
+};
+
 exports.getItemDetail = (req, res, next) => {
     Item.findByItemId(req.params.item_id)
         .then(([rows, fields]) => {

@@ -25,4 +25,10 @@ module.exports = class Items {
             ]
         );
     }
+
+    static findAllItemsOfUser(userId){
+        return db.execute(
+            `SELECT * FROM items i 
+            WHERE i.ownerId = '${userId}';`);
+    }
 }
