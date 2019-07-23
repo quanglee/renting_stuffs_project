@@ -1,5 +1,5 @@
 // place the users logic here
-const { firebaseAdmin, firebase } = require('../util/firebase');
+const { firebase } = require('../util/firebase');
 const User = require('../models/user');
 
 exports.loginUser = (req, res, next) => {
@@ -40,42 +40,6 @@ exports.loginUser = (req, res, next) => {
                 message: errorMessage
             });
         })
-}
-
-exports.registerUser = (req, res, next) => {
-    console.log("register user");
-    const email = req.body.email;
-    const password = req.body.password;
-    const displayName = req.body.displayName;
-    firebaseAdmin.auth().createUser({
-        email: email,
-        password: password,
-        displayName: displayName
-    }).then(userRecord => {
-        // TODO: save user into firebase db
-        User.saveUser({
-            email: email,
-            username: displayName,
-            isAdmin: false,
-            lat: null,
-            lng: null,
-            isActive: true
-        }).then(resultData => {
-            res.status(201).json({
-                email: userRecord.email,
-                displayName: userRecord.displayName,
-                uid: userRecord.uid
-            });
-        }).catch(err => {
-            res.status(400).json({
-                message: "unable to create record"
-            });
-        });
-    }).catch(err => {
-        res.status(400).json({
-            message: "unable to create record"
-        });
-    });
 }
 
 exports.refreshToken = (req, res, next) => {

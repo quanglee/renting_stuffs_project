@@ -1,6 +1,6 @@
 // place the users logic here
 const User = require('../models/user');
-const firebaseAdmin = require('../util/firebase');
+const { firebaseAdmin } = require('../util/firebase');
 
 exports.getAllUsers = (req, res, next) => {
     console.log("get all users from mysql and return JSON file");
@@ -13,4 +13,48 @@ exports.getAllUsers = (req, res, next) => {
         }).catch(err => {
             console.log(err);
         });
+};
+
+exports.create = (req, res, next) => {
+  console.log("register user");
+  if (!req.body.email || 
+    !req.body.password || 
+    !req.body.username) {
+    return res.status(400).send({
+      success: 'false',
+      message: 'email, password, username are required',
+    });
+  }
+  const email = req.body.email;
+  const password = req.body.password;
+  const username = req.body.username;
+  firebaseAdmin.auth().createUser({
+    email: email,
+    password: password,
+    displayName: username
+  }).then(userRecord => {
+    const user = {
+      email: email,
+      username: username,
+      isAdmin: false,
+      lat: null,
+      lng: null,
+      isActive: true
+    };
+    User.saveUser(user).then(resultData => {
+      user.uid = userRecord.uid;
+      res.status(201).json(user);
+    }).catch(err => {
+      res.status(400).json({
+        message: "unable to create record"
+      });
+    });
+  }).catch(err => {
+    let status = 400;
+    if (err.errorInfo.code == 'auth/email-already-exists')
+      status = 409;
+    res.status(status).json({
+      message: err.errorInfo.message
+    });
+  });
 };
