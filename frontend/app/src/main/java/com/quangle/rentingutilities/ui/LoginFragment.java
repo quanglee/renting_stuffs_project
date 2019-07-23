@@ -1,5 +1,6 @@
 package com.quangle.rentingutilities.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,34 +36,38 @@ public class LoginFragment extends BaseFragment {
         final TextInputLayout tiEmail = view.findViewById(R.id.tiEmail);
         final TextInputLayout tiPassword = view.findViewById(R.id.tiPassword);
         final Button btnSubmit = view.findViewById(R.id.btnSubmit);
+        final Button btnRegister = view.findViewById(R.id.btnRegister);
         final AuthViewModel authViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
 
         btnSubmit.setOnClickListener(v -> {
-                boolean isEmailValid = validation.required(tiEmail, etEmail.getText().toString()) &&
-                        validation.isValidEmail(tiEmail, etEmail.getText().toString());
-                boolean isPasswordValid = validation.required(tiPassword, etPassword.getText().toString());
+            boolean isEmailValid = validation.required(tiEmail, etEmail.getText().toString()) &&
+                    validation.isValidEmail(tiEmail, etEmail.getText().toString());
+            boolean isPasswordValid = validation.required(tiPassword, etPassword.getText().toString());
 
-                Helper.hideKeyboard(getContext(), getView());
-                if (isEmailValid && isPasswordValid) {
-                    btnSubmit.setEnabled(false);
-                    showProgressBar();
-                    HashMap<String, String> hashMap = new HashMap<>();
-                    hashMap.put("email", etEmail.getText().toString());
-                    hashMap.put("password", etPassword.getText().toString());
-                    authViewModel.login(hashMap)
-                            .observe(LoginFragment.this, authNetworkResource -> {
-                            hideProgressBar();
-                            btnSubmit.setEnabled(true);
-                            if (authNetworkResource.code == 401)
-                                tiEmail.setError(getResources().getText(R.string.errorLogin));
-                            else if (authNetworkResource.data != null) {
-                                authNetworkResource.data.toSharedPreferences(getActivity());
-                                ((HomeActivity) getActivity()).changeMenu();
-                            }
-                        });
-                } else {
-                    Helper.errorsInForm(getContext());
-                }
+            Helper.hideKeyboard(getContext(), getView());
+            if (isEmailValid && isPasswordValid) {
+                btnSubmit.setEnabled(false);
+                showProgressBar();
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("email", etEmail.getText().toString());
+                hashMap.put("password", etPassword.getText().toString());
+                authViewModel.login(hashMap).observe(this, authNetworkResource -> {
+                        hideProgressBar();
+                        btnSubmit.setEnabled(true);
+                        if (authNetworkResource.code == 401)
+                            tiEmail.setError(getResources().getText(R.string.errorLogin));
+                        else if (authNetworkResource.data != null) {
+                            authNetworkResource.data.toSharedPreferences(getActivity());
+                            ((HomeActivity) getActivity()).changeMenu();
+                        }
+                    });
+            } else {
+                Helper.errorsInForm(getContext());
+            }
+        });
+
+        btnRegister.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), RegisterActivity.class));
         });
 
         return view;
