@@ -1,5 +1,8 @@
 package com.quangle.rentingutilities.core.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Item implements Serializable {
@@ -39,27 +42,61 @@ public class Item implements Serializable {
         @Override public String toString() { return displayName; }
     };
 
-    //fields
-    private int id, ownerId;
-    private String name, description,
-            condition, // enum CONDITION
-            category, // enum CATEGORY
-            imageURL, // comma separate string
-            tags;// comma separate string
-    private int numberOfReview;//Borrower reviews Item
-    private double lat, lng, price, averageRating;
-    private boolean isActive;
+    @SerializedName("id")
+    private int id;
 
-    //getter & setter
+    @SerializedName("ownerId")
+    private String ownerId;
+
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("description")
+    private String description;
+
+    @SerializedName("condition")
+    private String condition; // enum CONDITION
+
+    @SerializedName("category")
+    private String category; // enum CATEGORY
+
+    @SerializedName("imageURLs")
+    private String imageURL; // comma separate string
+
+    @SerializedName("tags")
+    private String tags; // comma separate string
+
+    @SerializedName("numberOfReview")
+    private int numberOfReview; //Borrower reviews Item
+
+    @SerializedName("averageRating")
+    private double averageRating;
+
+    @SerializedName("lat")
+    private double lat;
+
+    @SerializedName("lng")
+    private double lng;
+
+    @SerializedName("price")
+    private double price;
+
+    @SerializedName("isActive")
+    private int isActive;
+
     public int getId() {
         return id;
     }
 
-    public int getOwnerId() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -111,6 +148,22 @@ public class Item implements Serializable {
         this.tags = tags;
     }
 
+    public int getNumberOfReview() {
+        return numberOfReview;
+    }
+
+    public void setNumberOfReview(int numberOfReview) {
+        this.numberOfReview = numberOfReview;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
+
     public double getLat() {
         return lat;
     }
@@ -135,11 +188,11 @@ public class Item implements Serializable {
         this.price = price;
     }
 
-    public boolean isActive() {
+    public int getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setIsActive(int isActive) {
+        this.isActive = isActive;
     }
 }

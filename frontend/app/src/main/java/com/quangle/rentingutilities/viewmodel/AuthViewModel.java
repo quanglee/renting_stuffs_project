@@ -32,7 +32,7 @@ public class AuthViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<Auth> call, Throwable t) {
-
+                System.out.println("ON FAILURE");
             }
         });
 
