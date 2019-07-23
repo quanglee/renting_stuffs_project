@@ -6,9 +6,7 @@ exports.getAllItems = (req, res, next) => {
     // we use promise which is nicer than callback
     Item.findAll()
         .then(([rows, fields]) => {
-            res.status(200).json({
-                items: rows
-            })
+            res.status(200).json(rows);
         }).catch(err => {
             console.log(err);
         });
@@ -17,9 +15,7 @@ exports.getAllItems = (req, res, next) => {
 exports.getItemDetail = (req, res, next) => {
     Item.findByItemId(req.params.item_id)
         .then(([rows, fields]) => {
-            res.status(200).json({
-                item: rows
-            })
+            res.status(200).json(rows);
         }).catch(err => {
             console.log(err);
         });
