@@ -3,9 +3,6 @@
     <item android:id="@+id/home"
         android:title="@string/home"
         android:icon="@drawable/baseline_home_black_24dp"/>
-    <item android:id="@+id/bookings"
-        android:title="@string/bookings"
-        android:icon="@drawable/baseline_date_range_black_24dp"/>
     <item android:id="@+id/login"
         android:title="@string/login"
         android:icon="@drawable/baseline_account_circle_black_24dp"/>
