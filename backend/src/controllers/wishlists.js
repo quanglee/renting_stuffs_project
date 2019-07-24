@@ -6,9 +6,7 @@ exports.getAllWishlists = (req, res, next) => {
     // we use promise which is nicer than callback
     Wishlist.findAll()
         .then(([rows, fields]) => {
-            res.status(200).json({
-                wishlists: rows
-            })
+            res.status(200).json(rows);
         }).catch(err => {
             console.log(err);
         });
@@ -19,9 +17,7 @@ exports.getWishlistsOfUser = (req, res, next) => {
     // we use promise which is nicer than callback
     Wishlist.findWishlistsOfUser(req.params.userId)
         .then(([rows, fields]) => {
-            res.status(200).json({
-                wishlists: rows
-            })
+            res.status(200).json(rows);
         }).catch(err => {
             console.log(err);
         });
