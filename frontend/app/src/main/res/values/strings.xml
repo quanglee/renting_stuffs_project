@@ -15,11 +15,17 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="submit">Submit</string>
+    <string name="withoutAccount">You do not have an account.</string>
+    <string name="register">Register</string>
+    
+    <!-- Register -->
+    <string name="username">Username</string>
 
     <!-- Validation -->
     <string name="someErrors">There are some errors</string>
     <string name="required">This field is required</string>
     <string name="invalidEmail">This field is not a valid email</string>
     <string name="errorLogin">Your email and password doesn\'t match our records</string>
+    <string name="existingEmail">The email address is already in use by another account</string>
 
 </resources>

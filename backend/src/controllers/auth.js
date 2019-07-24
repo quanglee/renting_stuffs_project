@@ -1,5 +1,5 @@
 // place the users logic here
-const { firebaseAdmin, firebase } = require('../util/firebase');
+const { firebase } = require('../util/firebase');
 const User = require('../models/user');
 
 exports.loginUser = (req, res, next) => {
