@@ -58,7 +58,10 @@ public class LoginFragment extends BaseFragment {
                             tiEmail.setError(getResources().getText(R.string.errorLogin));
                         else if (authNetworkResource.data != null) {
                             authNetworkResource.data.toSharedPreferences(getActivity());
-                            ((HomeActivity) getActivity()).changeMenu();
+                            Intent intent = new Intent(getActivity(), HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            getActivity().finish();
                         }
                     });
             } else {

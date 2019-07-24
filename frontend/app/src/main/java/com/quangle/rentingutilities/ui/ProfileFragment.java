@@ -1,6 +1,7 @@
 package com.quangle.rentingutilities.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,10 @@ public class ProfileFragment extends BaseFragment {
             String selected = values[position];
             if (selected.equals("Logout")) {
                 MySharedPreferences.clearSharedPreferences(getActivity());
-                ((HomeActivity) getActivity()).changeMenu();
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
         return view;
