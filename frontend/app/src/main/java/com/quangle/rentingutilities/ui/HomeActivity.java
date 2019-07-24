@@ -99,10 +99,8 @@ public class HomeActivity extends BaseActivity {
     public void displayTabs(boolean visibility) {
         if (visibility) {
             tabLayout.setVisibility(View.VISIBLE);
-            frameLayout.setVisibility(View.GONE);
         } else {
             tabLayout.setVisibility(View.GONE);
-            frameLayout.setVisibility(View.VISIBLE);
         }
     }
 
