@@ -46,12 +46,6 @@ public class ItemsFragment extends BaseFragment {
 
         //check user is login or not
         Auth auth = MySharedPreferences.getAuth(getContext());
-        if(auth == null){
-            System.out.println("ItemsFragment.java: User is not logged in");
-            hideProgressBar();
-            Toast.makeText(getContext(), "Please log in to view your items!", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         final ItemAdapter adapter = new ItemAdapter(getContext());
         tempRecyclerView.setAdapter(adapter);
