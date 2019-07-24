@@ -47,6 +47,8 @@ exports.registerUser = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const displayName = req.body.displayName;
+    const lat = req.body.lat;
+    const lng = req.body.lng;
     firebaseAdmin.auth().createUser({
         email: email,
         password: password,
@@ -57,8 +59,8 @@ exports.registerUser = (req, res, next) => {
             email: email,
             username: displayName,
             isAdmin: false,
-            lat: null,
-            lng: null,
+            lat: lat,
+            lng: lng,
             isActive: true
         }).then(resultData => {
             res.status(201).json({
