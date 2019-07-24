@@ -5,8 +5,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
-import android.view.MenuItem;
+import androidx.viewpager.widget.ViewPager;
 
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+
+import com.google.android.material.tabs.TabLayout;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
@@ -14,20 +19,31 @@ import com.quangle.rentingutilities.utils.MySharedPreferences;
 public class HomeActivity extends BaseActivity {
 
     BottomNavigationView bottomNavigationView;
+    private TabLayout tabLayout;
+    private TabsPagerAdapter itemsTabsPagerAdapter;
+    private ViewPager itemsViewPager;
+    private FrameLayout frameLayout;
 
     @SuppressLint("MissingSuperCall")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_home);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                itemSelectedOnMenu(menuItem);
-                return true;
-            }
+        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+            itemSelectedOnMenu(menuItem);
+            return true;
         });
 
+        frameLayout = findViewById(R.id.fragmentDisplay);
+        itemsViewPager = findViewById(R.id.itemsViewPager);
+        itemsTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+        itemsViewPager.setAdapter(itemsTabsPagerAdapter);
+        tabLayout = findViewById(R.id.tabs);
+
+        ItemsFragment itemsFragment = new ItemsFragment();
+        itemsTabsPagerAdapter.addFrag(itemsFragment, getResources().getString(R.string.items));
+        itemsTabsPagerAdapter.addFrag(itemsFragment, getResources().getString(R.string.wishlist));
+        itemsTabsPagerAdapter.addFrag(itemsFragment, getResources().getString(R.string.requests));
         changeMenu();
     }
 
@@ -47,13 +63,19 @@ public class HomeActivity extends BaseActivity {
 
     public void itemSelectedOnMenu(MenuItem menuItem) {
         Fragment fragmentDisplay = null;
+        if (menuItem.getItemId() == R.id.items) {
+            displayTabs(true);
+            tabLayout.setupWithViewPager(itemsViewPager);
+        } else
+            displayTabs(false);
+
         switch (menuItem.getItemId()) {
             case R.id.home:
                 setTitleActionBar("");
                 fragmentDisplay = new HomeFragment();
                 break;
             case R.id.items:
-                setTitleActionBar(getResources().getString(R.string.items));
+                setTitleActionBar(getResources().getString(R.string.yourItems));
                 fragmentDisplay = new ItemsFragment();
                 break;
             case R.id.bookings:
@@ -72,6 +94,16 @@ public class HomeActivity extends BaseActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentDisplay, fragmentDisplay)
                 .commit();
+    }
+
+    public void displayTabs(boolean visibility) {
+        if (visibility) {
+            tabLayout.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+        } else {
+            tabLayout.setVisibility(View.GONE);
+            frameLayout.setVisibility(View.VISIBLE);
+        }
     }
 
 }

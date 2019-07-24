@@ -10,6 +10,14 @@
         android:id="@+id/include"
         layout="@layout/toolbar" />
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/itemsViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
     <FrameLayout
         android:id="@+id/fragmentDisplay"
         android:layout_width="match_parent"

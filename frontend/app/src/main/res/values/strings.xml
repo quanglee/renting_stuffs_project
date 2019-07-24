@@ -21,6 +21,11 @@
     <!-- Register -->
     <string name="username">Username</string>
 
+    <!-- Items -->
+    <string name="yourItems">Your items</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="requests">Requests</string>
+
     <!-- Validation -->
     <string name="someErrors">There are some errors</string>
     <string name="required">This field is required</string>
