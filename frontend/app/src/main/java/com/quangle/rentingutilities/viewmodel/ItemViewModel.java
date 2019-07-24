@@ -20,6 +20,7 @@ import retrofit2.Response;
 
 public class ItemViewModel extends ViewModel {
     MutableLiveData<List<Item>> mItems = new MutableLiveData<>();
+    MutableLiveData<List<Item>> mUserItems = new MutableLiveData<>();//items of logged in user
 
     public ItemViewModel() {
 
@@ -42,5 +43,24 @@ public class ItemViewModel extends ViewModel {
         });
 
         return mItems;
+    }
+
+    public LiveData<List<Item>> getAllItemsOfUser(String ownerId) {
+        Api api = RetrofitService.get();
+        Call<List<Item>> itemCall = api.getAllItemsOfUser(ownerId);
+        itemCall.enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                mUserItems.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                System.out.println("ON FAILURE");
+                System.out.println(t.getCause());
+            }
+        });
+
+        return mUserItems;
     }
 }
