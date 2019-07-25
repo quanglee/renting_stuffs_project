@@ -32,4 +32,7 @@ public interface Api {
     @GET("items/{owner_id}")
     Call<List<Item>> getAllItemsOfUser(@Path(value = "owner_id", encoded = true) String ownerId);
 
+    // get wishlist of a user
+    @GET("wishlists/{owner_id}")
+    Call<List<Item>> getWishListOfUser(@Path(value = "owner_id", encoded = true) String ownerId);
 }

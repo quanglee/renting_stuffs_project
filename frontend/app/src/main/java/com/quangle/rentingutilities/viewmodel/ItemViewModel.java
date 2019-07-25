@@ -21,6 +21,7 @@ import retrofit2.Response;
 public class ItemViewModel extends ViewModel {
     MutableLiveData<List<Item>> mItems = new MutableLiveData<>();
     MutableLiveData<List<Item>> mUserItems = new MutableLiveData<>();//items of logged in user
+    MutableLiveData<List<Item>> mUserWishList = new MutableLiveData<>();//wishlist of logged in user
 
     public ItemViewModel() {
 
@@ -62,5 +63,24 @@ public class ItemViewModel extends ViewModel {
         });
 
         return mUserItems;
+    }
+
+    public LiveData<List<Item>> getWishListOfUser(String ownerId) {
+        Api api = RetrofitService.get();
+        Call<List<Item>> itemCall = api.getWishListOfUser(ownerId);
+        itemCall.enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                mUserWishList.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                System.out.println("ON FAILURE");
+                System.out.println(t.getCause());
+            }
+        });
+
+        return mUserWishList;
     }
 }

@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.quangle.rentingutilities.R;
@@ -41,10 +42,31 @@ public class HomeActivity extends BaseActivity {
         tabLayout = findViewById(R.id.tabs);
 
         ItemsFragment itemsFragment = new ItemsFragment();
+        WishListFragment wishListFragment = new WishListFragment();
+
         itemsTabsPagerAdapter.addFrag(itemsFragment, getResources().getString(R.string.items));
-        itemsTabsPagerAdapter.addFrag(itemsFragment, getResources().getString(R.string.wishlist));
+        itemsTabsPagerAdapter.addFrag(wishListFragment, getResources().getString(R.string.wishlist));
         itemsTabsPagerAdapter.addFrag(itemsFragment, getResources().getString(R.string.requests));
         changeMenu();
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentDisplay, itemsTabsPagerAdapter.getItem(tab.getPosition()))
+                        .commit();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     public void changeMenu() {
@@ -99,10 +121,8 @@ public class HomeActivity extends BaseActivity {
     public void displayTabs(boolean visibility) {
         if (visibility) {
             tabLayout.setVisibility(View.VISIBLE);
-            frameLayout.setVisibility(View.GONE);
         } else {
             tabLayout.setVisibility(View.GONE);
-            frameLayout.setVisibility(View.VISIBLE);
         }
     }
 

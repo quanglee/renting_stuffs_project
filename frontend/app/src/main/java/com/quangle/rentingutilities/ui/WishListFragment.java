@@ -10,10 +10,8 @@ import android.widget.Toast;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Item;
-import com.quangle.rentingutilities.core.model.User;
 import com.quangle.rentingutilities.customAdapter.ItemAdapter;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
-import com.quangle.rentingutilities.viewmodel.AuthViewModel;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
 
 import java.util.List;
@@ -23,7 +21,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ItemsFragment extends BaseFragment {
+public class WishListFragment extends BaseFragment {
 
     ItemViewModel itemViewModel;
     RecyclerView recyclerView;
@@ -31,14 +29,13 @@ public class ItemsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_items, container, false);
+        View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
 
         showProgressBar();
 
         recyclerView = view.findViewById(R.id.home_items_list);
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
-
         return view;
     }
 
@@ -51,7 +48,7 @@ public class ItemsFragment extends BaseFragment {
         tempRecyclerView.setAdapter(adapter);
 
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        itemViewModel.getAllItemsOfUser(auth.getUser().getEmail()).observe(this, new Observer<List<Item>>() {
+        itemViewModel.getWishListOfUser(auth.getUser().getEmail()).observe(this, new Observer<List<Item>>() {
             @Override
             public void onChanged(List<Item> items) {
                 hideProgressBar();
