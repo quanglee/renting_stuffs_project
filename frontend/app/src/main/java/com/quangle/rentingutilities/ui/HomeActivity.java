@@ -37,16 +37,13 @@ public class HomeActivity extends BaseActivity {
 
         frameLayout = findViewById(R.id.fragmentDisplay);
         itemsViewPager = findViewById(R.id.itemsViewPager);
-        itemsTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
-        itemsViewPager.setAdapter(itemsTabsPagerAdapter);
         tabLayout = findViewById(R.id.tabs);
 
-        ItemsFragment itemsFragment = new ItemsFragment();
-        WishListFragment wishListFragment = new WishListFragment();
-
-        itemsTabsPagerAdapter.addFrag(itemsFragment, getResources().getString(R.string.items));
-        itemsTabsPagerAdapter.addFrag(wishListFragment, getResources().getString(R.string.wishlist));
-        itemsTabsPagerAdapter.addFrag(itemsFragment, getResources().getString(R.string.requests));
+        itemsTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+        itemsTabsPagerAdapter.addFrag(new ItemsFragment(), getResources().getString(R.string.items));
+        itemsTabsPagerAdapter.addFrag(new WishListFragment(), getResources().getString(R.string.wishlist));
+        itemsTabsPagerAdapter.addFrag(new ItemsFragment(), getResources().getString(R.string.requests));
+        itemsViewPager.setAdapter(itemsTabsPagerAdapter);
         changeMenu();
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
