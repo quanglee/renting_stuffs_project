@@ -1,7 +1,6 @@
 package com.quangle.rentingutilities.customAdapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Item;
+import com.quangle.rentingutilities.utils.OnClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -36,19 +36,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     private final LayoutInflater mInflater;
     private List<Item> mItems;
-    private Context context;
+    private OnClickListener<Item> listener;
 
-
-    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            // TODO: click to open details item
-        }
-    };
-
-    public ItemAdapter(Context context) {
+    public ItemAdapter(Context context, OnClickListener<Item> listener) {
         mInflater = LayoutInflater.from(context);
-        this.context = context;
+        this.listener = listener;
     }
 
 
@@ -60,12 +52,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public void onBindViewHolder(ItemAdapter.ItemViewHolder holder, int position) {
-
         if (mItems != null) {
             Item current = mItems.get(position);
             holder.itemNameView.setText(current.getName());
             holder.itemDescView.setText(current.getDescription());
             holder.itemPriceView.setText("$" + String.valueOf(current.getPrice()));
+            holder.itemView.setOnClickListener(v -> {
+                listener.onClick(current);
+            });
 
             Picasso.get().load(current.getImageURL()).resize(250, 450)
                     .centerCrop().into(holder.itemImageView);

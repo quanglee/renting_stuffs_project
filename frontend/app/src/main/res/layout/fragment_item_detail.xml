@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ItemDetailFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:contentDescription="@string/itemImageDescription"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:numStars="5"
+            android:rating="3.5"
+            android:stepSize="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/AppTheme.HintText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ratingBar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/baseline_account_circle_black_48px"
+                android:drawableLeft="@drawable/baseline_account_circle_black_48px"
+                android:drawableTint="@color/colorAccent"
+                android:ems="10"
+                android:hint="@string/name"
+                android:inputType="text"
+                android:theme="@style/AppTheme.EditText"
+                tools:ignore="AutoFill"
+                tools:targetApi="m" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/AppTheme.HintText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tiName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/baseline_account_circle_black_48px"
+                android:drawableLeft="@drawable/baseline_account_circle_black_48px"
+                android:drawableTint="@color/colorAccent"
+                android:ems="10"
+                android:hint="@string/description"
+                android:inputType="text"
+                android:theme="@style/AppTheme.EditText"
+                tools:ignore="AutoFill"
+                tools:targetApi="m" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/AppTheme.HintText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tiDescription">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/baseline_account_circle_black_48px"
+                android:drawableLeft="@drawable/baseline_account_circle_black_48px"
+                android:drawableTint="@color/colorAccent"
+                android:ems="10"
+                android:hint="@string/price"
+                android:inputType="numberDecimal"
+                android:theme="@style/AppTheme.EditText"
+                tools:ignore="AutoFill"
+                tools:targetApi="m" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/AppTheme.HintText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tiPrice">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/baseline_account_circle_black_48px"
+                android:drawableLeft="@drawable/baseline_account_circle_black_48px"
+                android:drawableTint="@color/colorAccent"
+                android:ems="10"
+                android:hint="@string/category"
+                android:inputType="text"
+                android:theme="@style/AppTheme.EditText"
+                tools:ignore="AutoFill"
+                tools:targetApi="m" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiCondition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/AppTheme.HintText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tiCategory">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCondition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/baseline_account_circle_black_48px"
+                android:drawableLeft="@drawable/baseline_account_circle_black_48px"
+                android:drawableTint="@color/colorAccent"
+                android:ems="10"
+                android:hint="@string/condition"
+                android:inputType="text"
+                android:theme="@style/AppTheme.EditText"
+                tools:ignore="AutoFill"
+                tools:targetApi="m" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/AppTheme.HintText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tiCondition">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/baseline_account_circle_black_48px"
+                android:drawableLeft="@drawable/baseline_account_circle_black_48px"
+                android:drawableTint="@color/colorAccent"
+                android:ems="10"
+                android:hint="@string/tags"
+                android:inputType="text"
+                android:theme="@style/AppTheme.EditText"
+                tools:ignore="AutoFill"
+                tools:targetApi="m" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnBook"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_wide"
+            android:text="@string/book"
+            android:theme="@style/AppTheme.Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tiTags" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

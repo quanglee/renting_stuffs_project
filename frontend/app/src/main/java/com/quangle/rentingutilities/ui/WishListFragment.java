@@ -44,7 +44,7 @@ public class WishListFragment extends BaseFragment {
         //check user is login or not
         Auth auth = MySharedPreferences.getAuth(getContext());
 
-        final ItemAdapter adapter = new ItemAdapter(getContext());
+        final ItemAdapter adapter = new ItemAdapter(getContext(), item -> {});
         tempRecyclerView.setAdapter(adapter);
 
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
