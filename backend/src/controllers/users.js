@@ -28,8 +28,8 @@ exports.create = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const username = req.body.username;
-  const lat = req.body.lat;
-  const lng = req.body.lng;
+  const lat = req.body.lat != undefined ? req.body.lat : null;
+  const lng = req.body.lng != undefined ? req.body.lng : null;
   firebaseAdmin.auth().createUser({
     email: email,
     password: password,
