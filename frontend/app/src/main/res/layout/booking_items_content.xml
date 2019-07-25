@@ -39,19 +39,19 @@
                     android:padding="1dp"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
-                <TextView
-                    android:id="@+id/txtDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="1dp"
-                    android:textColor="@color/black" />
-                <TextView
-                    android:id="@+id/txtPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="1dp"
-                    android:textSize="16dp"
-                    android:textColor="@color/colorAccentDark" />
+                <!--<TextView-->
+                    <!--android:id="@+id/txtDesc"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="1dp"-->
+                    <!--android:textColor="@color/black" />-->
+                <!--<TextView-->
+                    <!--android:id="@+id/txtPrice"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="1dp"-->
+                    <!--android:textSize="16dp"-->
+                    <!--android:textColor="@color/colorAccentDark" />-->
             </LinearLayout>
 
         </LinearLayout>

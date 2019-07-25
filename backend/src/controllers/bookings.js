@@ -6,9 +6,9 @@ exports.getAllBookingOfUser = (req, res, next) => {
     // we use promise which is nicer than callback
     Booking.findAllBookingOfUser(req.params.userId)
         .then(([rows, fields]) => {
-            res.status(200).json({
-                bookings: rows
-            })
+            // let bookingJSON = JSON.stringify(rows);
+            // console.log(JSON.parse(bookingJSON));
+            res.status(200).json(rows)
         }).catch(err => {
             console.log(err);
         });

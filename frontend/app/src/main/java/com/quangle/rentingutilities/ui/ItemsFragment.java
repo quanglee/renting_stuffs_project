@@ -51,7 +51,7 @@ public class ItemsFragment extends BaseFragment {
         tempRecyclerView.setAdapter(adapter);
 
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        itemViewModel.getAllItemsOfUser(auth.getUser().getEmail()).observe(this, new Observer<List<Item>>() {
+        itemViewModel.getAllItemsOfUser(auth, auth.getUser().getEmail()).observe(this, new Observer<List<Item>>() {
             @Override
             public void onChanged(List<Item> items) {
                 hideProgressBar();

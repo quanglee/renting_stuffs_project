@@ -1,6 +1,7 @@
 package com.quangle.rentingutilities.networking;
 
 import com.quangle.rentingutilities.core.model.Auth;
+import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.core.model.User;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -29,10 +31,14 @@ public interface Api {
     Call<List<Item>> getAllItems();
 
     // get all items of a user
-    @GET("items/{owner_id}")
-    Call<List<Item>> getAllItemsOfUser(@Path(value = "owner_id", encoded = true) String ownerId);
+    @GET("users/{owner_id}/items")
+    Call<List<Item>> getAllItemsOfUser(@Header("Authorization") String auth, @Path(value = "owner_id", encoded = true) String ownerId);
 
     // get wishlist of a user
     @GET("wishlists/{owner_id}")
     Call<List<Item>> getWishListOfUser(@Path(value = "owner_id", encoded = true) String ownerId);
+
+    // get all bookings of a particular user
+    @GET("bookings/{owner_id}")
+    Call<List<Booking>> getBookingsOfUser(@Header("Authorization") String auth, @Path(value = "owner_id", encoded = true) String ownerId);
 }

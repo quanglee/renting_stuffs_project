@@ -7,7 +7,11 @@ module.exports = class Booking {
 
     //get all bookings that have borrowerId = userId
     static findAllBookingOfUser(userId) {
-        return db.execute(`SELECT * FROM bookings WHERE borrowerId = '${userId}';`);
+        return db.execute(`
+        SELECT b.*
+        FROM bookings b 
+        WHERE b.borrowerId = '${userId}';
+        `);
     }
 
     //get all itemIds of user, then get all bookings that have itemIds

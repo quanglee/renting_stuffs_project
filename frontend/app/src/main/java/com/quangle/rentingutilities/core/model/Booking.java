@@ -1,5 +1,7 @@
 package com.quangle.rentingutilities.core.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,16 +28,36 @@ public class Booking implements Serializable {
     };
 
     //fields
-    private int id, itemId, borrowerId;
-    private Date startDate, returnDate;
+    @SerializedName("id")
+    private int id;
+
+    @SerializedName("itemId")
+    private int itemId;
+
+    @SerializedName("borrowerId")
+    private String borrowerId;
+
+    @SerializedName("startDate")
+    private Date startDate;
+
+    @SerializedName("returnDate")
+    private Date returnDate;
+
+    @SerializedName("status")
     private String status;
 
     //constructor
     public Booking() {}
 
     //getter & setter
+
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getItemId() {
@@ -46,11 +68,11 @@ public class Booking implements Serializable {
         this.itemId = itemId;
     }
 
-    public int getBorrowerId() {
+    public String getBorrowerId() {
         return borrowerId;
     }
 
-    public void setBorrowerId(int borrowerId) {
+    public void setBorrowerId(String borrowerId) {
         this.borrowerId = borrowerId;
     }
 
@@ -77,5 +99,4 @@ public class Booking implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

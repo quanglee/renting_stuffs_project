@@ -1,6 +1,9 @@
 package com.quangle.rentingutilities.viewmodel;
 
+import android.widget.Toast;
+
 import com.quangle.rentingutilities.core.model.Auth;
+import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.networking.Api;
 import com.quangle.rentingutilities.networking.NetworkResource;
@@ -22,13 +25,16 @@ public class ItemViewModel extends ViewModel {
     MutableLiveData<List<Item>> mItems = new MutableLiveData<>();
     MutableLiveData<List<Item>> mUserItems = new MutableLiveData<>();//items of logged in user
     MutableLiveData<List<Item>> mUserWishList = new MutableLiveData<>();//wishlist of logged in user
+    MutableLiveData<List<Booking>> mUserBookings = new MutableLiveData<>();//bookings of logged in user
+    Api api;
 
     public ItemViewModel() {
-
+        if (api == null) {
+            api = RetrofitService.get();
+        }
     }
 
     public LiveData<List<Item>> getAllItems() {
-        Api api = RetrofitService.get();
         Call<List<Item>> itemCall = api.getAllItems();
         itemCall.enqueue(new Callback<List<Item>>() {
             @Override
@@ -46,13 +52,17 @@ public class ItemViewModel extends ViewModel {
         return mItems;
     }
 
-    public LiveData<List<Item>> getAllItemsOfUser(String ownerId) {
-        Api api = RetrofitService.get();
-        Call<List<Item>> itemCall = api.getAllItemsOfUser(ownerId);
+    public LiveData<List<Item>> getAllItemsOfUser(Auth auth, String ownerId) {
+        Call<List<Item>> itemCall = api.getAllItemsOfUser(auth.getAccessToken(), ownerId);
         itemCall.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                mUserItems.setValue(response.body());
+                if (response.isSuccessful()) {
+                    mUserItems.setValue(response.body());
+                } else {
+                    // TODO: Token Expired, Display message Redirect to LOGIN activity
+                }
+
             }
 
             @Override
@@ -66,12 +76,15 @@ public class ItemViewModel extends ViewModel {
     }
 
     public LiveData<List<Item>> getWishListOfUser(String ownerId) {
-        Api api = RetrofitService.get();
         Call<List<Item>> itemCall = api.getWishListOfUser(ownerId);
         itemCall.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                mUserWishList.setValue(response.body());
+                if (response.isSuccessful()) {
+                    mUserWishList.setValue(response.body());
+                } else {
+                    // TODO: Token Expired, Display message Redirect to LOGIN activity
+                }
             }
 
             @Override
@@ -83,4 +96,34 @@ public class ItemViewModel extends ViewModel {
 
         return mUserWishList;
     }
+
+    public LiveData<List<Booking>> getUserBookings(Auth auth) {
+        Call<List<Booking>> bookingCall = api.getBookingsOfUser(auth.getAccessToken(), auth.getUser().getEmail());
+        bookingCall.enqueue(new Callback<List<Booking>>() {
+            @Override
+            public void onResponse(Call<List<Booking>> call, Response<List<Booking>> response) {
+                mUserBookings.setValue(response.body());
+//                getBookingsWithItemDetail(auth.getAccessToken(), response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Booking>> call, Throwable t) {
+                System.out.println("ON FAILURE");
+                System.out.println(t.getCause());
+            }
+        });
+
+
+        return mUserBookings;
+    }
+
+//    private LiveData<List<Booking>> getBookingsWithItemDetail(String accessToken, List<Booking> bookings) {
+//        for(Booking b: bookings) {
+//            //Call<Item> callItem = api.getBookingsOfUser(accessToken, )
+//        }
+//
+////        Api api = RetrofitService.get();
+////        Call<Item> itemCall = api.getBookingsOfUser(accessToken, );
+//        return mUserBookings;
+//    }
 }
