@@ -17,7 +17,7 @@
     <string name="submit">Submit</string>
     <string name="withoutAccount">You do not have an account.</string>
     <string name="register">Register</string>
-    
+
     <!-- Register -->
     <string name="username">Username</string>
 
@@ -25,6 +25,18 @@
     <string name="yourItems">Your items</string>
     <string name="wishlist">Wishlist</string>
     <string name="requests">Requests</string>
+
+    <!-- Item Detail -->
+    <string name="detail">Detail</string>
+    <string name="reviews">Reviews</string>
+    <string name="itemImageDescription">Item image</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="price">Price</string>
+    <string name="category">Category</string>
+    <string name="condition">Condition</string>
+    <string name="tags">Tags</string>
+    <string name="book">Book</string>
 
     <!-- Validation -->
     <string name="someErrors">There are some errors</string>
