@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.quangle.rentingutilities.R;
@@ -20,7 +21,9 @@ import com.squareup.picasso.Picasso;
 public class ItemDetailFragment extends BaseFragment {
 
     private static final String ARG_ITEM = "item";
+    private static final String ARG_CAN_EDIT = "canEdit";
     private Item item;
+    private boolean canEdit = false;
 
     public static ItemDetailFragment newInstance(Item item) {
         ItemDetailFragment fragment = new ItemDetailFragment();
@@ -30,11 +33,21 @@ public class ItemDetailFragment extends BaseFragment {
         return fragment;
     }
 
+    public static ItemDetailFragment newInstance(Item item, boolean canEdit) {
+        ItemDetailFragment fragment = new ItemDetailFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_ITEM, item);
+        args.putSerializable(ARG_CAN_EDIT, canEdit);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             item = (Item) getArguments().getSerializable(ARG_ITEM);
+            canEdit = getArguments().getBoolean(ARG_CAN_EDIT);
         }
     }
 
@@ -45,6 +58,7 @@ public class ItemDetailFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_item_detail, container, false);
 
         Validation validation = new Validation(getActivity());
+        RatingBar ratingBar = view.findViewById(R.id.ratingBar);
         ImageView imageView = view.findViewById(R.id.imageView);
         TextInputLayout tiName = view.findViewById(R.id.tiName);
         EditText etName = view.findViewById(R.id.etName);
@@ -60,8 +74,9 @@ public class ItemDetailFragment extends BaseFragment {
         EditText etTags = view.findViewById(R.id.etTags);
         Button btnBook = view.findViewById(R.id.btnBook);
 
+        ratingBar.setRating((float) item.getAverageRating());
         Picasso.get().setLoggingEnabled(true);
-        Picasso.get().load("http://0.0.0.0:3000/images/2019-07-24T20:52:27.821Z-logo.png").placeholder(R.drawable.baseline_account_circle_black_48px).into(imageView);
+        Picasso.get().load(item.getImageURL()).placeholder(R.drawable.baseline_account_circle_black_48px).into(imageView);
         etName.setText(item.getName());
         etDescription.setText(item.getDescription());
         etPrice.setText(Double.toString(item.getPrice()));
@@ -73,6 +88,15 @@ public class ItemDetailFragment extends BaseFragment {
             BookingActivity.setItem(intent, item);
             getActivity().startActivity(intent);
         });
+
+        if (!canEdit) {
+            etName.setEnabled(false);
+            etDescription.setEnabled(false);
+            etPrice.setEnabled(false);
+            etCategory.setEnabled(false);
+            etCondition.setEnabled(false);
+            etTags.setEnabled(false);
+        }
 
         return view;
     }
