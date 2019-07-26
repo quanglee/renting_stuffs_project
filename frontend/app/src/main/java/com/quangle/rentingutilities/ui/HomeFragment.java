@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeFragment extends BaseFragment {
@@ -35,6 +36,9 @@ public class HomeFragment extends BaseFragment {
         showProgressBar();
 
         recyclerView = view.findViewById(R.id.home_items_list);
+//        RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
+//        recyclerView.setLayoutManager(manager);
+
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
 

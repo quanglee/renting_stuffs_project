@@ -30,6 +30,10 @@ public interface Api {
     @GET("items")
     Call<List<Item>> getAllItems();
 
+    // get item details
+    @GET("items/{item_id}")
+    Call<Item> getItemDetail(@Header("Authorization") String auth, @Path(value = "item_id", encoded = true) String itemId);
+
     // get all items of a user
     @GET("users/{owner_id}/items")
     Call<List<Item>> getAllItemsOfUser(@Header("Authorization") String auth, @Path(value = "owner_id", encoded = true) String ownerId);

@@ -46,6 +46,8 @@ public class Booking implements Serializable {
     @SerializedName("status")
     private String status;
 
+    private Item item;
+
     //constructor
     public Booking() {}
 
@@ -98,5 +100,13 @@ public class Booking implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 }
