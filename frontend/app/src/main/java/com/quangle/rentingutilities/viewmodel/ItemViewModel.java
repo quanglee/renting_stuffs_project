@@ -11,6 +11,7 @@ import com.quangle.rentingutilities.networking.RetrofitService;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -102,8 +103,8 @@ public class ItemViewModel extends ViewModel {
         bookingCall.enqueue(new Callback<List<Booking>>() {
             @Override
             public void onResponse(Call<List<Booking>> call, Response<List<Booking>> response) {
-                mUserBookings.setValue(response.body());
-//                getBookingsWithItemDetail(auth.getAccessToken(), response.body());
+//                mUserBookings.setValue(response.body());
+                getBookingsWithItemDetail(auth.getAccessToken(), response.body());
             }
 
             @Override
@@ -117,13 +118,38 @@ public class ItemViewModel extends ViewModel {
         return mUserBookings;
     }
 
-//    private LiveData<List<Booking>> getBookingsWithItemDetail(String accessToken, List<Booking> bookings) {
-//        for(Booking b: bookings) {
-//            //Call<Item> callItem = api.getBookingsOfUser(accessToken, )
-//        }
-//
-////        Api api = RetrofitService.get();
-////        Call<Item> itemCall = api.getBookingsOfUser(accessToken, );
-//        return mUserBookings;
-//    }
+    private void getBookingsWithItemDetail(String accessToken, List<Booking> bookings) {
+        List<Booking> tempBookings = new ArrayList<>();
+
+        for(Booking b: bookings) {
+            Booking temp = new Booking();
+            temp.setId(b.getId());
+            temp.setBorrowerId(b.getBorrowerId());
+            temp.setItemId(b.getItemId());
+            temp.setStartDate(b.getStartDate());
+            temp.setReturnDate(b.getReturnDate());
+            temp.setStatus(b.getStatus());
+
+            Call<Item> callItem = api.getItemDetail(accessToken, String.valueOf(b.getItemId()));
+            callItem.enqueue(new Callback<Item>() {
+                @Override
+                public void onResponse(Call<Item> call, Response<Item> response) {
+                    temp.setItem(response.body());
+                    tempBookings.add(temp);
+                    mUserBookings.setValue(tempBookings);
+                }
+
+                @Override
+                public void onFailure(Call<Item> call, Throwable t) {
+                    System.out.println("HERE FAILURE");
+                    System.out.println(t.getCause());
+                }
+            });
+            System.out.println("HERE " + String.valueOf(b.getItemId()));
+//            tempBookings.add(temp);
+        }
+
+
+
+    }
 }

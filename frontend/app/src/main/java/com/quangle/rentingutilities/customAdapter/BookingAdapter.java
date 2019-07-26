@@ -20,16 +20,16 @@ import androidx.recyclerview.widget.RecyclerView;
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemViewHolder> {
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        private final TextView itemBorrowerView;
-//        private final TextView itemDescView;
+        private final TextView itemNameView;
+        private final TextView itemDescView;
         private final ImageView itemImageView;
-//        private final TextView itemPriceView;
+        private final TextView itemPriceView;
 
         private ItemViewHolder(View itemView) {
             super(itemView);
-            itemBorrowerView = itemView.findViewById(R.id.txtName);
-//            itemDescView = itemView.findViewById(R.id.txtDesc);
-//            itemPriceView = itemView.findViewById(R.id.txtPrice);
+            itemNameView = itemView.findViewById(R.id.txtName);
+            itemDescView = itemView.findViewById(R.id.txtDesc);
+            itemPriceView = itemView.findViewById(R.id.txtPrice);
             itemImageView = itemView.findViewById(R.id.itemImage);
         }
     }
@@ -63,7 +63,11 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemView
 
         if (mBookings != null) {
             Booking current = mBookings.get(position);
-            holder.itemBorrowerView.setText(current.getBorrowerId());
+            holder.itemNameView.setText(current.getItem().getName());
+            holder.itemDescView.setText(current.getItem().getDescription());
+            holder.itemPriceView.setText("$" + String.valueOf(current.getItem().getPrice()));
+            Picasso.get().load(current.getItem().getImageURL()).resize(250, 450)
+                    .centerCrop().into(holder.itemImageView);
         }
     }
 
