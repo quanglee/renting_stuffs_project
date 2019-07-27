@@ -42,44 +42,6 @@ exports.loginUser = (req, res, next) => {
         })
 }
 
-exports.registerUser = (req, res, next) => {
-    console.log("register user");
-    const email = req.body.email;
-    const password = req.body.password;
-    const displayName = req.body.displayName;
-    const lat = req.body.lat;
-    const lng = req.body.lng;
-    firebaseAdmin.auth().createUser({
-        email: email,
-        password: password,
-        displayName: displayName
-    }).then(userRecord => {
-        // TODO: save user into firebase db
-        User.saveUser({
-            email: email,
-            username: displayName,
-            isAdmin: false,
-            lat: lat,
-            lng: lng,
-            isActive: true
-        }).then(resultData => {
-            res.status(201).json({
-                email: userRecord.email,
-                displayName: userRecord.displayName,
-                uid: userRecord.uid
-            });
-        }).catch(err => {
-            res.status(400).json({
-                message: "unable to create record"
-            });
-        });
-    }).catch(err => {
-        res.status(400).json({
-            message: "unable to create record"
-        });
-    });
-}
-
 exports.refreshToken = (req, res, next) => {
   if (!req.body.refreshToken) {
     return res.status(400).send({
