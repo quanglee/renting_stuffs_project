@@ -21,7 +21,7 @@ FIRE_BASE_PROJECT_ID="shareandgetapps"
 FIREBASE_STORAGEBUCKET="shareandgetapps.appspot.com"
 FIREBASE_MESSAGING_SENDER_ID="<YOUR NUMBER>"
 FIREBASE_APP_ID="<YOUR NUMBER>"
-UPLOAD_IMAGE_FOLDER="0.0.0.0:3000/images/"
+UPLOAD_IMAGE_FOLDER="/images/"
 
 # create account service json file on Firebase
 * Firebase Console -> Project settings -> Service Account 

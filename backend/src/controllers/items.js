@@ -26,33 +26,41 @@ exports.getItemDetail = (req, res, next) => {
         });
 };
 
-exports.createItem= (req, res, next) => {
-    if (!req.file) {
-        res.status(422).json({
-            message: "missing an upload file"
-        });
-    }
-
-    itemImageURL = UPLOAD_IMAGE_FOLDER + req.file.filename;
-    Item.addItem({
-        ownerId: req.loggedInEmail,
-        name: req.body.name,
-        description: req.body.description,
-        condition: req.body.condition,
-        category: req.body.category,
-        imageURLs: itemImageURL,
-        tags: req.body.tags,
-        lat: req.body.lat,
-        lng: req.body.lng,
-        price: req.body.price
-    }).then(([rows, fields]) => {
-        res.status(201).json({
-            message: "success",
-            item: rows
-        })
-    }).catch(err => {
-        console.log(err);
+exports.createItem = (req, res, next) => {
+  if (!req.file) {
+    console.log(req.files);
+    res.status(422).json({
+        message: "missing an upload file"
     });
+    return;
+  } else if (req.user == null) {
+    res.status(400).json({
+      message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+  }
+  console.log("Create item");
+  const lat = req.body.lat == null ? req.user.lat : req.body.lat;
+  const lng = req.body.lng == null ? req.user.lng : req.body.lng;
+
+  itemImageURL = UPLOAD_IMAGE_FOLDER + req.file.filename;
+  const item = {
+      ownerId: req.user.email,
+      name: req.body.name,
+      description: req.body.description,
+      condition: req.body.condition,
+      category: req.body.category,
+      imageURLs: itemImageURL,
+      tags: req.body.tags,
+      lat: lat,
+      lng: lng,
+      price: req.body.price
+  };
+  Item.addItem(item).then(([rows, fields]) => {
+      res.status(201).json(item)
+  }).catch(err => {
+      console.log(err);
+  });
 };
 
 exports.editItem= (req, res, next) => {
