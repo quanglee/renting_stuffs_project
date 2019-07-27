@@ -4,13 +4,6 @@ const { UPLOAD_IMAGE_FOLDER } = require('../config');
 const Utils = require('../util/utils');
 
 exports.getAllItems = (req, res, next) => {
-    // we use promise which is nicer than callback
-    Item.findAll()
-        .then(([rows, fields]) => {
-            res.status(200).json(rows);
-        }).catch(err => {
-            console.log(err);
-        });
   // we use promise which is nicer than callback
   Item.findAll()
     .then(([rows, fields]) => {
