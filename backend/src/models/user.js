@@ -14,8 +14,7 @@ module.exports = class User {
         return firebaseDB.collection("users").doc(email).get();
     }
 
-    static saveUser(...data) {
-        const userDoc = data[0];
+    static saveUser(userDoc) {
         return firebaseDB.collection("users")
                             .doc(userDoc.email)
                             .set(userDoc);

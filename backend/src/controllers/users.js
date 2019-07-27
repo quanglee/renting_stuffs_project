@@ -5,16 +5,19 @@ const { firebaseAdmin } = require('../util/firebase');
 const Utils = require('../util/utils');
 
 exports.getAllUsers = (req, res, next) => {
-    console.log("get all users from mysql and return JSON file");
-    // we use promise which is nicer than callback
-    User.findAll()
-        .then(([rows, fields]) => {
-            res.status(200).json({
-                users: rows
-            })
-        }).catch(err => {
-            console.log(err);
-        });
+  if (req.user == null) {
+    res.status(400).json({
+      message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+  }
+  // we use promise which is nicer than callback
+  User.findUserByEmail(req.user.email)
+    .then(doc => {
+      res.status(200).json(doc.data());
+    }).catch(err => {
+        console.log(err);
+    });
 };
 
 exports.create = (req, res, next) => {
@@ -73,5 +76,21 @@ exports.getAllItemsOfUser = (req, res, next) => {
         console.log(err);
     });
 };
+
+exports.edit = (req, res, next) => {
+  if (req.user == null) {
+    res.status(400).json({
+      message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+  }
+  const user = req.body;
+  User.saveUser(user).then(resultData => {
+      res.status(200).json(user);
+    }).catch(err => {
+      console.log(err);
+      res.status(400).json({
+        message: "Bad request"
       });
+    });
 };

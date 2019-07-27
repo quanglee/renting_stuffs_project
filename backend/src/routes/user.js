@@ -8,5 +8,6 @@ const isAuth = require('../util/auth');
 router.get('/', isAuth, usersController.getAllUsers);
 router.get('/items', isAuth, usersController.getAllItemsOfUser);
 router.post('/create', usersController.create);
+router.post('/edit', isAuth, usersController.edit);
 
 module.exports = router;
