@@ -20,30 +20,20 @@ exports.create = (req, res, next) => {
   console.log("register user");
   if (!req.body.email || 
     !req.body.password || 
+    !req.body.address ||
+    !req.body.lat ||
+    !req.body.lng ||
     !req.body.username) {
     return res.status(400).send({
       success: 'false',
-      message: 'email, password, username are required',
+      message: 'email, password, username, address, lat, lnf are required',
     });
   }
-  const email = req.body.email;
-  const password = req.body.password;
-  const username = req.body.username;
-  const lat = req.body.lat != undefined ? req.body.lat : null;
-  const lng = req.body.lng != undefined ? req.body.lng : null;
-  firebaseAdmin.auth().createUser({
-    email: email,
-    password: password,
-    displayName: username
-  }).then(userRecord => {
-    const user = {
-      email: email,
-      username: username,
-      isAdmin: false,
-      lat: lat,
-      lng: lng,
-      isActive: true
-    };
+  const user = req.body;
+  user.isAdmin = false;
+  user.isActive = true;
+  firebaseAdmin.auth().createUser(user).then(userRecord => {
+    delete user.password;
     User.saveUser(user).then(resultData => {
       user.uid = userRecord.uid;
       res.status(201).json(user);
@@ -53,8 +43,9 @@ exports.create = (req, res, next) => {
       });
     });
   }).catch(err => {
+    console.log(err);
     let status = 400;
-    if (err.errorInfo.code == 'auth/email-already-exists')
+    if (err != null && err.errorInfo != null && err.errorInfo.code == 'auth/email-already-exists')
       status = 409;
     res.status(status).json({
       message: err.errorInfo.message

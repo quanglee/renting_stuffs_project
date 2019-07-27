@@ -21,10 +21,11 @@ exports.loginUser = (req, res, next) => {
                               uid: result.user.uid,
                               email: result.user.email,
                               username: result.user.displayName,
-                              isAdmin: userDetails.data().role,
+                              isAdmin: userDetails.data().isAdmin,
                               lat: userDetails.data().lat,
                               lng: userDetails.data().lng,
-                              isActive: userDetails.data().isActive
+                              isActive: userDetails.data().isActive,
+                              address: userDetails.data().address
                             }
                           })
                         });
