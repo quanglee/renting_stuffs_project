@@ -2,6 +2,7 @@ package com.quangle.rentingutilities.core.model;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class User implements Serializable {
 
@@ -20,11 +21,33 @@ public class User implements Serializable {
     private double lng;
     @SerializedName("isActive")
     private boolean isActive;
+    @SerializedName("address")
+    private String address;
+    private String password;
     private int numberOfReview;//Owner reviews Borrower
     private double averageRating;
 
     //constructor
-    public User() {}
+    public User() {
+        id = "";
+        email = "";
+        username = "";
+        address = "";
+        isAdmin = false;
+        password = "";
+    }
+
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("email", email);
+        hashMap.put("username", username);
+        hashMap.put("address", address);
+        hashMap.put("lat", lat);
+        hashMap.put("lng", lng);
+        if (id.equals(""))
+            hashMap.put("password", password);
+        return hashMap;
+    }
 
     //getter & setter
     public String getId() {
@@ -83,4 +106,15 @@ public class User implements Serializable {
         isAdmin = admin;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
