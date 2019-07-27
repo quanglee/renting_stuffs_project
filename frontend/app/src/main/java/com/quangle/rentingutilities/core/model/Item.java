@@ -2,16 +2,24 @@ package com.quangle.rentingutilities.core.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.quangle.rentingutilities.networking.RetrofitService;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Item implements Serializable {
 
     //Enum variables
     public static enum CATEGORY{
-        CARS("Cars"),
-        ELECTRONICS("Electronics"),
-        HOME_AND_GARDEN("Home and Garden"),
+        KIDS("Kids/baby"),
+        ENTERTAINMENT("Entertainment/hobby"),
+        INSTRUMENT("Instrument"),
+        INTERIOR("Interior/essential goods"),
+        SMARTPHONE("Smartphone/electricity/camera"),
+        HANDMADE("Handmade"),
+        SPORTS("Sports/outdoor"),
+        BICYCLE("Bicycle/Bike"),
         OTHERS("Others");
 
         private String displayName;
@@ -24,11 +32,24 @@ public class Item implements Serializable {
 
         // Optionally and/or additionally, toString.
         @Override public String toString() { return displayName; }
+
+        public static List<String> valuesList() {
+            CATEGORY[] categories = CATEGORY.values();
+            List<String> values = new ArrayList<>();
+
+            for (int i = 0; i < categories.length; i++)
+                values.add(categories[i].displayName());
+
+            return values;
+        }
     };
 
     public static enum CONDITION{
-        NEW("New"),
-        LIKE_NEW("Like new");
+        COMPLETLE_NEW("Completely new"),
+        ALMOST_NEW("Almost new"),
+        NO_REMARKABLE_DAMAGE("No remarkable damage"),
+        A_BIT_DAMAGED("A bit damaged"),
+        DAMAGED("Damaged");
 
         private String displayName;
 
@@ -40,6 +61,16 @@ public class Item implements Serializable {
 
         // Optionally and/or additionally, toString.
         @Override public String toString() { return displayName; }
+
+        public static List<String> valuesList() {
+            CONDITION[] conditions = CONDITION.values();
+            List<String> values = new ArrayList<>();
+
+            for (int i = 0; i < conditions.length; i++)
+                values.add(conditions[i].displayName());
+
+            return values;
+        }
     };
 
     @SerializedName("id")
@@ -82,7 +113,23 @@ public class Item implements Serializable {
     private double price;
 
     @SerializedName("isActive")
-    private int isActive;
+    private boolean isActive;
+
+    public Item() {
+        id = -1;
+        ownerId = "";
+        name = "";
+        description = "";
+        condition = CONDITION.COMPLETLE_NEW.toString();
+        category = CATEGORY.OTHERS.toString();
+        imageURL = "";
+        tags = "";
+        numberOfReview = 0;
+        averageRating = 0;
+        lat = 0;
+        lng = 0;
+        isActive = true;
+    }
 
     public int getId() {
         return id;
@@ -133,7 +180,12 @@ public class Item implements Serializable {
     }
 
     public String getImageURL() {
-        return imageURL;
+        if (imageURL.equals(""))
+            return "";
+        else if (imageURL.contains("https"))
+            return imageURL;
+        else
+            return RetrofitService.BASE_URL + imageURL.substring(1);
     }
 
     public void setImageURL(String imageURL) {
@@ -188,11 +240,11 @@ public class Item implements Serializable {
         this.price = price;
     }
 
-    public int getIsActive() {
+    public boolean isActive() {
         return isActive;
     }
 
-    public void setIsActive(int isActive) {
-        this.isActive = isActive;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
