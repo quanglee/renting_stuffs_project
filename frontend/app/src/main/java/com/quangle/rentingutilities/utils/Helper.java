@@ -2,11 +2,19 @@ package com.quangle.rentingutilities.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.quangle.rentingutilities.R;
+
+import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class Helper {
 
@@ -31,4 +39,29 @@ public class Helper {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    public static void showSelectDialog(Activity activity, EditText editText, String title, List<String> optionList) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AppTheme_DialogTheme);
+        builder.setTitle(title);
+
+        //list of items
+        int checkedItem = 0;
+        if (!editText.getText().toString().equals("")) {
+            int indexOf = optionList.indexOf(editText.getText().toString());
+            checkedItem = indexOf != -1 ? indexOf : 0;
+        }
+        builder.setSingleChoiceItems(optionList.toArray(new String[0]), checkedItem, null);
+
+        builder.setPositiveButton(activity.getString(android.R.string.ok), (dialog, which) -> {
+            int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+            editText.setText(optionList.get(position));
+        });
+
+        builder.setNegativeButton(activity.getString(android.R.string.cancel), null);
+
+        AlertDialog dialog = builder.create();
+        // display dialog
+        dialog.show();
+    }
+
 }
