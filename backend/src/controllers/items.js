@@ -1,6 +1,7 @@
 // place the wishlists logic here
 const Item = require('../models/item');
 const { UPLOAD_IMAGE_FOLDER } = require('../config');
+const Utils = require('../util/utils');
 
 exports.getAllItems = (req, res, next) => {
     // we use promise which is nicer than callback
@@ -10,6 +11,17 @@ exports.getAllItems = (req, res, next) => {
         }).catch(err => {
             console.log(err);
         });
+  // we use promise which is nicer than callback
+  Item.findAll()
+    .then(([rows, fields]) => {
+      rows.forEach((currentValue, index, array) => {
+        Utils.toBoolean(currentValue, 'isActive');
+        array[index] = currentValue;
+      });
+      res.status(200).json(rows);
+    }).catch(err => {
+      console.log(err);
+    });
 };
 
 exports.getItemDetail = (req, res, next) => {

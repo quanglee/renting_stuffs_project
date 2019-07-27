@@ -2,6 +2,7 @@
 const User = require('../models/user');
 const Item = require('../models/item');
 const { firebaseAdmin } = require('../util/firebase');
+const Utils = require('../util/utils');
 
 exports.getAllUsers = (req, res, next) => {
     console.log("get all users from mysql and return JSON file");
@@ -54,11 +55,23 @@ exports.create = (req, res, next) => {
 };
 
 exports.getAllItemsOfUser = (req, res, next) => {
+  if (req.user == null) {
+    res.status(400).json({
+      message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+  }
   // we use promise which is nicer than callback
-  Item.findAllItemsOfUser(req.params.ownerId)
-      .then(([rows, fields]) => {
-          res.status(200).json(rows);
-      }).catch(err => {
-          console.log(err);
+  Item.findAllItemsOfUser(req.user.email)
+    .then(([rows, fields]) => {
+      rows.forEach((currentValue, index, array) => {
+        Utils.toBoolean(currentValue, 'isActive');
+        array[index] = currentValue;
+      });
+      res.status(200).json(rows);
+    }).catch(err => {
+        console.log(err);
+    });
+};
       });
 };
