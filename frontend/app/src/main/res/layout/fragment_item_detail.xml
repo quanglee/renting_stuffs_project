@@ -21,6 +21,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/btnSetImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_wide"
+            android:text="@string/setImage"
+            android:theme="@style/AppTheme.Button"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
@@ -32,7 +49,7 @@
             android:stepSize="0.5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/btnSetImage" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tiName"
@@ -100,12 +117,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             app:errorEnabled="true"
             app:hintTextAppearance="@style/AppTheme.HintText"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tiDescription">
 
@@ -148,7 +165,9 @@
                 android:drawableTint="@color/colorAccent"
                 android:ems="10"
                 android:hint="@string/category"
-                android:inputType="text"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="none"
                 android:theme="@style/AppTheme.EditText"
                 tools:ignore="AutoFill"
                 tools:targetApi="m" />
@@ -178,7 +197,9 @@
                 android:drawableTint="@color/colorAccent"
                 android:ems="10"
                 android:hint="@string/condition"
-                android:inputType="text"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="none"
                 android:theme="@style/AppTheme.EditText"
                 tools:ignore="AutoFill"
                 tools:targetApi="m" />
@@ -213,6 +234,25 @@
                 tools:ignore="AutoFill"
                 tools:targetApi="m" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_wide"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_wide"
+            android:text="@string/submit"
+            android:theme="@style/AppTheme.Button"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tiTags" />
 
         <Button
             android:id="@+id/btnBook"

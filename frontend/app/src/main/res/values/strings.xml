@@ -46,5 +46,6 @@
     <string name="invalidEmail">This field is not a valid email</string>
     <string name="errorLogin">Your email and password doesn\'t match our records</string>
     <string name="existingEmail">The email address is already in use by another account</string>
+    <string name="invalidAddress">That is not a valid BC address</string>
 
 </resources>

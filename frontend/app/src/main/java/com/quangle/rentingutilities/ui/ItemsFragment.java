@@ -1,12 +1,14 @@
 package com.quangle.rentingutilities.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Item;
@@ -39,6 +41,13 @@ public class ItemsFragment extends BaseFragment {
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
 
+        FloatingActionButton fabAdd = view.findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(v-> {
+            Intent intent = new Intent(getActivity(), ItemActivity.class);
+            ItemActivity.setItem(intent, new Item(), true);
+            startActivity(intent);
+        });
+
         return view;
     }
 
@@ -47,16 +56,17 @@ public class ItemsFragment extends BaseFragment {
         //check user is login or not
         Auth auth = MySharedPreferences.getAuth(getContext());
 
-        final ItemAdapter adapter = new ItemAdapter(getContext(), item -> {});
+        final ItemAdapter adapter = new ItemAdapter(getContext(), item -> {
+            Intent intent = new Intent(getActivity(), ItemActivity.class);
+            ItemActivity.setItem(intent, item, true);
+            startActivity(intent);
+        });
         tempRecyclerView.setAdapter(adapter);
 
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        itemViewModel.getAllItemsOfUser(auth, auth.getUser().getEmail()).observe(this, new Observer<List<Item>>() {
-            @Override
-            public void onChanged(List<Item> items) {
-                hideProgressBar();
-                adapter.setNewItems(items);
-            }
+        itemViewModel.getAllItemsOfUser(auth).observe(this, items -> {
+            hideProgressBar();
+            adapter.setNewItems(items);
         });
     }
 

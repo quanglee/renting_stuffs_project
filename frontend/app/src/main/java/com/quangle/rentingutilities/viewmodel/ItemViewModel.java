@@ -18,11 +18,15 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ItemViewModel extends ViewModel {
+    MutableLiveData<NetworkResource<Item>> networkResourceItemMutableLiveData = new MutableLiveData<>();
     MutableLiveData<List<Item>> mItems = new MutableLiveData<>();
     MutableLiveData<List<Item>> mUserItems = new MutableLiveData<>();//items of logged in user
     MutableLiveData<List<Item>> mUserWishList = new MutableLiveData<>();//wishlist of logged in user
@@ -53,8 +57,8 @@ public class ItemViewModel extends ViewModel {
         return mItems;
     }
 
-    public LiveData<List<Item>> getAllItemsOfUser(Auth auth, String ownerId) {
-        Call<List<Item>> itemCall = api.getAllItemsOfUser(auth.getAccessToken(), ownerId);
+    public LiveData<List<Item>> getAllItemsOfUser(Auth auth) {
+        Call<List<Item>> itemCall = api.getAllItemsOfUser(auth.getAccessToken());
         itemCall.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
@@ -151,5 +155,27 @@ public class ItemViewModel extends ViewModel {
 
 
 
+    }
+
+    public LiveData<NetworkResource<Item>> createItem(Auth auth, MultipartBody.Part filePart, HashMap<String, RequestBody> params) {
+        Api api = RetrofitService.get();
+        Call<Item> itemCall = api.createItem(auth.getAccessToken(), filePart, params);
+        itemCall.enqueue(new Callback<Item>() {
+            @Override
+            public void onResponse(Call<Item> call, Response<Item> response) {
+                if (response.isSuccessful())
+                    networkResourceItemMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                else
+                    networkResourceItemMutableLiveData.setValue(new NetworkResource<>(response.code()));
+            }
+
+            @Override
+            public void onFailure(Call<Item> call, Throwable t) {
+                System.out.println("ON FAILURE");
+                System.out.println(t.getStackTrace());
+            }
+        });
+
+        return networkResourceItemMutableLiveData;
     }
 }

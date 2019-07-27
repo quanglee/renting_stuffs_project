@@ -14,7 +14,9 @@ import androidx.viewpager.widget.ViewPager;
 public class ItemActivity extends BaseActivity {
 
     private static final String ARG_ITEM = "item";
+    private static final String ARG_CAN_EDIT = "canEdit";
     private Item item;
+    private boolean canEdit;
     private TabLayout tabLayout;
     private TabsPagerAdapter itemTabsPagerAdapter;
     private ViewPager itemViewPager;
@@ -23,20 +25,32 @@ public class ItemActivity extends BaseActivity {
         intent.putExtra(ARG_ITEM, item);
     }
 
+    public static void setItem(Intent intent, Item item, boolean canEdit) {
+        intent.putExtra(ARG_ITEM, item);
+        intent.putExtra(ARG_CAN_EDIT, canEdit);
+    }
+
     @SuppressLint("MissingSuperCall")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_item);
 
         Intent intent = getIntent();
         item = (Item) intent.getSerializableExtra(ARG_ITEM);
+        canEdit = intent.getBooleanExtra(ARG_CAN_EDIT, false);
 
         itemViewPager = findViewById(R.id.itemViewPager);
         tabLayout = findViewById(R.id.tabs);
 
-        tabLayout.setVisibility(View.VISIBLE);
         itemTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
-        itemTabsPagerAdapter.addFrag(ItemDetailFragment.newInstance(item), getResources().getString(R.string.detail));
-        itemTabsPagerAdapter.addFrag(ItemReviewsFragment.newInstance(item), getResources().getString(R.string.reviews));
+        itemTabsPagerAdapter.addFrag(ItemDetailFragment.newInstance(item, canEdit), getResources().getString(R.string.detail));
+
+        if (item.getId() == -1)
+            setTitleActionBar("New item");
+        else {
+            setTitleActionBar("Item detail");
+            tabLayout.setVisibility(View.VISIBLE);
+            itemTabsPagerAdapter.addFrag(ItemReviewsFragment.newInstance(item), getResources().getString(R.string.reviews));
+        }
 
         itemViewPager.setAdapter(itemTabsPagerAdapter);
         tabLayout.setupWithViewPager(itemViewPager);
