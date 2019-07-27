@@ -14,7 +14,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.BookingActivity"></activity>
         <activity android:name=".ui.ItemActivity" />
-        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.UserActivity" />
         <activity android:name=".ui.HomeActivity" />
         <activity
             android:name=".ui.SplashActivity"
