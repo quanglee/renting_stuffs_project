@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.RegisterActivity">
+    tools:context=".ui.UserActivity">
 
     <include
         android:id="@+id/include"
@@ -40,8 +40,8 @@
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/baseline_account_circle_black_48px"
-                    android:drawableLeft="@drawable/baseline_account_circle_black_48px"
+                    android:drawableStart="@drawable/baseline_email_black_48px"
+                    android:drawableLeft="@drawable/baseline_email_black_48px"
                     android:drawableTint="@color/colorAccent"
                     android:ems="10"
                     android:hint="@string/email"
@@ -70,8 +70,8 @@
                     android:id="@+id/etUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/baseline_email_black_48px"
-                    android:drawableLeft="@drawable/baseline_email_black_48px"
+                    android:drawableStart="@drawable/baseline_account_circle_black_48px"
+                    android:drawableLeft="@drawable/baseline_account_circle_black_48px"
                     android:drawableTint="@color/colorAccent"
                     android:ems="10"
                     android:hint="@string/username"
@@ -113,6 +113,38 @@
                     tools:targetApi="m" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                app:errorEnabled="true"
+                app:hintTextAppearance="@style/AppTheme.HintText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tiPassword"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorAccent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/baseline_home_black_48px"
+                    android:drawableLeft="@drawable/baseline_home_black_48px"
+                    android:drawableTint="@color/colorAccent"
+                    android:ems="10"
+                    android:hint="@string/address"
+                    android:inputType="textMultiLine"
+                    android:theme="@style/AppTheme.EditText"
+                    tools:ignore="AutoFill"
+                    tools:targetApi="m" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/btnSubmit"
                 android:layout_width="0dp"
@@ -129,7 +161,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tiPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/tiAddress" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

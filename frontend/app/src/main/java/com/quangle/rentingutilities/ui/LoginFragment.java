@@ -48,7 +48,7 @@ public class LoginFragment extends BaseFragment {
             if (isEmailValid && isPasswordValid) {
                 btnSubmit.setEnabled(false);
                 showProgressBar();
-                HashMap<String, String> hashMap = new HashMap<>();
+                HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("email", etEmail.getText().toString());
                 hashMap.put("password", etPassword.getText().toString());
                 authViewModel.login(hashMap).observe(this, authNetworkResource -> {
@@ -70,7 +70,7 @@ public class LoginFragment extends BaseFragment {
         });
 
         btnRegister.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), RegisterActivity.class));
+            startActivity(new Intent(getActivity(), UserActivity.class));
         });
 
         return view;

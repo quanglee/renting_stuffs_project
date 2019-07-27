@@ -9,21 +9,36 @@ import com.quangle.rentingutilities.core.model.User;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 public interface Api {
 
     @POST("auth/login")
-    Call<Auth> login(@Body HashMap<String, String> params);
+    Call<Auth> login(@Body HashMap<String, Object> params);
 
     //Users
     @POST("users/create")
-    Call<User> createUser(@Body HashMap<String, String> params);
+    Call<User> createUser(@Body HashMap<String, Object> params);
+
+    @GET("users/")
+    Call<User> getUser(@Header("Authorization") String auth);
+
+    @POST("users/edit")
+    Call<User> editUser(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
+
+    // get all items of a user
+    @GET("users/items")
+    Call<List<Item>> getAllItemsOfUser(@Header("Authorization") String auth);
 
     //Items
     // get all items for home page
@@ -34,9 +49,10 @@ public interface Api {
     @GET("items/{item_id}")
     Call<Item> getItemDetail(@Header("Authorization") String auth, @Path(value = "item_id", encoded = true) String itemId);
 
-    // get all items of a user
-    @GET("users/{owner_id}/items")
-    Call<List<Item>> getAllItemsOfUser(@Header("Authorization") String auth, @Path(value = "owner_id", encoded = true) String ownerId);
+    // add new item
+    @Multipart
+    @POST("items/add")
+    Call<Item> createItem(@Header("Authorization") String auth, @Part MultipartBody.Part file, @PartMap() HashMap<String, RequestBody> params);
 
     // get wishlist of a user
     @GET("wishlists/{owner_id}")

@@ -18,7 +18,7 @@ public class AuthViewModel extends ViewModel {
 
     MutableLiveData<NetworkResource<Auth>> networkResourceAuthMutableLiveData = new MutableLiveData<>();
 
-    public LiveData<NetworkResource<Auth>> login(HashMap<String, String> params) {
+    public LiveData<NetworkResource<Auth>> login(HashMap<String, Object> params) {
         Api api = RetrofitService.get();
         Call<Auth> authCall = api.login(params);
         authCall.enqueue(new Callback<Auth>() {

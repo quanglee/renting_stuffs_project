@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.quangle.rentingutilities.core.model.Auth;
-import com.quangle.rentingutilities.core.model.User;
 
 public class MySharedPreferences {
 
@@ -23,14 +22,6 @@ public class MySharedPreferences {
 
         if (accessToken != null && refreshToken != null) {
             auth = new Auth(accessToken, refreshToken);
-
-            User loggedInUser = new User();
-            loggedInUser.setEmail(sharedPreferences.getString(Auth.SH_EMAIL, null));
-            loggedInUser.setUsername(sharedPreferences.getString(Auth.SH_USERNAME, null));
-            loggedInUser.setLat(Double.parseDouble(sharedPreferences.getString(Auth.SH_LAT, null)));
-            loggedInUser.setLng(Double.parseDouble(sharedPreferences.getString(Auth.SH_LNG, null)));
-
-            auth.setUser(loggedInUser);
         }
 
         return auth;

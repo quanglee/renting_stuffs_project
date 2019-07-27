@@ -22,7 +22,7 @@ public class ProfileFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ListView listView = view.findViewById(R.id.listView);
 
-        String[] values = new String[] { "Logout" };
+        String[] values = new String[] { "Edit", "Logout" };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, values);
         listView.setAdapter(adapter);
 
@@ -34,6 +34,8 @@ public class ProfileFragment extends BaseFragment {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 getActivity().finish();
+            } else if (selected.equals("Edit")) {
+                startActivity(new Intent(getActivity(), UserActivity.class));
             }
         });
         return view;

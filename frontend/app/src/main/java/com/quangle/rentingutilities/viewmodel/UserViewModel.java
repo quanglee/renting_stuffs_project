@@ -1,5 +1,6 @@
 package com.quangle.rentingutilities.viewmodel;
 
+import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.User;
 import com.quangle.rentingutilities.networking.Api;
 import com.quangle.rentingutilities.networking.NetworkResource;
@@ -16,18 +17,26 @@ import retrofit2.Response;
 
 public class UserViewModel extends ViewModel {
 
-    MutableLiveData<NetworkResource<User>> networkResourceAuthMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<NetworkResource<User>> networkResourceUserMutableLiveData = new MutableLiveData<>();
+    Api api;
 
-    public LiveData<NetworkResource<User>> create(HashMap<String, String> params) {
+    public UserViewModel() {
+        if (api == null) {
+            api = RetrofitService.get();
+        }
+    }
+
+
+    public LiveData<NetworkResource<User>> create(HashMap<String, Object> params) {
         Api api = RetrofitService.get();
         Call<User> userCall = api.createUser(params);
         userCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful())
-                    networkResourceAuthMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.body()));
                 else
-                    networkResourceAuthMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                    networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.code()));
             }
 
             @Override
@@ -36,6 +45,48 @@ public class UserViewModel extends ViewModel {
             }
         });
 
-        return networkResourceAuthMutableLiveData;
+        return networkResourceUserMutableLiveData;
+    }
+
+    public LiveData<NetworkResource<User>> get(Auth auth) {
+        Call<User> userCall = api.getUser(auth.getAccessToken());
+        userCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful())
+                    networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                else
+                    networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.code()));
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                System.out.println("ON FAILURE");
+                System.out.println(t.getCause());
+            }
+        });
+
+        return networkResourceUserMutableLiveData;
+    }
+
+    public LiveData<NetworkResource<User>> edit(Auth auth, HashMap<String, Object> params) {
+        Call<User> userCall = api.editUser(auth.getAccessToken(), params);
+        userCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful())
+                    networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                else
+                    networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.code()));
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                System.out.println("ON FAILURE");
+                System.out.println(t.getCause());
+            }
+        });
+
+        return networkResourceUserMutableLiveData;
     }
 }
