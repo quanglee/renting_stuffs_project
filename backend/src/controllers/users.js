@@ -65,7 +65,7 @@ exports.getAllItemsOfUser = (req, res, next) => {
     return;
   }
   // we use promise which is nicer than callback
-  Item.findAllItemsOfUser(req.user.email)
+  Item.findWishlistOfUser(req.user.email)
     .then(([rows, fields]) => {
       rows.forEach((currentValue, index, array) => {
         Utils.toBoolean(currentValue, 'isActive');
@@ -92,5 +92,25 @@ exports.edit = (req, res, next) => {
       res.status(400).json({
         message: "Bad request"
       });
+    });
+};
+
+exports.getWishlistOfUser = (req, res, next) => {
+  if (req.user == null) {
+    res.status(400).json({
+      message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+  }
+  // we use promise which is nicer than callback
+  Item.findAllItemsOfUser(req.user.email)
+    .then(([rows, fields]) => {
+      rows.forEach((currentValue, index, array) => {
+        Utils.toBoolean(currentValue, 'isActive');
+        array[index] = currentValue;
+      });
+      res.status(200).json(rows);
+    }).catch(err => {
+        console.log(err);
     });
 };

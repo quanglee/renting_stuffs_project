@@ -34,7 +34,8 @@ const isAuthenticated = (req, res, next) => {
   .then(decodedToken => {
     let uid = decodedToken.uid;
     req.user = {"email" : decodedToken.email};
-    console.log("util/auth.js: " + decodedToken.firebase);
+    console.log("util/auth.js:");
+    console.log(decodedToken.firebase);
     req.loggedInEmail = decodedToken.email;
     req.user.email = decodedToken.email;
     next();
