@@ -80,8 +80,8 @@ public class ItemViewModel extends ViewModel {
         return mUserItems;
     }
 
-    public LiveData<List<Item>> getWishListOfUser(String ownerId) {
-        Call<List<Item>> itemCall = api.getWishListOfUser(ownerId);
+    public LiveData<List<Item>> getWishlistOfUser(Auth auth) {
+        Call<List<Item>> itemCall = api.getWishlistOfUser(auth.getAccessToken());
         itemCall.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {

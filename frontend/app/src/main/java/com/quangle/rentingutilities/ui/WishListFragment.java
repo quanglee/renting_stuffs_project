@@ -48,7 +48,7 @@ public class WishListFragment extends BaseFragment {
         tempRecyclerView.setAdapter(adapter);
 
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        itemViewModel.getWishListOfUser(auth.getUser().getEmail()).observe(this, new Observer<List<Item>>() {
+        itemViewModel.getWishlistOfUser(auth).observe(this, new Observer<List<Item>>() {
             @Override
             public void onChanged(List<Item> items) {
                 hideProgressBar();

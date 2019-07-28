@@ -40,6 +40,10 @@ public interface Api {
     @GET("users/items")
     Call<List<Item>> getAllItemsOfUser(@Header("Authorization") String auth);
 
+    //get all items in wishlist of a user
+    @GET("users/wishlist")
+    Call<List<Item>> getWishlistOfUser(@Header("Authorization") String auth);
+
     //Items
     // get all items for home page
     @GET("items")
@@ -55,8 +59,8 @@ public interface Api {
     Call<Item> createItem(@Header("Authorization") String auth, @Part MultipartBody.Part file, @PartMap() HashMap<String, RequestBody> params);
 
     // get wishlist of a user
-    @GET("wishlists/{owner_id}")
-    Call<List<Item>> getWishListOfUser(@Path(value = "owner_id", encoded = true) String ownerId);
+//    @GET("wishlists")
+//    Call<List<Item>> getWishListOfUser(@Path(value = "owner_id", encoded = true) String ownerId);
 
     // get all bookings of a particular user
     @GET("bookings/{owner_id}")
