@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
 
@@ -29,6 +30,7 @@ public class ProfileFragment extends BaseFragment {
         listView.setOnItemClickListener((AdapterView<?> parent, View v, int position, long id) -> {
             String selected = values[position];
             if (selected.equals("Logout")) {
+                FirebaseAuth.getInstance().signOut();
                 MySharedPreferences.clearSharedPreferences(getActivity());
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

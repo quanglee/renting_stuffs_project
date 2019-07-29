@@ -49,6 +49,9 @@ public class UserViewModel extends ViewModel {
     }
 
     public LiveData<NetworkResource<User>> get(Auth auth) {
+        // TODO: there are two options
+        // 1. If token expired, clear all share preference
+
         Call<User> userCall = api.getUser(auth.getAccessToken());
         userCall.enqueue(new Callback<User>() {
             @Override

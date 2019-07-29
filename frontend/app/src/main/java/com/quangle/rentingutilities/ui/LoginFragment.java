@@ -54,9 +54,10 @@ public class LoginFragment extends BaseFragment {
                 authViewModel.login(hashMap).observe(this, authNetworkResource -> {
                         hideProgressBar();
                         btnSubmit.setEnabled(true);
-                        if (authNetworkResource.code == 401)
+
+                        if (authNetworkResource.code == 401) {
                             tiEmail.setError(getResources().getText(R.string.errorLogin));
-                        else if (authNetworkResource.data != null) {
+                        } else if (authNetworkResource.data != null) {
                             authNetworkResource.data.toSharedPreferences(getActivity());
                             Intent intent = new Intent(getActivity(), HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

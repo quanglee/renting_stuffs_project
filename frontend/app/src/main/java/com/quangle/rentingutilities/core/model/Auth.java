@@ -12,8 +12,8 @@ public class Auth implements Serializable {
 
     @SerializedName("access_token")
     private String accessToken;
-    @SerializedName("refresh_token")
-    private String refreshToken;
+//    @SerializedName("refresh_token")
+//    private String refreshToken;
     @SerializedName("user")
     private User user;
 
@@ -22,15 +22,19 @@ public class Auth implements Serializable {
 
     public Auth() {}
 
-    public Auth(String accessToken, String refreshToken) {
+//    public Auth(String accessToken, String refreshToken) {
+//        this.accessToken = accessToken;
+//        this.refreshToken = refreshToken;
+//    }
+
+    public Auth(String accessToken) {
         this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
     }
 
     public void toSharedPreferences(Context c) {
         SharedPreferences.Editor editor = MySharedPreferences.getSharedPrerencesEditor(c);
         editor.putString(SH_ACCESS_TOKEN, accessToken);
-        editor.putString(SH_REFRESH_TOKEN, refreshToken);
+        //editor.putString(SH_REFRESH_TOKEN, refreshToken);
         editor.commit();
 
     }
@@ -43,13 +47,13 @@ public class Auth implements Serializable {
         this.accessToken = accessToken;
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
+//    public String getRefreshToken() {
+//        return refreshToken;
+//    }
+//
+//    public void setRefreshToken(String refreshToken) {
+//        this.refreshToken = refreshToken;
+//    }
 
     public User getUser() {
         return user;

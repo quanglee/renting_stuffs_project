@@ -2,12 +2,14 @@ package com.quangle.rentingutilities.viewmodel;
 
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.networking.Api;
 import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.networking.RetrofitService;
+import com.quangle.rentingutilities.ui.HomeActivity;
 
 import org.json.JSONArray;
 
@@ -32,10 +34,15 @@ public class ItemViewModel extends ViewModel {
     MutableLiveData<List<Item>> mUserWishList = new MutableLiveData<>();//wishlist of logged in user
     MutableLiveData<List<Booking>> mUserBookings = new MutableLiveData<>();//bookings of logged in user
     Api api;
+    private FirebaseAuth firebaseAuth;
 
     public ItemViewModel() {
         if (api == null) {
             api = RetrofitService.get();
+        }
+
+        if (firebaseAuth ==null) {
+            firebaseAuth = FirebaseAuth.getInstance();
         }
     }
 
@@ -51,6 +58,9 @@ public class ItemViewModel extends ViewModel {
             public void onFailure(Call<List<Item>> call, Throwable t) {
                 System.out.println("ON FAILURE");
                 System.out.println(t.getCause());
+
+                // get token
+
             }
         });
 
@@ -58,45 +68,53 @@ public class ItemViewModel extends ViewModel {
     }
 
     public LiveData<List<Item>> getAllItemsOfUser(Auth auth) {
-        Call<List<Item>> itemCall = api.getAllItemsOfUser(auth.getAccessToken());
-        itemCall.enqueue(new Callback<List<Item>>() {
-            @Override
-            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                if (response.isSuccessful()) {
-                    mUserItems.setValue(response.body());
-                } else {
-                    // TODO: Token Expired, Display message Redirect to LOGIN activity
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            // firebase will refresh this access token if it is expired.
+            // TODO: I don't think we need to store access token let Firebase handle it for us.
+            // TODO: I think we just make it simple for this authentication. Because we spend so much time for this
+            // call api with new access token if any
+            Call<List<Item>> itemCall = api.getAllItemsOfUser(getTokenResult.getToken());
+            itemCall.enqueue(new Callback<List<Item>>() {
+                @Override
+                public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                    if (response.isSuccessful()) {
+                        mUserItems.setValue(response.body());
+                    } else {
+                        System.out.println("DFdfd");
+                    }
                 }
 
-            }
-
-            @Override
-            public void onFailure(Call<List<Item>> call, Throwable t) {
-                System.out.println("ON FAILURE");
-                System.out.println(t.getCause());
-            }
+                @Override
+                public void onFailure(Call<List<Item>> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getCause());
+                }
+            });
         });
 
         return mUserItems;
     }
 
     public LiveData<List<Item>> getWishlistOfUser(Auth auth) {
-        Call<List<Item>> itemCall = api.getWishlistOfUser(auth.getAccessToken());
-        itemCall.enqueue(new Callback<List<Item>>() {
-            @Override
-            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                if (response.isSuccessful()) {
-                    mUserWishList.setValue(response.body());
-                } else {
-                    // TODO: Token Expired, Display message Redirect to LOGIN activity
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<Item>> call, Throwable t) {
-                System.out.println("ON FAILURE");
-                System.out.println(t.getCause());
-            }
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Call<List<Item>> itemCall = api.getWishlistOfUser(getTokenResult.getToken());
+            itemCall.enqueue(new Callback<List<Item>>() {
+                @Override
+                public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                    if (response.isSuccessful()) {
+                        mUserWishList.setValue(response.body());
+                    } else {
+                        // TODO: Token Expired, Display message Redirect to LOGIN activity
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Item>> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getCause());
+                }
+            });
         });
 
         return mUserWishList;

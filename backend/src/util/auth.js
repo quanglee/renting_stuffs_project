@@ -32,6 +32,7 @@ const isAuthenticated = (req, res, next) => {
   // }
   admin.auth().verifyIdToken(token)
   .then(decodedToken => {
+    console.log(decodedToken);
     let uid = decodedToken.uid;
     req.user = {"email" : decodedToken.email};
     console.log("util/auth.js:");
