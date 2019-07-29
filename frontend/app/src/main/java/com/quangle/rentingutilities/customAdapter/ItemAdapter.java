@@ -61,8 +61,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 listener.onClick(current);
             });
 
-            Picasso.get().load(current.getImageURL()).resize(250, 450)
-                    .centerCrop().into(holder.itemImageView);
+            Picasso.get().load(current.getImageURL()).resize(1000, 500).onlyScaleDown()
+                    .into(holder.itemImageView);
         }
     }
 

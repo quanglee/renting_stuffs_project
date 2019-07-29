@@ -108,7 +108,7 @@ public class ItemDetailFragment extends BaseFragment {
 
         ratingBar.setRating((float) item.getAverageRating());
         if (!item.getImageURL().equals(""))
-            Picasso.get().load(item.getImageURL()).resize(250, 450).centerCrop().placeholder(R.mipmap.ic_launcher).into(imageView);
+            Picasso.get().load(item.getImageURL()).resize(1000, 500).onlyScaleDown().placeholder(R.mipmap.ic_launcher).into(imageView);
         etName.setText(item.getName());
         etDescription.setText(item.getDescription());
         etPrice.setText(Double.toString(item.getPrice()));
