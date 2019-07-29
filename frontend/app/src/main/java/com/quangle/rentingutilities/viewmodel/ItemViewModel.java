@@ -174,22 +174,24 @@ public class ItemViewModel extends ViewModel {
     }
 
     public LiveData<NetworkResource<Item>> createItem(Auth auth, MultipartBody.Part filePart, HashMap<String, RequestBody> params) {
-        Api api = RetrofitService.get();
-        Call<Item> itemCall = api.createItem(auth.getAccessToken(), filePart, params);
-        itemCall.enqueue(new Callback<Item>() {
-            @Override
-            public void onResponse(Call<Item> call, Response<Item> response) {
-                if (response.isSuccessful())
-                    networkResourceItemMutableLiveData.setValue(new NetworkResource<>(response.body()));
-                else
-                    networkResourceItemMutableLiveData.setValue(new NetworkResource<>(response.code()));
-            }
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Api api = RetrofitService.get();
+            Call<Item> itemCall = api.createItem(getTokenResult.getToken(), filePart, params);
+            itemCall.enqueue(new Callback<Item>() {
+                @Override
+                public void onResponse(Call<Item> call, Response<Item> response) {
+                    if (response.isSuccessful())
+                        networkResourceItemMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    else
+                        networkResourceItemMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                }
 
-            @Override
-            public void onFailure(Call<Item> call, Throwable t) {
-                System.out.println("ON FAILURE");
-                System.out.println(t.getStackTrace());
-            }
+                @Override
+                public void onFailure(Call<Item> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getStackTrace());
+                }
+            });
         });
 
         return networkResourceItemMutableLiveData;

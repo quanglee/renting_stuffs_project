@@ -186,6 +186,9 @@ public class ItemDetailFragment extends BaseFragment {
                 hashMap.put("category", MulitPartFormHelper.createRequestBody(etCategory.getText().toString()));
                 hashMap.put("price", MulitPartFormHelper.createRequestBody(etPrice.getText().toString()));
                 hashMap.put("tags", MulitPartFormHelper.createRequestBody(etTags.getText().toString()));
+                // TODO: I set default lat and lng otherwise your add item in backend doesnt work.
+                hashMap.put("lat", MulitPartFormHelper.createRequestBody("49.2272025"));
+                hashMap.put("lng", MulitPartFormHelper.createRequestBody("-122.89842659999998"));
                 MultipartBody.Part filePart = null;
                 if (imageAbsolutePath != null) {
                     file = new File(imageAbsolutePath);
