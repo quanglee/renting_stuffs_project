@@ -5,7 +5,7 @@ const bookingController = require('../controllers/bookings');
 // ALL ROUTES OF WISHLIST
 // prefix: /bookings
 
-routers.get('/:userId', isAuth, bookingController.getAllBookingOfUser);
+routers.get('/', isAuth, bookingController.getAllBookingOfUser);
 routers.get('/requests/:userId', isAuth, bookingController.getAllRequestOfUser);
 
 module.exports = routers;

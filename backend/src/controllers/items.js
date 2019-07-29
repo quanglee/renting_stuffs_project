@@ -20,6 +20,10 @@ exports.getAllItems = (req, res, next) => {
 exports.getItemDetail = (req, res, next) => {
     Item.findByItemId(req.params.item_id)
         .then(([rows, fields]) => {
+            rows.forEach((currentValue, index, array) => {
+              Utils.toBoolean(currentValue, 'isActive');
+              array[index] = currentValue;
+            });
             res.status(200).json(rows[0]);
         }).catch(err => {
             console.log(err);

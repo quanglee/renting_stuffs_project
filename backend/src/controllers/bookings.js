@@ -3,11 +3,18 @@ const Booking = require('../models/booking');
 
 exports.getAllBookingOfUser = (req, res, next) => {
     console.log("get all bookings that user were made from mysql and return JSON file");
+    if (req.user == null) {
+        res.status(400).json({
+          message: "The user should be provided, add the callback to the router to check if the user is logged"
+        });
+        return;
+      }
+
     // we use promise which is nicer than callback
-    Booking.findAllBookingOfUser(req.params.userId)
+    console.log(req.user.email);
+
+    Booking.findAllBookingOfUser(req.user.email)
         .then(([rows, fields]) => {
-            // let bookingJSON = JSON.stringify(rows);
-            // console.log(JSON.parse(bookingJSON));
             res.status(200).json(rows)
         }).catch(err => {
             console.log(err);

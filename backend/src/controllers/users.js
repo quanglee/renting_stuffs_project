@@ -1,6 +1,8 @@
 // place the users logic here
 const User = require('../models/user');
 const Item = require('../models/item');
+const Booking = require('../models/booking');
+
 const { firebaseAdmin } = require('../util/firebase');
 const Utils = require('../util/utils');
 
@@ -65,7 +67,7 @@ exports.getAllItemsOfUser = (req, res, next) => {
     return;
   }
   // we use promise which is nicer than callback
-  Item.findWishlistOfUser(req.user.email)
+  Item.findAllItemsOfUser(req.user.email)
     .then(([rows, fields]) => {
       rows.forEach((currentValue, index, array) => {
         Utils.toBoolean(currentValue, 'isActive');
@@ -102,8 +104,9 @@ exports.getWishlistOfUser = (req, res, next) => {
     });
     return;
   }
+
   // we use promise which is nicer than callback
-  Item.findAllItemsOfUser(req.user.email)
+  Item.findWishlistOfUser(req.user.email)
     .then(([rows, fields]) => {
       rows.forEach((currentValue, index, array) => {
         Utils.toBoolean(currentValue, 'isActive');
@@ -113,4 +116,36 @@ exports.getWishlistOfUser = (req, res, next) => {
     }).catch(err => {
         console.log(err);
     });
+};
+
+exports.getBookingsOfUser = (req, res, next) => {
+  if (req.user == null) {
+    res.status(400).json({
+      message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+  }
+
+  Booking.findAllBookingOfUser(req.user.email)
+  .then(([rows, fields]) => {
+      rows.forEach((currentValue, index, array) => {
+            Utils.toBoolean(currentValue, 'isActive');
+            array[index] = currentValue;
+          });
+      res.status(200).json(rows)
+  }).catch(err => {
+      console.log(err);
+  });
+
+  // we use promise which is nicer than callback
+  // Item.findWishlistOfUser(req.user.email)
+  //   .then(([rows, fields]) => {
+  //     rows.forEach((currentValue, index, array) => {
+  //       Utils.toBoolean(currentValue, 'isActive');
+  //       array[index] = currentValue;
+  //     });
+  //     res.status(200).json(rows);
+  //   }).catch(err => {
+  //       console.log(err);
+  //   });
 };

@@ -121,21 +121,22 @@ public class ItemViewModel extends ViewModel {
     }
 
     public LiveData<List<Booking>> getUserBookings(Auth auth) {
-        Call<List<Booking>> bookingCall = api.getBookingsOfUser(auth.getAccessToken(), auth.getUser().getEmail());
-        bookingCall.enqueue(new Callback<List<Booking>>() {
-            @Override
-            public void onResponse(Call<List<Booking>> call, Response<List<Booking>> response) {
-//                mUserBookings.setValue(response.body());
-                getBookingsWithItemDetail(auth.getAccessToken(), response.body());
-            }
 
-            @Override
-            public void onFailure(Call<List<Booking>> call, Throwable t) {
-                System.out.println("ON FAILURE");
-                System.out.println(t.getCause());
-            }
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Call<List<Booking>> bookingCall = api.getBookingsOfUser(getTokenResult.getToken());
+            bookingCall.enqueue(new Callback<List<Booking>>() {
+                @Override
+                public void onResponse(Call<List<Booking>> call, Response<List<Booking>> response) {
+                    getBookingsWithItemDetail(getTokenResult.getToken(), response.body());
+                }
+
+                @Override
+                public void onFailure(Call<List<Booking>> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getCause());
+                }
+            });
         });
-
 
         return mUserBookings;
     }
@@ -168,10 +169,7 @@ public class ItemViewModel extends ViewModel {
                 }
             });
             System.out.println("HERE " + String.valueOf(b.getItemId()));
-//            tempBookings.add(temp);
         }
-
-
 
     }
 

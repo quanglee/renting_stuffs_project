@@ -10,5 +10,6 @@ router.get('/items', isAuth, usersController.getAllItemsOfUser);
 router.post('/create', usersController.create);
 router.post('/edit', isAuth, usersController.edit);
 router.get('/wishlist', isAuth, usersController.getWishlistOfUser);
+router.get('/bookings', isAuth, usersController.getBookingsOfUser);
 
 module.exports = router;
