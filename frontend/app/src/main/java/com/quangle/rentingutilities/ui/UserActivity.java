@@ -89,7 +89,7 @@ public class UserActivity extends BaseActivity {
            tiPassword.setVisibility(View.GONE);
            etEmail.setEnabled(false);
 
-           userViewModel.get(auth).observe(this, userNetworkResource -> {
+           userViewModel.get().observe(this, userNetworkResource -> {
                hideProgressBar();
                if (userNetworkResource.data != null) {
                    user = userNetworkResource.data;
@@ -119,7 +119,7 @@ public class UserActivity extends BaseActivity {
         if (auth == null)
             networkResourceLiveData = userViewModel.create(user.toHashMap());
         else
-            networkResourceLiveData = userViewModel.edit(auth, user.toHashMap());
+            networkResourceLiveData = userViewModel.edit(user.toHashMap());
         networkResourceLiveData.observe(this, userNetworkResource -> {
             if (userNetworkResource.code == 409) {
                 hideProgressBar();

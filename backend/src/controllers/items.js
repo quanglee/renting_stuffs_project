@@ -31,6 +31,7 @@ exports.getItemDetail = (req, res, next) => {
 };
 
 exports.createItem = (req, res, next) => {
+  console.log("Create item");
   if (!req.file) {
     console.log(req.files);
     res.status(422).json({
@@ -43,31 +44,37 @@ exports.createItem = (req, res, next) => {
     });
     return;
   }
-  console.log("Create item");
-  const lat = req.body.lat == null ? req.user.lat : req.body.lat;
-  const lng = req.body.lng == null ? req.user.lng : req.body.lng;
 
-  itemImageURL = UPLOAD_IMAGE_FOLDER + req.file.filename;
-  const item = {
-      ownerId: req.user.email,
-      name: req.body.name,
-      description: req.body.description,
-      condition: req.body.condition,
-      category: req.body.category,
-      imageURLs: itemImageURL,
-      tags: req.body.tags,
-      lat: lat,
-      lng: lng,
-      price: req.body.price
-  };
-  Item.addItem(item).then(([rows, fields]) => {
-      res.status(201).json(item)
+  req.body.ownerId = req.user.email;
+  req.body.imageURLs = UPLOAD_IMAGE_FOLDER + req.file.filename;
+  req.body.lat = req.body.lat == null ? req.user.lat : req.body.lat;
+  req.body.lng = req.body.lng == null ? req.user.lng : req.body.lng;
+
+  Item.addItem(req.body).then(([rows, fields]) => {
+    req.body.id = rows.insertId;
+    res.status(201).json(req.body);
   }).catch(err => {
-      console.log(err);
+    console.log(err);
   });
 };
 
-exports.editItem= (req, res, next) => {
+exports.editItem = (req, res, next) => {
+  console.log("Edit item");
+  if (req.user == null) {
+    res.status(400).json({
+      message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+  }
+
+  if (req.file != null) 
+    req.body.imageURLs = UPLOAD_IMAGE_FOLDER + req.file.filename;
+
+  Item.editItem(req.body).then(([rows, fields]) => {
+    res.status(200).json(req.body);
+  }).catch(err => {
+    console.log(err);
+  });
 };
 
 exports.deleteItem= (req, res, next) => {

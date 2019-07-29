@@ -24,14 +24,12 @@ import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.utils.Helper;
-import com.quangle.rentingutilities.utils.MulitPartFormHelper;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
 import com.quangle.rentingutilities.utils.Validation;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.util.HashMap;
 
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
@@ -52,14 +50,8 @@ public class ItemDetailFragment extends BaseFragment {
     private String imageAbsolutePath = null;
     private Auth auth;
     private File file;
-
-    public static ItemDetailFragment newInstance(Item item) {
-        ItemDetailFragment fragment = new ItemDetailFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_ITEM, item);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private RatingBar ratingBar;
+    private EditText etName, etDescription, etPrice, etCategory, etCondition, etTags;
 
     public static ItemDetailFragment newInstance(Item item, boolean canEdit) {
         ItemDetailFragment fragment = new ItemDetailFragment();
@@ -86,35 +78,27 @@ public class ItemDetailFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_item_detail, container, false);
 
         Validation validation = new Validation(getActivity());
-        RatingBar ratingBar = view.findViewById(R.id.ratingBar);
+        ratingBar = view.findViewById(R.id.ratingBar);
         imageView = view.findViewById(R.id.imageView);
         TextInputLayout tiName = view.findViewById(R.id.tiName);
-        EditText etName = view.findViewById(R.id.etName);
+        etName = view.findViewById(R.id.etName);
         TextInputLayout tiDescription = view.findViewById(R.id.tiDescription);
-        EditText etDescription = view.findViewById(R.id.etDescription);
+        etDescription = view.findViewById(R.id.etDescription);
         TextInputLayout tiPrice = view.findViewById(R.id.tiPrice);
-        EditText etPrice = view.findViewById(R.id.etPrice);
+        etPrice = view.findViewById(R.id.etPrice);
         TextInputLayout tiCategory = view.findViewById(R.id.tiCategory);
-        EditText etCategory = view.findViewById(R.id.etCategory);
+        etCategory = view.findViewById(R.id.etCategory);
         TextInputLayout tiCondition = view.findViewById(R.id.tiCondition);
-        EditText etCondition = view.findViewById(R.id.etCondition);
+        etCondition = view.findViewById(R.id.etCondition);
         TextInputLayout tiTags = view.findViewById(R.id.tiTags);
-        EditText etTags = view.findViewById(R.id.etTags);
+        etTags = view.findViewById(R.id.etTags);
         Button btnBook = view.findViewById(R.id.btnBook);
         Button btnSubmit = view.findViewById(R.id.btnSubmit);
         Button btnSetImage = view.findViewById(R.id.btnSetImage);
         ItemViewModel itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
         auth = MySharedPreferences.getAuth(getActivity());
 
-        ratingBar.setRating((float) item.getAverageRating());
-        if (!item.getImageURL().equals(""))
-            Picasso.get().load(item.getImageURL()).resize(1000, 500).onlyScaleDown().placeholder(R.mipmap.ic_launcher).into(imageView);
-        etName.setText(item.getName());
-        etDescription.setText(item.getDescription());
-        etPrice.setText(Double.toString(item.getPrice()));
-        etCategory.setText(item.getCategory());
-        etCondition.setText(item.getCondition());
-        etTags.setText(item.getTags());
+        setFields();
 
         if (!canEdit) {
             etName.setEnabled(false);
@@ -167,6 +151,7 @@ public class ItemDetailFragment extends BaseFragment {
         });
 
         btnSubmit.setOnClickListener(v -> {
+            Helper.hideKeyboard(getContext(), getView());
             boolean isNameValid = validation.required(tiName, etName.getText().toString());
             boolean isDescriptionValid = validation.required(tiDescription, etDescription.getText().toString());
             boolean isPriceValid = validation.required(tiPrice, etPrice.getText().toString());
@@ -180,16 +165,7 @@ public class ItemDetailFragment extends BaseFragment {
                 btnSubmit.setEnabled(false);
                 showProgressBar();
 
-                HashMap<String, RequestBody> hashMap = new HashMap<>();
-                hashMap.put("name", MulitPartFormHelper.createRequestBody(etName.getText().toString()));
-                hashMap.put("description", MulitPartFormHelper.createRequestBody(etDescription.getText().toString()));
-                hashMap.put("condition", MulitPartFormHelper.createRequestBody(etCondition.getText().toString()));
-                hashMap.put("category", MulitPartFormHelper.createRequestBody(etCategory.getText().toString()));
-                hashMap.put("price", MulitPartFormHelper.createRequestBody(etPrice.getText().toString()));
-                hashMap.put("tags", MulitPartFormHelper.createRequestBody(etTags.getText().toString()));
-                // TODO: I set default lat and lng otherwise your add item in backend doesnt work.
-                //hashMap.put("lat", MulitPartFormHelper.createRequestBody("49.2272025"));
-                //hashMap.put("lng", MulitPartFormHelper.createRequestBody("-122.89842659999998"));
+                setItem();
                 MultipartBody.Part filePart = null;
                 if (imageAbsolutePath != null) {
                     file = new File(imageAbsolutePath);
@@ -201,15 +177,24 @@ public class ItemDetailFragment extends BaseFragment {
 
                 LiveData<NetworkResource<Item>> networkResourceLiveData;
                 if (item.getId() == -1)
-                    networkResourceLiveData = itemViewModel.createItem(auth, filePart, hashMap);
+                    networkResourceLiveData = itemViewModel.createItem(filePart, item.toHashMap());
                 else
-                    networkResourceLiveData = null;
+                    networkResourceLiveData = itemViewModel.editItem(filePart, Integer.toString(item.getId()), item.toHashMap());
                 //    networkResourceLiveData = userViewModel.edit(auth, user.toHashMap());
                 networkResourceLiveData.observe(this, itemNetworkResource -> {
                    btnSubmit.setEnabled(true);
                    hideProgressBar();
                    if (itemNetworkResource.data != null) {
-                       getActivity().finish();
+                       if (item.getId() == -1) {
+                           ((ItemActivity) getActivity()).updateViews = true;
+                           getActivity().onBackPressed();
+                       }
+                       else {
+                          Toast.makeText(getActivity(), "Item successfully edited", Toast.LENGTH_SHORT).show();
+                          item = itemNetworkResource.data;
+                          setFields();
+                          ((ItemActivity) getActivity()).updateViews = true;
+                       }
                    }
                 });
             }
@@ -251,4 +236,26 @@ public class ItemDetailFragment extends BaseFragment {
             return;
         }
     }
+
+    public void setFields() {
+        ratingBar.setRating((float) item.getAverageRating());
+        if (!item.getImageURL().equals(""))
+            Picasso.get().load(item.getImageURL()).resize(1000, 500).onlyScaleDown().placeholder(R.mipmap.ic_launcher).into(imageView);
+        etName.setText(item.getName());
+        etDescription.setText(item.getDescription());
+        etPrice.setText(Double.toString(item.getPrice()));
+        etCategory.setText(item.getCategory());
+        etCondition.setText(item.getCondition());
+        etTags.setText(item.getTags());
+    }
+
+    public void setItem() {
+        item.setName(etName.getText().toString());
+        item.setDescription(etDescription.getText().toString());
+        item.setCondition(etCondition.getText().toString());
+        item.setCategory(etCategory.getText().toString());
+        item.setPrice(Double.parseDouble(etPrice.getText().toString()));
+        item.setTags(etTags.getText().toString());
+    }
+
 }
