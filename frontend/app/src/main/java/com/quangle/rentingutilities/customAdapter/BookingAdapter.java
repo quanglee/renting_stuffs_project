@@ -24,6 +24,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemView
         private final TextView itemDescView;
         private final ImageView itemImageView;
         private final TextView itemPriceView;
+        private final TextView itemStatusView;
+
 
         private ItemViewHolder(View itemView) {
             super(itemView);
@@ -31,6 +33,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemView
             itemDescView = itemView.findViewById(R.id.txtDesc);
             itemPriceView = itemView.findViewById(R.id.txtPrice);
             itemImageView = itemView.findViewById(R.id.itemImage);
+            itemStatusView = itemView.findViewById(R.id.txtStatus);
+
         }
     }
 
@@ -66,6 +70,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemView
             holder.itemNameView.setText(current.getItem().getName());
             holder.itemDescView.setText(current.getItem().getDescription());
             holder.itemPriceView.setText("$" + String.valueOf(current.getItem().getPrice()));
+            holder.itemStatusView.setText(current.getStatus());
             Picasso.get().load(current.getItem().getImageURL()).resize(250, 450)
                     .centerCrop().into(holder.itemImageView);
         }

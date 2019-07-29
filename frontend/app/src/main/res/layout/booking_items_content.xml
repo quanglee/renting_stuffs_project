@@ -39,7 +39,8 @@
                     android:layout_height="wrap_content"
                     android:padding="1dp"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
                 <TextView
                     android:id="@+id/txtDesc"
                     android:layout_width="match_parent"
@@ -58,18 +59,20 @@
                         android:layout_height="wrap_content"
                         android:padding="1dp"
                         android:textColor="@color/colorAccentDark"
-                        android:textSize="16dp"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
                         tools:text="$10" />
 
                     <TextView
                         android:id="@+id/txtStatus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="end"
                         android:padding="1dp"
                         android:text="pending"
-                        android:textColor="@color/colorAccentDark"
-                        android:gravity="end"
-                        android:textSize="16dp" />
+                        android:textColor="@color/green"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
 
