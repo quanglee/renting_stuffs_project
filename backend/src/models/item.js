@@ -26,6 +26,16 @@ module.exports = class Items {
         );
     }
 
+    static editItem(params) {
+      return db.execute(
+        `UPDATE items SET ownerId = ?, name = ?, description = ?, \`condition\` = ?, category = ?, imageURLs = ?, tags = ?, lat = ?, lng = ?, price = ? 
+        WHERE id = ?`,
+        [
+          params.ownerId, params.name, params.description, params.condition, params.category,
+          params.imageURLs, params.tags, params.lat, params.lng, params.price, params.id
+        ]);
+    }
+
     static findAllItemsOfUser(userId){
         return db.execute(
             `SELECT * FROM items i 

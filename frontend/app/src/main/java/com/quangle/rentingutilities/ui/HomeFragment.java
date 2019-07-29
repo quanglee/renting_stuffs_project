@@ -8,19 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.quangle.rentingutilities.R;
-import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.customAdapter.ItemAdapter;
-import com.quangle.rentingutilities.utils.MySharedPreferences;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeFragment extends BaseFragment {

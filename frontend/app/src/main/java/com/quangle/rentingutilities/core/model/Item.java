@@ -3,10 +3,14 @@ package com.quangle.rentingutilities.core.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.quangle.rentingutilities.networking.RetrofitService;
+import com.quangle.rentingutilities.utils.MulitPartFormHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import okhttp3.RequestBody;
 
 public class Item implements Serializable {
 
@@ -129,6 +133,28 @@ public class Item implements Serializable {
         lat = 0;
         lng = 0;
         isActive = true;
+    }
+
+    public HashMap<String, RequestBody> toHashMap() {
+        HashMap<String, RequestBody> hashMap = new HashMap<>();
+        hashMap.put("ownerId", MulitPartFormHelper.createRequestBody(ownerId));
+        hashMap.put("id", MulitPartFormHelper.createRequestBody(id));
+        hashMap.put("name", MulitPartFormHelper.createRequestBody(name));
+        hashMap.put("description", MulitPartFormHelper.createRequestBody(description));
+        hashMap.put("condition", MulitPartFormHelper.createRequestBody(condition));
+        hashMap.put("category", MulitPartFormHelper.createRequestBody(category));
+        hashMap.put("price", MulitPartFormHelper.createRequestBody(price));
+        hashMap.put("tags", MulitPartFormHelper.createRequestBody(tags));
+
+        if (lat != 0 && lng != 0) {
+            hashMap.put("lat", MulitPartFormHelper.createRequestBody(lat));
+            hashMap.put("lng", MulitPartFormHelper.createRequestBody(lng));
+        }
+
+        if (!imageURL.equals(""))
+            hashMap.put("imageURLs", MulitPartFormHelper.createRequestBody(imageURL));
+
+        return hashMap;
     }
 
     public int getId() {

@@ -1,5 +1,6 @@
 package com.quangle.rentingutilities.viewmodel;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.User;
 import com.quangle.rentingutilities.networking.Api;
@@ -19,10 +20,14 @@ public class UserViewModel extends ViewModel {
 
     MutableLiveData<NetworkResource<User>> networkResourceUserMutableLiveData = new MutableLiveData<>();
     Api api;
+    private FirebaseAuth firebaseAuth;
 
     public UserViewModel() {
         if (api == null) {
             api = RetrofitService.get();
+        }
+        if (firebaseAuth == null) {
+            firebaseAuth = FirebaseAuth.getInstance();
         }
     }
 
@@ -48,46 +53,47 @@ public class UserViewModel extends ViewModel {
         return networkResourceUserMutableLiveData;
     }
 
-    public LiveData<NetworkResource<User>> get(Auth auth) {
-        // TODO: there are two options
-        // 1. If token expired, clear all share preference
+    public LiveData<NetworkResource<User>> get() {
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Call<User> userCall = api.getUser(getTokenResult.getToken());
+            userCall.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.isSuccessful())
+                        networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    else
+                        networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                }
 
-        Call<User> userCall = api.getUser(auth.getAccessToken());
-        userCall.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful())
-                    networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.body()));
-                else
-                    networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.code()));
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                System.out.println("ON FAILURE");
-                System.out.println(t.getCause());
-            }
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getCause());
+                }
+            });
         });
 
         return networkResourceUserMutableLiveData;
     }
 
-    public LiveData<NetworkResource<User>> edit(Auth auth, HashMap<String, Object> params) {
-        Call<User> userCall = api.editUser(auth.getAccessToken(), params);
-        userCall.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful())
-                    networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.body()));
-                else
-                    networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.code()));
-            }
+    public LiveData<NetworkResource<User>> edit(HashMap<String, Object> params) {
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Call<User> userCall = api.editUser(getTokenResult.getToken(), params);
+            userCall.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.isSuccessful())
+                        networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    else
+                        networkResourceUserMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                }
 
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                System.out.println("ON FAILURE");
-                System.out.println(t.getCause());
-            }
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getCause());
+                }
+            });
         });
 
         return networkResourceUserMutableLiveData;
