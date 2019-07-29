@@ -182,7 +182,7 @@ public class Item implements Serializable {
     public String getImageURL() {
         if (imageURL.equals(""))
             return "";
-        else if (imageURL.contains("https"))
+        else if (imageURL.startsWith("https"))
             return imageURL;
         else
             return RetrofitService.BASE_URL + imageURL.substring(1);
