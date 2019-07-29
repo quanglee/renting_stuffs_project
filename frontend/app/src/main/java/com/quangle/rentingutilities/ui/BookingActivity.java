@@ -1,14 +1,27 @@
 package com.quangle.rentingutilities.ui;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
 
 import androidx.fragment.app.Fragment;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+
+import okhttp3.RequestBody;
 
 public class BookingActivity extends BaseActivity {
 
@@ -41,7 +54,7 @@ public class BookingActivity extends BaseActivity {
                 item = (Item) intent.getSerializableExtra(ARG_ITEM);
                 setTitleActionBar("PROCESS BOOKING");
                 System.out.println("Place your process booking fragment here");
-                fragmentDisplay = new BookingDetailFragment();
+                fragmentDisplay = new ProcessBookingFragment();
                 break;
             case "bookingDetail":
                 booking = (Booking) intent.getSerializableExtra(ARG_BOOKING);
@@ -55,4 +68,5 @@ public class BookingActivity extends BaseActivity {
                 .replace(R.id.fragmentDisplay, fragmentDisplay)
                 .commit();
     }
+
 }

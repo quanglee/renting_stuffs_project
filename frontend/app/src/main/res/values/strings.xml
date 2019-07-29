@@ -40,6 +40,12 @@
     <string name="tags">Tags</string>
     <string name="book">Book</string>
 
+    <!-- Booking -->
+    <string name="startDateTime">When you want to get?</string>
+    <string name="returnDateTime">When you want to return?</string>
+    <string name="pickDate">Pick</string>
+
+
     <!-- Validation -->
     <string name="someErrors">There are some errors</string>
     <string name="required">This field is required</string>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ProcessBookingFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiStartDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/AppTheme.HintText"
+            app:layout_constraintEnd_toStartOf="@+id/btnStartDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etStartDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawableStart="@drawable/baseline_notes_black_48px"
+                android:drawableLeft="@drawable/baseline_notes_black_48px"
+                android:drawableTint="@color/colorAccent"
+                android:ems="10"
+                android:hint="@string/startDateTime"
+                android:inputType="text"
+                android:theme="@style/AppTheme.EditText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include"
+                tools:ignore="AutoFill"
+                tools:targetApi="m" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/pickDate"
+            android:theme="@style/AppTheme.Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tiStartDate" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiReturnDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/AppTheme.HintText"
+            app:layout_constraintEnd_toStartOf="@+id/btnReturnDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tiStartDate">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etStartTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/baseline_notes_black_48px"
+                android:drawableLeft="@drawable/baseline_notes_black_48px"
+                android:drawableTint="@color/colorAccent"
+                android:ems="10"
+                android:hint="@string/returnDateTime"
+                android:inputType="text"
+                android:theme="@style/AppTheme.EditText"
+                tools:ignore="AutoFill"
+                tools:targetApi="m" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/btnReturnDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/pickDate"
+            android:theme="@style/AppTheme.Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tiReturnDate" />
+
+
+        <Button
+            android:id="@+id/btnProcessBooking"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/book"
+            android:theme="@style/AppTheme.Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnReturnDate" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

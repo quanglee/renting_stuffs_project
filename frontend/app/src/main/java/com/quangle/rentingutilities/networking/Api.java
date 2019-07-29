@@ -61,4 +61,9 @@ public interface Api {
     @Multipart
     @POST("items/add")
     Call<Item> createItem(@Header("Authorization") String auth, @Part MultipartBody.Part file, @PartMap() HashMap<String, RequestBody> params);
+
+    //Bookings
+    //create a booking
+    @POST("bookings/create")
+    Call<User> createBooking(@Body HashMap<String, Object> params);
 }

@@ -7,5 +7,6 @@ const bookingController = require('../controllers/bookings');
 
 routers.get('/', isAuth, bookingController.getAllBookingOfUser);
 routers.get('/requests/:userId', isAuth, bookingController.getAllRequestOfUser);
+routers.post('/create', isAuth, bookingController.createBooking);
 
 module.exports = routers;

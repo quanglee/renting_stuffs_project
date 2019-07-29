@@ -14,9 +14,36 @@ module.exports = class Booking {
         `);
     }
 
+    static findPendingBookingOfItem(itemId){
+        return db.execute(`
+        SELECT b.*
+        FROM bookings b 
+        WHERE b.itemId = ${itemId} AND b.status = 'pending';
+        `);
+    }
+
+    static findAllAcceptedBookingOfItem(itemId){
+        return db.execute(`
+        SELECT b.*
+        FROM bookings b 
+        WHERE b.itemId = ${itemId} AND b.status = 'Accepted';
+        `);
+    }
+
     //get all itemIds of user, then get all bookings that have itemIds
     static findAllRequestOfUser(userId) {
         return db.execute(`SELECT * FROM bookings WHERE itemId IN (SELECT id FROM items WHERE ownerId = '${userId}');`);
+    }
+
+    //add a booking
+    static addBooking(params){
+
+        return db.execute(
+            'INSERT INTO bookings (itemId, borrowerId, status, startDate, returnDate) VALUES (?, ?, ?, ?, ?)',
+            [
+                params.itemId, params.borrowerId, params.status, params.startDate, params.returnDate
+            ]
+        );
     }
     
 }

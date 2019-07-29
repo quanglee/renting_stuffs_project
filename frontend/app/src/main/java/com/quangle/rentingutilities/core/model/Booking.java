@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Booking implements Serializable {
 
@@ -51,8 +52,18 @@ public class Booking implements Serializable {
     //constructor
     public Booking() {}
 
-    //getter & setter
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("itemId", itemId);
+        hashMap.put("borrowerId", borrowerId);
+        hashMap.put("status", status);
+        hashMap.put("startDate", startDate);
+        hashMap.put("returnDate", returnDate);
 
+        return hashMap;
+    }
+
+    //getter & setter
 
     public int getId() {
         return id;
