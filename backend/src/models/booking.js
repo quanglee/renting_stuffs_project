@@ -45,6 +45,17 @@ module.exports = class Booking {
             ]
         );
     }
+
+    //delete a booking
+    static deleteBooking(params){
+
+        return db.execute(
+            'DELETE FROM bookings WHERE id = ?;',
+            [
+                params.id
+            ]
+        );
+    }
     
 }
 
