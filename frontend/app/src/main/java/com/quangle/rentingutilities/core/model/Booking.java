@@ -3,6 +3,7 @@ package com.quangle.rentingutilities.core.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -53,12 +54,14 @@ public class Booking implements Serializable {
     public Booking() {}
 
     public HashMap<String, Object> toHashMap() {
+        SimpleDateFormat saveDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("itemId", itemId);
         hashMap.put("borrowerId", borrowerId);
         hashMap.put("status", status);
-        hashMap.put("startDate", startDate);
-        hashMap.put("returnDate", returnDate);
+        hashMap.put("startDate", saveDateFormat.format(startDate));
+        hashMap.put("returnDate", saveDateFormat.format(returnDate));
 
         return hashMap;
     }

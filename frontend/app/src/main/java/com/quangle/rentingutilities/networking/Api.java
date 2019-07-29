@@ -65,5 +65,5 @@ public interface Api {
     //Bookings
     //create a booking
     @POST("bookings/create")
-    Call<User> createBooking(@Body HashMap<String, Object> params);
+    Call<Booking> createBooking(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
 }
