@@ -120,3 +120,16 @@ exports.createBooking = (req, res, next) => {
         console.log(err);
     });
   };
+
+
+  exports.deleteBooking = (req, res, next) => {
+    console.log("borrower delete the booking");
+
+    // we use promise which is nicer than callback
+    Booking.deleteBooking(req.params)
+        .then(([rows, fields]) => {
+            res.status(200).json(rows)
+        }).catch(err => {
+            console.log(err);
+        });
+};

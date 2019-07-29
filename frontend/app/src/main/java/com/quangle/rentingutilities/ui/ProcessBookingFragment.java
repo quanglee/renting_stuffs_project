@@ -113,7 +113,7 @@ public class ProcessBookingFragment extends BaseFragment {
                 mMonth = todayDate.get(Calendar.MONTH);
                 mDay = todayDate.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), R.style.AppTheme_DialogTheme,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -126,7 +126,7 @@ public class ProcessBookingFragment extends BaseFragment {
                                 mMinute = c.get(Calendar.MINUTE);
 
                                 // Launch Time Picker Dialog
-                                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), R.style.AppTheme_DialogTheme,
                                         new TimePickerDialog.OnTimeSetListener() {
 
                                             @Override
@@ -160,7 +160,7 @@ public class ProcessBookingFragment extends BaseFragment {
                 mDay = todayDate.get(Calendar.DAY_OF_MONTH);
 
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), R.style.AppTheme_DialogTheme,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -173,7 +173,7 @@ public class ProcessBookingFragment extends BaseFragment {
                                 mMinute = c.get(Calendar.MINUTE);
 
                                 // Launch Time Picker Dialog
-                                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), R.style.AppTheme_DialogTheme,
                                         new TimePickerDialog.OnTimeSetListener() {
 
                                             @Override
