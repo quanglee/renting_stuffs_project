@@ -79,10 +79,6 @@ public class ProcessBookingFragment extends BaseFragment {
                     Toast.makeText(getContext(), "Return date must later than start date!",
                             Toast.LENGTH_SHORT).show();
                 }else{
-                    //send request to database
-                    Toast.makeText(getContext(), "Valid date!",
-                            Toast.LENGTH_SHORT).show();
-
                     //create new Booking
                     Booking booking = new Booking();
                     booking.setItemId(itemId);
@@ -97,6 +93,7 @@ public class ProcessBookingFragment extends BaseFragment {
                             Toast.makeText(getContext(), "Booking Fail!", Toast.LENGTH_SHORT).show();
                         } else if (authNetworkResource.data != null) {
                             Toast.makeText(getContext(), "Booking Success!", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
                         }
                     });
 
