@@ -20,6 +20,8 @@ public class ItemActivity extends BaseActivity {
     private TabLayout tabLayout;
     private TabsPagerAdapter itemTabsPagerAdapter;
     private ViewPager itemViewPager;
+    public static int UPDATE_ITEMS = 1000;
+    public boolean updateViews = false;
 
     public static void setItem(Intent intent, Item item) {
         intent.putExtra(ARG_ITEM, item);
@@ -54,5 +56,13 @@ public class ItemActivity extends BaseActivity {
 
         itemViewPager.setAdapter(itemTabsPagerAdapter);
         tabLayout.setupWithViewPager(itemViewPager);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (updateViews)
+            setResult(UPDATE_ITEMS);
+        finish();
     }
 }

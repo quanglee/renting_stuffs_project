@@ -20,7 +20,6 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -68,12 +67,8 @@ public class ItemViewModel extends ViewModel {
         return mItems;
     }
 
-    public LiveData<List<Item>> getAllItemsOfUser(Auth auth) {
+    public LiveData<List<Item>> getAllItemsOfUser() {
         firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
-            // firebase will refresh this access token if it is expired.
-            // TODO: I don't think we need to store access token let Firebase handle it for us.
-            // TODO: I think we just make it simple for this authentication. Because we spend so much time for this
-            // call api with new access token if any
             Call<List<Item>> itemCall = api.getAllItemsOfUser(getTokenResult.getToken());
             itemCall.enqueue(new Callback<List<Item>>() {
                 @Override
@@ -174,7 +169,7 @@ public class ItemViewModel extends ViewModel {
 
     }
 
-    public LiveData<NetworkResource<Item>> createItem(Auth auth, MultipartBody.Part filePart, HashMap<String, RequestBody> params) {
+    public LiveData<NetworkResource<Item>> createItem(MultipartBody.Part filePart, HashMap<String, RequestBody> params) {
         firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
             Api api = RetrofitService.get();
             Call<Item> itemCall = api.createItem(getTokenResult.getToken(), filePart, params);
@@ -195,6 +190,30 @@ public class ItemViewModel extends ViewModel {
             });
         });
 
+        return networkResourceItemMutableLiveData;
+    }
+
+    public LiveData<NetworkResource<Item>> editItem(MultipartBody.Part filePart, String itemId, HashMap<String, RequestBody> params) {
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Api api = RetrofitService.get();
+            System.out.println("Test" + itemId);
+            Call<Item> itemCall = api.editItem(getTokenResult.getToken(), itemId, filePart, params);
+            itemCall.enqueue(new Callback<Item>() {
+                @Override
+                public void onResponse(Call<Item> call, Response<Item> response) {
+                    if (response.isSuccessful())
+                        networkResourceItemMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    else
+                        networkResourceItemMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                }
+
+                @Override
+                public void onFailure(Call<Item> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getStackTrace());
+                }
+            });
+        });
         return networkResourceItemMutableLiveData;
     }
 
@@ -219,7 +238,6 @@ public class ItemViewModel extends ViewModel {
                 }
             });
         });
-
         return networkResourceBookingMutableLiveData;
     }
 }
