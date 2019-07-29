@@ -161,6 +161,7 @@ public class ItemDetailFragment extends BaseFragment {
 
         btnBook.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), BookingActivity.class);
+            intent.putExtra("fragmentOptions", "processBooking");
             BookingActivity.setItem(intent, item);
             getActivity().startActivity(intent);
         });

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
+import com.quangle.rentingutilities.utils.OnClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -34,27 +35,19 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemView
             itemPriceView = itemView.findViewById(R.id.txtPrice);
             itemImageView = itemView.findViewById(R.id.itemImage);
             itemStatusView = itemView.findViewById(R.id.txtStatus);
-
         }
     }
 
     private final LayoutInflater mInflater;
     private List<Booking> mBookings;
     private Context context;
+    private OnClickListener<Booking> listener;
 
-
-    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            // TODO: click to open details item
-        }
-    };
-
-    public BookingAdapter(Context context) {
+    public BookingAdapter(Context context, OnClickListener<Booking> listener) {
         mInflater = LayoutInflater.from(context);
         this.context = context;
+        this.listener = listener;
     }
-
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -71,8 +64,13 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemView
             holder.itemDescView.setText(current.getItem().getDescription());
             holder.itemPriceView.setText("$" + String.valueOf(current.getItem().getPrice()));
             holder.itemStatusView.setText(current.getStatus());
-            Picasso.get().load(current.getItem().getImageURL()).resize(250, 450)
-                    .centerCrop().into(holder.itemImageView);
+            Picasso.get().load(current.getItem().getImageURL()).resize(1000, 600).onlyScaleDown()
+                    .into(holder.itemImageView);
+
+            // click to open BookingDetailFragment
+            holder.itemView.setOnClickListener(v -> {
+                listener.onClick(current);
+            });
         }
     }
 

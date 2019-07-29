@@ -1,6 +1,7 @@
 package com.quangle.rentingutilities.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,12 @@ public class BookingsFragment extends BaseFragment {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView tempRecyclerView) {
-        final BookingAdapter adapter = new BookingAdapter(getContext());
+        final BookingAdapter adapter = new BookingAdapter(getContext(), booking -> {
+            Intent intent = new Intent(getActivity(), BookingActivity.class);
+            intent.putExtra("fragmentOptions", "bookingDetail");
+            BookingActivity.setItem(intent,booking);
+            startActivity(intent);
+        });
         tempRecyclerView.setAdapter(adapter);
 
         // get email of logged in user
