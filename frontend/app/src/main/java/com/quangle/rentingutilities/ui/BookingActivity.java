@@ -60,7 +60,11 @@ public class BookingActivity extends BaseActivity {
                 booking = (Booking) intent.getSerializableExtra(ARG_BOOKING);
                 System.out.println("Place your booking detail fragment here");
                 setTitleActionBar("BOOKING DETAIL");
+                booking = (Booking) intent.getSerializableExtra(ARG_BOOKING);
                 fragmentDisplay = new BookingDetailFragment();
+                Bundle i = new Bundle();
+                i.putSerializable(ARG_BOOKING, booking);
+                fragmentDisplay.setArguments(i);
                 break;
         }
 
