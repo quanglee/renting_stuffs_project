@@ -1,17 +1,11 @@
 package com.quangle.rentingutilities.viewmodel;
 
-import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseAuth;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.networking.Api;
 import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.networking.RetrofitService;
-import com.quangle.rentingutilities.ui.HomeActivity;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
