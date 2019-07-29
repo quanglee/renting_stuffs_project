@@ -6,7 +6,7 @@ module.exports = class Items {
     }
 
     static findAll() {
-        return db.execute('SELECT * FROM items;');
+        return db.execute('SELECT i.* FROM items i ORDER BY i.id DESC;');
     }
 
     static findByItemId(itemId) {
