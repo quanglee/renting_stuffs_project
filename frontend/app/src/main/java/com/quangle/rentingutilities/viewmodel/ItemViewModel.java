@@ -33,6 +33,7 @@ public class ItemViewModel extends ViewModel {
     MutableLiveData<List<Item>> mUserItems = new MutableLiveData<>();//items of logged in user
     MutableLiveData<List<Item>> mUserWishList = new MutableLiveData<>();//wishlist of logged in user
     MutableLiveData<List<Booking>> mUserBookings = new MutableLiveData<>();//bookings of logged in user
+    MutableLiveData<NetworkResource<Booking>> networkResourceBookingMutableLiveData = new MutableLiveData<>();
     Api api;
     private FirebaseAuth firebaseAuth;
 
@@ -195,5 +196,30 @@ public class ItemViewModel extends ViewModel {
         });
 
         return networkResourceItemMutableLiveData;
+    }
+
+    //create booking
+    public LiveData<NetworkResource<Booking>> createBooking(HashMap<String, Object> params) {
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Api api = RetrofitService.get();
+            Call<Booking> bookingCall = api.createBooking(getTokenResult.getToken(), params);
+            bookingCall.enqueue(new Callback<Booking>() {
+                @Override
+                public void onResponse(Call<Booking> call, Response<Booking> response) {
+                    if (response.isSuccessful())
+                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    else
+                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                }
+
+                @Override
+                public void onFailure(Call<Booking> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getStackTrace());
+                }
+            });
+        });
+
+        return networkResourceBookingMutableLiveData;
     }
 }
