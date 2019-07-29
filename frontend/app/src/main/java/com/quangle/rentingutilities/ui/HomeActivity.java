@@ -2,7 +2,7 @@ package com.quangle.rentingutilities.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -10,7 +10,6 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.quangle.rentingutilities.R;
