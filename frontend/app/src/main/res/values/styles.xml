@@ -36,6 +36,7 @@
 
     <!-- Button styles -->
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button">
+        <item name="android:background">@xml/selector_button_color</item>
         <item name="colorButtonNormal" tools:targetApi="21">@color/colorAccent</item>
         <item name="colorControlHighlight" tools:targetApi="21">@color/colorAccentDark</item>
         <item name="android:height">58dp</item>
