@@ -96,7 +96,7 @@ exports.createBooking = (req, res, next) => {
                     };
 
                     Booking.addBooking(booking).then(([rows, fields]) => {
-                        res.status(201).json(booking)
+                        res.status(201).json(rows)
                     }).catch(err => {
                         console.log(err);
                     });

@@ -7,7 +7,9 @@ import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.networking.Api;
 import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.networking.RetrofitService;
-
+import com.quangle.rentingutilities.ui.HomeActivity;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,7 @@ public class ItemViewModel extends ViewModel {
     MutableLiveData<List<Item>> mUserWishList = new MutableLiveData<>();//wishlist of logged in user
     MutableLiveData<List<Booking>> mUserBookings = new MutableLiveData<>();//bookings of logged in user
     MutableLiveData<NetworkResource<Booking>> networkResourceBookingMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<NetworkResource<JSONObject>> networkResourceJSONObjectMutableLiveData = new MutableLiveData<>();
     Api api;
     private FirebaseAuth firebaseAuth;
 
@@ -234,5 +237,33 @@ public class ItemViewModel extends ViewModel {
             });
         });
         return networkResourceBookingMutableLiveData;
+    }
+
+    // cancel booking
+    public LiveData<NetworkResource<JSONObject>> cancelBooking(String bookingID) {
+        // call api to cancel booking
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Api api = RetrofitService.get();
+            Call<JSONObject> bookingCall = api.cancelBooking(getTokenResult.getToken(), bookingID);
+            bookingCall.enqueue(new Callback<JSONObject>() {
+                @Override
+                public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                    if (response.isSuccessful()) {
+                        networkResourceJSONObjectMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    } else {
+                        networkResourceJSONObjectMutableLiveData.setValue(new NetworkResource<>(401));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JSONObject> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getStackTrace());
+                }
+            });
+
+        });
+
+        return networkResourceJSONObjectMutableLiveData;
     }
 }
