@@ -6,6 +6,8 @@ import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.core.model.User;
 
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -66,4 +69,9 @@ public interface Api {
     //create a booking
     @POST("bookings/create")
     Call<Booking> createBooking(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
+
+    //Bookings
+    //create a booking
+    @DELETE("bookings/delete/{booking_id}")
+    Call<JSONObject> cancelBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId);
 }
