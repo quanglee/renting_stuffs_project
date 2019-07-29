@@ -8,6 +8,8 @@ import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
 
+import androidx.fragment.app.Fragment;
+
 public class BookingActivity extends BaseActivity {
 
     private static final String ARG_BOOKING = "booking";
@@ -33,19 +35,24 @@ public class BookingActivity extends BaseActivity {
         // get intent
         Intent intent = getIntent();
         fragmentOptions = intent.getStringExtra("fragmentOptions");
-        System.out.println(fragmentOptions);
+        Fragment fragmentDisplay = null;
+        switch (fragmentOptions) {
+            case "processBooking":
+                item = (Item) intent.getSerializableExtra(ARG_ITEM);
+                setTitleActionBar("PROCESS BOOKING");
+                System.out.println("Place your process booking fragment here");
+                fragmentDisplay = new BookingDetailFragment();
+                break;
+            case "bookingDetail":
+                booking = (Booking) intent.getSerializableExtra(ARG_BOOKING);
+                System.out.println("Place your booking detail fragment here");
+                setTitleActionBar("BOOKING DETAIL");
+                fragmentDisplay = new BookingDetailFragment();
+                break;
+        }
 
-//        switch (fragmentOptions) {
-//            case ARG_ITEM:
-//                item = (Item) intent.getSerializableExtra(ARG_ITEM);
-//                System.out.println("Dfdfdf");
-//                break;
-//            case ARG_BOOKING:
-//                booking = (Booking) intent.getSerializableExtra(ARG_BOOKING);
-//                System.out.println(booking.getItem().getName());
-//                break;
-//        }
-
-
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentDisplay, fragmentDisplay)
+                .commit();
     }
 }
