@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quangle.rentingutilities.R;
+import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
 import com.squareup.picasso.Picasso;
@@ -89,6 +90,9 @@ public class BookingDetailFragment extends BaseFragment {
                 if (authNetworkResource.code == 401) {
                     Toast.makeText(getContext(), "Cancel Booking Fail!", Toast.LENGTH_SHORT).show();
                 } else if (authNetworkResource.data != null) {
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.putExtra("selectedTab", 2);
+                    startActivity(intent);
                     getActivity().finish();
                 }
             });

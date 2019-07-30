@@ -138,33 +138,36 @@ public class ItemViewModel extends ViewModel {
     private void getBookingsWithItemDetail(String accessToken, List<Booking> bookings) {
         List<Booking> tempBookings = new ArrayList<>();
 
-        for(Booking b: bookings) {
-            Booking temp = new Booking();
-            temp.setId(b.getId());
-            temp.setBorrowerId(b.getBorrowerId());
-            temp.setItemId(b.getItemId());
-            temp.setStartDate(b.getStartDate());
-            temp.setReturnDate(b.getReturnDate());
-            temp.setStatus(b.getStatus());
+        if (bookings.size() == 0) {
+            mUserBookings.setValue(tempBookings);
+        } else {
+            for(Booking b: bookings) {
+                Booking temp = new Booking();
+                temp.setId(b.getId());
+                temp.setBorrowerId(b.getBorrowerId());
+                temp.setItemId(b.getItemId());
+                temp.setStartDate(b.getStartDate());
+                temp.setReturnDate(b.getReturnDate());
+                temp.setStatus(b.getStatus());
 
-            Call<Item> callItem = api.getItemDetail(accessToken, String.valueOf(b.getItemId()));
-            callItem.enqueue(new Callback<Item>() {
-                @Override
-                public void onResponse(Call<Item> call, Response<Item> response) {
-                    temp.setItem(response.body());
-                    tempBookings.add(temp);
-                    mUserBookings.setValue(tempBookings);
-                }
+                Call<Item> callItem = api.getItemDetail(accessToken, String.valueOf(b.getItemId()));
+                callItem.enqueue(new Callback<Item>() {
+                    @Override
+                    public void onResponse(Call<Item> call, Response<Item> response) {
+                        temp.setItem(response.body());
+                        tempBookings.add(temp);
+                        mUserBookings.setValue(tempBookings);
+                    }
 
-                @Override
-                public void onFailure(Call<Item> call, Throwable t) {
-                    System.out.println("HERE FAILURE");
-                    System.out.println(t.getCause());
-                }
-            });
-            System.out.println("HERE " + String.valueOf(b.getItemId()));
+                    @Override
+                    public void onFailure(Call<Item> call, Throwable t) {
+                        System.out.println("HERE FAILURE");
+                        System.out.println(t.getCause());
+                    }
+                });
+                System.out.println("HERE " + String.valueOf(b.getItemId()));
+            }
         }
-
     }
 
     public LiveData<NetworkResource<Item>> createItem(MultipartBody.Part filePart, HashMap<String, RequestBody> params) {

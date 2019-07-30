@@ -1,6 +1,7 @@
 package com.quangle.rentingutilities.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -43,7 +44,10 @@ public class HomeActivity extends BaseActivity {
         itemsTabsPagerAdapter.addFrag(new WishListFragment(), getResources().getString(R.string.wishlist));
         itemsTabsPagerAdapter.addFrag(new ItemsFragment(), getResources().getString(R.string.requests));
         itemsViewPager.setAdapter(itemsTabsPagerAdapter);
-        changeMenu();
+
+        Intent intent = getIntent();
+        int selectedTab = intent.getIntExtra("selectedTab", 0);
+        changeMenu(selectedTab);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -65,9 +69,26 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
-    public void changeMenu() {
+    public void changeMenu(int index) {
         isUserLogged();
-        itemSelectedOnMenu(bottomNavigationView.getMenu().getItem(0));
+        itemSelectedOnMenu(bottomNavigationView.getMenu().getItem(index));
+        View view = null;
+        switch (index) {
+            case 0:
+                view = bottomNavigationView.findViewById(R.id.home);
+                break;
+            case 1:
+                view = bottomNavigationView.findViewById(R.id.items);
+                break;
+            case 2:
+                view = bottomNavigationView.findViewById(R.id.bookings);
+                break;
+            case 4:
+                view = bottomNavigationView.findViewById(R.id.profile);
+                break;
+        }
+
+        view.performClick();
     }
 
     public void isUserLogged() {
