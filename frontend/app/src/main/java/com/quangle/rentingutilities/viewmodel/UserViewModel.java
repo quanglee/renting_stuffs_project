@@ -1,7 +1,6 @@
 package com.quangle.rentingutilities.viewmodel;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.User;
 import com.quangle.rentingutilities.networking.Api;
 import com.quangle.rentingutilities.networking.NetworkResource;
