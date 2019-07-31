@@ -12,6 +12,7 @@ import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.customAdapter.BookingAdapter;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
+import com.quangle.rentingutilities.viewmodel.BookingViewModel;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class BookingsFragment extends BaseFragment {
 
     ItemViewModel itemViewModel;
+    BookingViewModel bookingViewModel;
     RecyclerView recyclerView;
 
     @Override
@@ -54,8 +56,17 @@ public class BookingsFragment extends BaseFragment {
         // get email of logged in user
         Auth auth = MySharedPreferences.getAuth(getContext());
 
-        itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        itemViewModel.getUserBookings(auth).observe(this, new Observer<List<Booking>>() {
+//        itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+//        itemViewModel.getUserBookings(auth).observe(this, new Observer<List<Booking>>() {
+//            @Override
+//            public void onChanged(List<Booking> bookings) {
+//                hideProgressBar();
+//                adapter.setNewBookings(bookings);
+//            }
+//        });
+
+        bookingViewModel = ViewModelProviders.of(this).get(BookingViewModel.class);
+        bookingViewModel.getUserBookings(auth).observe(this, new Observer<List<Booking>>() {
             @Override
             public void onChanged(List<Booking> bookings) {
                 hideProgressBar();
