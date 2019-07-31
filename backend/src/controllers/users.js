@@ -149,3 +149,24 @@ exports.getBookingsOfUser = (req, res, next) => {
   //       console.log(err);
   //   });
 };
+
+exports.getRequestsOfUser = (req, res, next) => {
+  if (req.user == null) {
+    res.status(400).json({
+      message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+  }
+
+  Booking.findAllRequestOfUser(req.user.email)
+  .then(([rows, fields]) => {
+      rows.forEach((currentValue, index, array) => {
+            Utils.toBoolean(currentValue, 'isActive');
+            array[index] = currentValue;
+          });
+      res.status(200).json(rows)
+  }).catch(err => {
+      console.log(err);
+  });
+
+};

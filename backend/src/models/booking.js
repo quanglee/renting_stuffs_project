@@ -10,7 +10,7 @@ module.exports = class Booking {
         return db.execute(`
         SELECT b.*
         FROM bookings b 
-        WHERE b.borrowerId = '${userId}';
+        WHERE b.borrowerId = '${userId}' ORDER BY b.id DESC;
         `);
     }
 

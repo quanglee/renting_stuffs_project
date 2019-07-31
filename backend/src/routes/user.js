@@ -11,5 +11,6 @@ router.post('/create', usersController.create);
 router.post('/edit', isAuth, usersController.edit);
 router.get('/wishlist', isAuth, usersController.getWishlistOfUser);
 router.get('/bookings', isAuth, usersController.getBookingsOfUser);
+router.get('/requests', isAuth, usersController.getRequestsOfUser);
 
 module.exports = router;
