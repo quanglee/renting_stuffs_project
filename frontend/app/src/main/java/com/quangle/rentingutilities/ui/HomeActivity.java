@@ -19,6 +19,12 @@ import com.quangle.rentingutilities.utils.MySharedPreferences;
 
 public class HomeActivity extends BaseActivity {
 
+    //TAB INDEX
+    public static final int HOME_TAB_INDEX = 0;
+    public static final int ITEMS_TAB_INDEX = 1;
+    public static final int BOOKINGS_TAB_INDEX = 2;
+    public static final int PROFILE_TAB_INDEX = 3;
+
     BottomNavigationView bottomNavigationView;
     private TabLayout tabLayout;
     private TabsPagerAdapter itemsTabsPagerAdapter;
@@ -45,8 +51,9 @@ public class HomeActivity extends BaseActivity {
         itemsTabsPagerAdapter.addFrag(new ItemsFragment(), getResources().getString(R.string.requests));
         itemsViewPager.setAdapter(itemsTabsPagerAdapter);
 
+        //display target tab
         Intent intent = getIntent();
-        int selectedTab = intent.getIntExtra("selectedTab", 0);
+        int selectedTab = intent.getIntExtra("selectedTab", HOME_TAB_INDEX);
         changeMenu(selectedTab);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -74,16 +81,16 @@ public class HomeActivity extends BaseActivity {
         itemSelectedOnMenu(bottomNavigationView.getMenu().getItem(index));
         View view = null;
         switch (index) {
-            case 0:
+            case HOME_TAB_INDEX:
                 view = bottomNavigationView.findViewById(R.id.home);
                 break;
-            case 1:
+            case ITEMS_TAB_INDEX:
                 view = bottomNavigationView.findViewById(R.id.items);
                 break;
-            case 2:
+            case BOOKINGS_TAB_INDEX:
                 view = bottomNavigationView.findViewById(R.id.bookings);
                 break;
-            case 4:
+            case PROFILE_TAB_INDEX:
                 view = bottomNavigationView.findViewById(R.id.profile);
                 break;
         }

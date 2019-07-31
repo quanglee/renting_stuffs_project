@@ -90,10 +90,9 @@ public class BookingDetailFragment extends BaseFragment {
                 if (authNetworkResource.code == 401) {
                     Toast.makeText(getContext(), "Cancel Booking Fail!", Toast.LENGTH_SHORT).show();
                 } else if (authNetworkResource.data != null) {
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                    intent.putExtra("selectedTab", 2);
-                    startActivity(intent);
-                    getActivity().finish();
+
+                    //return to booking tab
+                    BaseActivity.startHomeActivityAtTab(HomeActivity.BOOKINGS_TAB_INDEX);
                 }
             });
         });
