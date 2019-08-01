@@ -88,4 +88,9 @@ public interface Api {
     //accept a booking
     @PUT("bookings/accept/{booking_id}")
     Call<JSONObject> acceptBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
+
+    //Reviews
+    //add a review
+    @POST("reviews/create")
+    Call<JSONObject> addReview(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
 }

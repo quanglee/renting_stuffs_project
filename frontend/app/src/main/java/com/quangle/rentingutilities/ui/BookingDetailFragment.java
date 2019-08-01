@@ -3,7 +3,6 @@ package com.quangle.rentingutilities.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,14 @@ import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.utils.Helper;
 import com.quangle.rentingutilities.viewmodel.BookingViewModel;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
+import com.quangle.rentingutilities.viewmodel.ReviewViewModel;
 import com.quangle.rentingutilities.viewmodel.UserViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 
@@ -35,6 +37,7 @@ public class BookingDetailFragment extends BaseFragment {
     private Button btnCancel, btnReview, btnAccept, btnReject, btnDone;
     private ItemViewModel itemViewModel;
     private BookingViewModel bookingViewModel;
+//    private ReviewViewModel reviewViewModel;
 
 
 
@@ -63,7 +66,7 @@ public class BookingDetailFragment extends BaseFragment {
         txtReturnDate = view.findViewById(R.id.txtReturnDate);
         imageView = view.findViewById(R.id.itemImage);
         btnCancel = view.findViewById(R.id.btnCancelBooking);
-        btnReview = view.findViewById(R.id.btnReviewBooking);
+//        btnReview = view.findViewById(R.id.btnReviewBooking);
         btnAccept = view.findViewById(R.id.btnAcceptBooking);
         btnReject = view.findViewById(R.id.btnRejectBooking);
         btnDone = view.findViewById(R.id.btnDoneBooking);
@@ -84,7 +87,7 @@ public class BookingDetailFragment extends BaseFragment {
                 .into(imageView);
 
         btnCancel.setVisibility(View.GONE);
-        btnReview.setVisibility(View.GONE);
+//        btnReview.setVisibility(View.GONE);
         btnAccept.setVisibility(View.GONE);
         btnReject.setVisibility(View.GONE);
         btnDone.setVisibility(View.GONE);
@@ -104,8 +107,13 @@ public class BookingDetailFragment extends BaseFragment {
 
             //TODO: display if have no review yet
             if(Helper.isUserLoggedIn() && //must check user is logging first
-                    Helper.isLoggedInUserEmailMatch(booking.getBorrowerId()))
-                btnReview.setVisibility(View.VISIBLE);
+                    Helper.isLoggedInUserEmailMatch(booking.getBorrowerId())) {
+                AddReviewFragment fragmentDisplay = new AddReviewFragment();
+                getChildFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentDisplayInBookingDetail, fragmentDisplay)
+                        .commit();
+            }
+//                btnReview.setVisibility(View.VISIBLE);
         } else if(booking.getStatus().equals(Booking.STATUS.ACCEPTED.displayName())) {
 
             if(Helper.isUserLoggedIn() && //must check user is logging first
@@ -118,6 +126,7 @@ public class BookingDetailFragment extends BaseFragment {
         // cancel booking
         itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
         bookingViewModel = ViewModelProviders.of(getActivity()).get(BookingViewModel.class);
+//        reviewViewModel = ViewModelProviders.of(getActivity()).get(ReviewViewModel.class);
 
         btnCancel.setOnClickListener(v -> {
             btnCancel.setEnabled(false);
@@ -154,6 +163,21 @@ public class BookingDetailFragment extends BaseFragment {
                 }
             });
         });
+
+//        btnReview.setOnClickListener(v -> {
+//
+//            AddReviewFragment fragmentDisplay = new AddReviewFragment();
+//            getChildFragmentManager().beginTransaction()
+//                    .replace(R.id.fragmentDisplayInBookingDetail, fragmentDisplay)
+//                    .commit();
+//
+//            btnReview.setVisibility(View.GONE);
+////            HashMap<String, Object> params = new HashMap<>();
+////            params.put("itemId", booking.getItem().getId());
+////            params.put("borrowerId", booking.getItem().getId());
+////            params.put("title", booking.getItem().getId());
+////            params.put("content", booking.getItem().getId());
+//        });
 
 
         return view;
