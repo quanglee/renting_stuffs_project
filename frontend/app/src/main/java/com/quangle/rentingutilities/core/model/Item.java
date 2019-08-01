@@ -107,6 +107,9 @@ public class Item implements Serializable {
     @SerializedName("averageRating")
     private double averageRating;
 
+    @SerializedName("pickupAddress")
+    private String pickupAddress;
+
     @SerializedName("lat")
     private double lat;
 
@@ -133,6 +136,7 @@ public class Item implements Serializable {
         lat = 0;
         lng = 0;
         isActive = true;
+        pickupAddress = "";
     }
 
     public HashMap<String, RequestBody> toHashMap() {
@@ -145,11 +149,9 @@ public class Item implements Serializable {
         hashMap.put("category", MulitPartFormHelper.createRequestBody(category));
         hashMap.put("price", MulitPartFormHelper.createRequestBody(price));
         hashMap.put("tags", MulitPartFormHelper.createRequestBody(tags));
-
-        if (lat != 0 && lng != 0) {
-            hashMap.put("lat", MulitPartFormHelper.createRequestBody(lat));
-            hashMap.put("lng", MulitPartFormHelper.createRequestBody(lng));
-        }
+        hashMap.put("pickupAddress", MulitPartFormHelper.createRequestBody(pickupAddress));
+        hashMap.put("lat", MulitPartFormHelper.createRequestBody(lat));
+        hashMap.put("lng", MulitPartFormHelper.createRequestBody(lng));
 
         if (!imageURL.equals(""))
             hashMap.put("imageURLs", MulitPartFormHelper.createRequestBody(imageURL));
@@ -272,5 +274,13 @@ public class Item implements Serializable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public String getPickupAddress() {
+        return pickupAddress;
+    }
+
+    public void setPickupAddress(String pickupAddress) {
+        this.pickupAddress = pickupAddress;
     }
 }
