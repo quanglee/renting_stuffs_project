@@ -178,22 +178,72 @@ public class BookingViewModel extends ViewModel {
     public LiveData<NetworkResource<Booking>> acceptBooking(HashMap<String, Object> params) {
         firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
             Api api = RetrofitService.get();
-//            Call<Booking> bookingCall = api.acceptBooking(getTokenResult.getToken(), params);
-//            bookingCall.enqueue(new Callback<Booking>() {
-//                @Override
-//                public void onResponse(Call<Booking> call, Response<Booking> response) {
-//                    if (response.isSuccessful())
-//                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.body()));
-//                    else
-//                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.code()));
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Booking> call, Throwable t) {
-//                    System.out.println("ON FAILURE");
-//                    System.out.println(t.getStackTrace());
-//                }
-//            });
+            Call<Booking> bookingCall = api.acceptBooking(getTokenResult.getToken(), params.get("id").toString(), params);
+            bookingCall.enqueue(new Callback<Booking>() {
+                @Override
+                public void onResponse(Call<Booking> call, Response<Booking> response) {
+                    if (response.isSuccessful())
+                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    else
+                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                }
+
+                @Override
+                public void onFailure(Call<Booking> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getStackTrace());
+                }
+            });
+        });
+
+        return networkResourceBookingMutableLiveData;
+    }
+
+    //reject booking
+    public LiveData<NetworkResource<Booking>> rejectBooking(HashMap<String, Object> params) {
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Api api = RetrofitService.get();
+            Call<Booking> bookingCall = api.rejectBooking(getTokenResult.getToken(), params.get("id").toString(), params);
+            bookingCall.enqueue(new Callback<Booking>() {
+                @Override
+                public void onResponse(Call<Booking> call, Response<Booking> response) {
+                    if (response.isSuccessful())
+                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    else
+                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                }
+
+                @Override
+                public void onFailure(Call<Booking> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getStackTrace());
+                }
+            });
+        });
+
+        return networkResourceBookingMutableLiveData;
+    }
+
+    //done booking
+    public LiveData<NetworkResource<Booking>> doneBooking(HashMap<String, Object> params) {
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Api api = RetrofitService.get();
+            Call<Booking> bookingCall = api.doneBooking(getTokenResult.getToken(), params.get("id").toString(), params);
+            bookingCall.enqueue(new Callback<Booking>() {
+                @Override
+                public void onResponse(Call<Booking> call, Response<Booking> response) {
+                    if (response.isSuccessful())
+                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    else
+                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                }
+
+                @Override
+                public void onFailure(Call<Booking> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getStackTrace());
+                }
+            });
         });
 
         return networkResourceBookingMutableLiveData;

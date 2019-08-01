@@ -137,24 +137,63 @@ public class BookingDetailFragment extends BaseFragment {
             });
         });
 
+        //accept booking
         btnAccept.setOnClickListener(v -> {
             btnAccept.setEnabled(false);
             showProgressBar();
 
-            bookingViewModel.cancelBooking(String.valueOf(booking.getId())).observe(this, authNetworkResource -> {
+            bookingViewModel.acceptBooking(booking.toHashMap()).observe(this, authNetworkResource -> {
                 hideProgressBar();
                 btnAccept.setEnabled(true);
 
                 if (authNetworkResource.code == 401) {
-                    Toast.makeText(getContext(), "Cancel Booking Fail!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Accept Booking Fail!", Toast.LENGTH_SHORT).show();
                 } else if (authNetworkResource.data != null) {
 
-                    //return to booking tab
-                    BaseActivity.startHomeActivityAtTab(HomeActivity.BOOKINGS_TAB_INDEX);
+                    //return to Items tab / Requests top nav
+                    BaseActivity.startHomeActivityAtTab(HomeActivity.ITEMS_TAB_INDEX, HomeActivity.REQUESTS_TOPNAV_INDEX);
                 }
             });
         });
 
+        //reject booking
+        btnReject.setOnClickListener(v -> {
+            btnReject.setEnabled(false);
+            showProgressBar();
+
+            bookingViewModel.rejectBooking(booking.toHashMap()).observe(this, authNetworkResource -> {
+                hideProgressBar();
+                btnReject.setEnabled(true);
+
+                if (authNetworkResource.code == 401) {
+                    Toast.makeText(getContext(), "Reject Booking Fail!", Toast.LENGTH_SHORT).show();
+                } else if (authNetworkResource.data != null) {
+
+                    //return to Items tab / Requests top nav
+                    BaseActivity.startHomeActivityAtTab(HomeActivity.ITEMS_TAB_INDEX, HomeActivity.REQUESTS_TOPNAV_INDEX);
+                }
+            });
+        });
+
+        //done booking
+        btnDone.setOnClickListener(v -> {
+            btnDone.setEnabled(false);
+            showProgressBar();
+
+            bookingViewModel.doneBooking(booking.toHashMap()).observe(this, authNetworkResource -> {
+                hideProgressBar();
+                btnDone.setEnabled(true);
+
+                if (authNetworkResource.code == 401) {
+                    Toast.makeText(getContext(), "Finish Booking Fail!", Toast.LENGTH_SHORT).show();
+                } else if (authNetworkResource.data != null) {
+
+                    //return to Items tab / Requests top nav
+                    BaseActivity.startHomeActivityAtTab(HomeActivity.ITEMS_TAB_INDEX, HomeActivity.REQUESTS_TOPNAV_INDEX);
+
+                }
+            });
+        });
 
         return view;
     }

@@ -27,6 +27,11 @@ public class HomeActivity extends BaseActivity {
     public static final int BOOKINGS_TAB_INDEX = 2;
     public static final int PROFILE_TAB_INDEX = 3;
 
+    //TOP NAV INDEX OF ITEMS TAB
+    public static final int ITEMS_TOPNAV_INDEX = 0;
+    public static final int WISHLIST_TOPNAV_INDEX = 1;
+    public static final int REQUESTS_TOPNAV_INDEX = 2;
+
     BottomNavigationView bottomNavigationView;
     private TabLayout tabLayout;
     private TabsPagerAdapter itemsTabsPagerAdapter;
@@ -56,6 +61,10 @@ public class HomeActivity extends BaseActivity {
         //display target tab
         Intent intent = getIntent();
         int selectedTab = intent.getIntExtra("selectedTab", HOME_TAB_INDEX);
+        int selectedTopNavItem = intent.getIntExtra("topItemsTabNavIndex", ITEMS_TOPNAV_INDEX);
+
+        itemsViewPager.setCurrentItem(selectedTopNavItem);
+
         changeMenu(selectedTab);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
