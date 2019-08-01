@@ -139,3 +139,31 @@ exports.createBooking = (req, res, next) => {
             console.log(err);
         });
 };
+
+exports.acceptBooking = (req, res, next) => {
+    console.log("owner accept the booking");
+
+    console.log(req.params);
+
+    console.log(req.body);
+
+    //validate
+    if (req.user == null) {
+    res.status(400).json({
+        message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+    }
+
+    //get all items of user, check if contain req.params.id
+    //check status is pending or accepted
+    
+
+    // we use promise which is nicer than callback
+    // Booking.updateBooking(req.params)
+    //     .then(([rows, fields]) => {
+    //         res.status(200).json(rows)
+    //     }).catch(err => {
+    //         console.log(err);
+    //     });
+};

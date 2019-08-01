@@ -84,4 +84,8 @@ public interface Api {
     //create a booking
     @DELETE("bookings/delete/{booking_id}")
     Call<JSONObject> cancelBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId);
+
+    //accept a booking
+    @PUT("bookings/accept/{booking_id}")
+    Call<JSONObject> acceptBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
 }

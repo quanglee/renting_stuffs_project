@@ -9,5 +9,6 @@ routers.get('/', isAuth, bookingController.getAllBookingOfUser);
 routers.get('/requests', isAuth, bookingController.getAllRequestOfUser);
 routers.post('/create', isAuth, bookingController.createBooking);
 routers.delete('/delete/:id', isAuth, bookingController.deleteBooking);
+routers.put('/accept/:id', isAuth, bookingController.acceptBooking);
 
 module.exports = routers;

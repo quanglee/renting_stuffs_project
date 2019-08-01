@@ -138,7 +138,7 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.items:
                 setTitleActionBar(getResources().getString(R.string.yourItems));
-                fragmentDisplay = new ItemsFragment();
+                fragmentDisplay = itemsTabsPagerAdapter.getItem(itemsViewPager.getCurrentItem());
                 break;
             case R.id.bookings:
                 setTitleActionBar(getResources().getString(R.string.bookings));

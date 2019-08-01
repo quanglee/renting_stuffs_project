@@ -57,6 +57,17 @@ module.exports = class Booking {
         );
     }
     
+    //update a booking
+    static updateBooking(params){
+
+        return db.execute(
+            'UPDATE bookings SET status = ? WHERE id = ?;',
+            [
+                params.status,
+                params.id
+            ]
+        );
+    }
 }
 
 // SELECT * FROM bookings WHERE borrowerId = 'user6@shareandget.com';

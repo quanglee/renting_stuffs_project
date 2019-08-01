@@ -142,6 +142,7 @@ public class BookingViewModel extends ViewModel {
                 }
             });
         });
+
         return networkResourceBookingMutableLiveData;
     }
 
@@ -171,5 +172,30 @@ public class BookingViewModel extends ViewModel {
         });
 
         return networkResourceJSONObjectMutableLiveData;
+    }
+
+    //accept booking
+    public LiveData<NetworkResource<Booking>> acceptBooking(HashMap<String, Object> params) {
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Api api = RetrofitService.get();
+//            Call<Booking> bookingCall = api.acceptBooking(getTokenResult.getToken(), params);
+//            bookingCall.enqueue(new Callback<Booking>() {
+//                @Override
+//                public void onResponse(Call<Booking> call, Response<Booking> response) {
+//                    if (response.isSuccessful())
+//                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.body()));
+//                    else
+//                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.code()));
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Booking> call, Throwable t) {
+//                    System.out.println("ON FAILURE");
+//                    System.out.println(t.getStackTrace());
+//                }
+//            });
+        });
+
+        return networkResourceBookingMutableLiveData;
     }
 }
