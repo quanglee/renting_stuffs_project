@@ -67,4 +67,13 @@ public class BaseActivity extends AppCompatActivity {
         mContext.startActivity(intent);
     }
 
+    public static void startHomeActivityAtTab(int tabIndex, int topItemsTabNavIndex) {
+
+        Intent intent = new Intent(mContext, HomeActivity.class);
+        intent.putExtra("selectedTab", tabIndex);
+        intent.putExtra("topItemsTabNavIndex", topItemsTabNavIndex);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//clear all top activity
+        mContext.startActivity(intent);
+    }
+
 }

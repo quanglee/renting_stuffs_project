@@ -85,12 +85,19 @@ public interface Api {
     @DELETE("bookings/delete/{booking_id}")
     Call<JSONObject> cancelBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId);
 
-    //accept a booking
-    @PUT("bookings/accept/{booking_id}")
-    Call<JSONObject> acceptBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
-
     //Reviews
     //add a review
     @POST("reviews/create")
     Call<JSONObject> addReview(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
+
+    //accept a booking
+    Call<Booking> acceptBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
+
+    //reject a booking
+    @PUT("bookings/reject/{booking_id}")
+    Call<Booking> rejectBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
+
+    //done a booking
+    @PUT("bookings/done/{booking_id}")
+    Call<Booking> doneBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
 }

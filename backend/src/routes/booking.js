@@ -10,5 +10,7 @@ routers.get('/requests', isAuth, bookingController.getAllRequestOfUser);
 routers.post('/create', isAuth, bookingController.createBooking);
 routers.delete('/delete/:id', isAuth, bookingController.deleteBooking);
 routers.put('/accept/:id', isAuth, bookingController.acceptBooking);
+routers.put('/done/:id', isAuth, bookingController.doneBooking);
+routers.put('/reject/:id', isAuth, bookingController.rejectBooking);
 
 module.exports = routers;
