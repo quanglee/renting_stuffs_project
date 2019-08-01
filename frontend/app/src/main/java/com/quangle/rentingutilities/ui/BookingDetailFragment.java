@@ -15,8 +15,10 @@ import android.widget.Toast;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Booking;
+import com.quangle.rentingutilities.utils.Helper;
 import com.quangle.rentingutilities.viewmodel.BookingViewModel;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
+import com.quangle.rentingutilities.viewmodel.UserViewModel;
 import com.squareup.picasso.Picasso;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -70,29 +72,34 @@ public class BookingDetailFragment extends BaseFragment {
         Picasso.get().load(booking.getItem().getImageURL()).resize(1000, 600).onlyScaleDown()
                 .into(imageView);
 
-        btnCancel.setVisibility(View.INVISIBLE);
-        btnReview.setVisibility(View.INVISIBLE);
-        btnAccept.setVisibility(View.INVISIBLE);
-        btnReject.setVisibility(View.INVISIBLE);
-        btnDone.setVisibility(View.INVISIBLE);
+        btnCancel.setVisibility(View.GONE);
+        btnReview.setVisibility(View.GONE);
+        btnAccept.setVisibility(View.GONE);
+        btnReject.setVisibility(View.GONE);
+        btnDone.setVisibility(View.GONE);
 
         // check to display approriate button
         if (booking.getStatus().equals(Booking.STATUS.PENDING.displayName())) {
-            //TODO: display if user is borrower
-            btnCancel.setVisibility(View.VISIBLE);
 
-            //TODO: display if user is owner of the item
-            btnAccept.setVisibility(View.VISIBLE);
-            btnReject.setVisibility(View.VISIBLE);
+            if(Helper.isUserLoggedIn() && //must check user is logging first
+                    Helper.isLoggedInUserEmailMatch(booking.getBorrowerId()))//borrower
+                btnCancel.setVisibility(View.VISIBLE);
+            else{//owner
+                btnAccept.setVisibility(View.VISIBLE);
+                btnReject.setVisibility(View.VISIBLE);
+            }
 
         } else if (booking.getStatus().equals(Booking.STATUS.DONE.displayName())) {
 
-            //TODO: display if user is borrower and have no review yet
-            btnReview.setVisibility(View.VISIBLE);
+            //TODO: display if have no review yet
+            if(Helper.isUserLoggedIn() && //must check user is logging first
+                    Helper.isLoggedInUserEmailMatch(booking.getBorrowerId()))
+                btnReview.setVisibility(View.VISIBLE);
         } else if(booking.getStatus().equals(Booking.STATUS.ACCEPTED.displayName())) {
 
-            //TODO: display if user is owner of the item
-            btnDone.setVisibility(View.VISIBLE);
+            if(Helper.isUserLoggedIn() && //must check user is logging first
+                    Helper.isLoggedInUserEmailMatch(booking.getBorrowerId()) == false)//owner
+                btnDone.setVisibility(View.VISIBLE);
         }else{
             // do not display any buttons
         }

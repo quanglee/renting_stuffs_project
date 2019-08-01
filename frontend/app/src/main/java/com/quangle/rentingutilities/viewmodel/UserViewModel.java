@@ -18,6 +18,7 @@ import retrofit2.Response;
 public class UserViewModel extends ViewModel {
 
     MutableLiveData<NetworkResource<User>> networkResourceUserMutableLiveData = new MutableLiveData<>();
+    public static User loggedInUser = null;
     Api api;
     private FirebaseAuth firebaseAuth;
 
@@ -97,4 +98,5 @@ public class UserViewModel extends ViewModel {
 
         return networkResourceUserMutableLiveData;
     }
+
 }

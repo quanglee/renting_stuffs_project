@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.quangle.rentingutilities.R;
+import com.quangle.rentingutilities.viewmodel.UserViewModel;
 
 import java.util.List;
 
@@ -62,6 +63,16 @@ public class Helper {
         AlertDialog dialog = builder.create();
         // display dialog
         dialog.show();
+    }
+
+    public static boolean isUserLoggedIn(){
+        return UserViewModel.loggedInUser != null;
+    }
+
+    //NOTE: Must call isUserLoggedIn before call this method
+    public static boolean isLoggedInUserEmailMatch(String email){
+
+        return UserViewModel.loggedInUser.getEmail().equals(email);
     }
 
 }

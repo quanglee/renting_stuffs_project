@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
+import com.quangle.rentingutilities.viewmodel.UserViewModel;
 
 public class HomeActivity extends BaseActivity {
 
@@ -100,11 +102,25 @@ public class HomeActivity extends BaseActivity {
 
     public void isUserLogged() {
         Auth auth = MySharedPreferences.getAuth(this);
+
         bottomNavigationView.getMenu().clear();
-        if (auth == null)
+        if (auth == null){
             bottomNavigationView.inflateMenu(R.menu.guest);
-        else
+            UserViewModel.loggedInUser = null;//clear logged-in user
+        }
+        else{
             bottomNavigationView.inflateMenu(R.menu.user);
+
+            //save user to UserViewModel
+            UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
+            userViewModel.get().observe(this, userNetworkResource -> {
+                hideProgressBar();
+                if (userNetworkResource.data != null) {
+                    UserViewModel.loggedInUser = userNetworkResource.data;//set logged-in user
+                }
+            });
+        }
     }
 
     public void itemSelectedOnMenu(MenuItem menuItem) {
