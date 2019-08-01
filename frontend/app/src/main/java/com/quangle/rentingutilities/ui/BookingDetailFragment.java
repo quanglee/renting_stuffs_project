@@ -21,6 +21,8 @@ import com.quangle.rentingutilities.viewmodel.ItemViewModel;
 import com.quangle.rentingutilities.viewmodel.UserViewModel;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+
 import androidx.lifecycle.ViewModelProviders;
 
 
@@ -28,7 +30,7 @@ public class BookingDetailFragment extends BaseFragment {
 
     private Booking booking;
     private static final String ARG_BOOKING = "booking";
-    private TextView txtNameView, txtDescView, txtPriceView, txtStatusView;
+    private TextView txtNameView, txtDescView, txtPriceView, txtStatusView, txtStartDate, txtReturnDate;
     private ImageView imageView;
     private Button btnCancel, btnReview, btnAccept, btnReject, btnDone;
     private ItemViewModel itemViewModel;
@@ -57,6 +59,8 @@ public class BookingDetailFragment extends BaseFragment {
         txtDescView = view.findViewById(R.id.txtDesc);
         txtPriceView = view.findViewById(R.id.txtPrice);
         txtStatusView = view.findViewById(R.id.txtStatus);
+        txtStartDate = view.findViewById(R.id.txtStartDate);
+        txtReturnDate = view.findViewById(R.id.txtReturnDate);
         imageView = view.findViewById(R.id.itemImage);
         btnCancel = view.findViewById(R.id.btnCancelBooking);
         btnReview = view.findViewById(R.id.btnReviewBooking);
@@ -69,6 +73,13 @@ public class BookingDetailFragment extends BaseFragment {
         txtDescView.setText(booking.getItem().getDescription());
         txtPriceView.setText("$" + String.valueOf(booking.getItem().getPrice()));
         txtStatusView.setText(booking.getStatus());
+        String pattern = "MM-dd-yyyy HH:mm";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String startDate = simpleDateFormat.format(booking.getStartDate());
+        String returnDate = simpleDateFormat.format(booking.getReturnDate());
+        txtStartDate.setText(startDate);
+        txtReturnDate.setText(returnDate);
+
         Picasso.get().load(booking.getItem().getImageURL()).resize(1000, 600).onlyScaleDown()
                 .into(imageView);
 
