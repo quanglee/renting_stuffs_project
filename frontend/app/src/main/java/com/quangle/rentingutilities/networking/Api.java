@@ -53,7 +53,7 @@ public interface Api {
     Call<List<Booking>> getBookingsOfUser(@Header("Authorization") String auth);
 
     // get all requests (bookings send to the user) of a particular user
-    @GET("/users/bookings")
+    @GET("/users/requests")
     Call<List<Booking>> getRequestsOfUser(@Header("Authorization") String auth);
 
     //Items

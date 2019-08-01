@@ -48,7 +48,7 @@ public class HomeActivity extends BaseActivity {
         itemsTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
         itemsTabsPagerAdapter.addFrag(new ItemsFragment(), getResources().getString(R.string.items));
         itemsTabsPagerAdapter.addFrag(new WishListFragment(), getResources().getString(R.string.wishlist));
-        itemsTabsPagerAdapter.addFrag(new ItemsFragment(), getResources().getString(R.string.requests));
+        itemsTabsPagerAdapter.addFrag(new RequestsFragment(), getResources().getString(R.string.requests));
         itemsViewPager.setAdapter(itemsTabsPagerAdapter);
 
         //display target tab

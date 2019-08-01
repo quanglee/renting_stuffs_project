@@ -48,7 +48,10 @@ public class BookingViewModel extends ViewModel {
                 @Override
                 public void onResponse(Call<List<Booking>> call, Response<List<Booking>> response) {
 
-                    getBookingsWithItemDetail(getTokenResult.getToken(), mUserBookings, response.body());
+                    if(response.body().size() == 0)
+                        mUserBookings.setValue(new ArrayList<>());
+                    else
+                        getBookingsWithItemDetail(getTokenResult.getToken(), mUserBookings, response.body());
                 }
 
                 @Override
@@ -60,6 +63,31 @@ public class BookingViewModel extends ViewModel {
         });
 
         return mUserBookings;
+    }
+
+    public LiveData<List<Booking>> getUserRequests(Auth auth) {
+
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Call<List<Booking>> bookingCall = api.getRequestsOfUser(getTokenResult.getToken());
+            bookingCall.enqueue(new Callback<List<Booking>>() {
+                @Override
+                public void onResponse(Call<List<Booking>> call, Response<List<Booking>> response) {
+
+                    if(response.body().size() == 0)
+                        mUserRequests.setValue(new ArrayList<>());
+                    else
+                        getBookingsWithItemDetail(getTokenResult.getToken(), mUserRequests, response.body());
+                }
+
+                @Override
+                public void onFailure(Call<List<Booking>> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                    System.out.println(t.getCause());
+                }
+            });
+        });
+
+        return mUserRequests;
     }
 
     private void getBookingsWithItemDetail(String accessToken,
