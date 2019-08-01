@@ -47,8 +47,6 @@ exports.createItem = (req, res, next) => {
 
   req.body.ownerId = req.user.email;
   req.body.imageURLs = UPLOAD_IMAGE_FOLDER + req.file.filename;
-  req.body.lat = req.body.lat == null ? req.user.lat : req.body.lat;
-  req.body.lng = req.body.lng == null ? req.user.lng : req.body.lng;
 
   Item.addItem(req.body).then(([rows, fields]) => {
     req.body.id = rows.insertId;

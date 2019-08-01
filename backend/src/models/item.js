@@ -17,22 +17,22 @@ module.exports = class Items {
 
     static addItem(params) {
         return db.execute(
-            'INSERT INTO items (ownerId, name, description, `condition`, category, imageURLs, tags, lat, lng, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            'INSERT INTO items (ownerId, name, description, `condition`, category, imageURLs, tags, lat, lng, price, pickupAddress) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
             ,
             [
                 params.ownerId, params.name, params.description, params.condition, params.category,
-                params.imageURLs, params.tags, params.lat, params.lng, params.price
+                params.imageURLs, params.tags, params.lat, params.lng, params.price, params.pickupAddress
             ]
         );
     }
 
     static editItem(params) {
       return db.execute(
-        `UPDATE items SET ownerId = ?, name = ?, description = ?, \`condition\` = ?, category = ?, imageURLs = ?, tags = ?, lat = ?, lng = ?, price = ? 
+        `UPDATE items SET ownerId = ?, name = ?, description = ?, \`condition\` = ?, category = ?, imageURLs = ?, tags = ?, lat = ?, lng = ?, price = ?, pickupAddress = ?
         WHERE id = ?`,
         [
           params.ownerId, params.name, params.description, params.condition, params.category,
-          params.imageURLs, params.tags, params.lat, params.lng, params.price, params.id
+          params.imageURLs, params.tags, params.lat, params.lng, params.price, params.pickupAddress, params.id
         ]);
     }
 
