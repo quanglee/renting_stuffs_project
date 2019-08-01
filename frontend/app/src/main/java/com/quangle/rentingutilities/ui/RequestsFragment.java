@@ -3,6 +3,7 @@ package com.quangle.rentingutilities.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.customAdapter.BookingAdapter;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
 import com.quangle.rentingutilities.viewmodel.BookingViewModel;
-import com.quangle.rentingutilities.viewmodel.ItemViewModel;
 
 import java.util.List;
 
@@ -22,17 +22,24 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class BookingsFragment extends BaseFragment {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class RequestsFragment extends BaseFragment {
 
-    ItemViewModel itemViewModel;
     BookingViewModel bookingViewModel;
     RecyclerView recyclerView;
+
+    public RequestsFragment() {
+        // Required empty public constructor
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_bookings, container, false);
+        View view = inflater.inflate(R.layout.fragment_requests, container, false);
 
         showProgressBar();
 
@@ -56,17 +63,8 @@ public class BookingsFragment extends BaseFragment {
         // get email of logged in user
         Auth auth = MySharedPreferences.getAuth(getContext());
 
-//        itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-//        itemViewModel.getUserBookings(auth).observe(this, new Observer<List<Booking>>() {
-//            @Override
-//            public void onChanged(List<Booking> bookings) {
-//                hideProgressBar();
-//                adapter.setNewBookings(bookings);
-//            }
-//        });
-
         bookingViewModel = ViewModelProviders.of(this).get(BookingViewModel.class);
-        bookingViewModel.getUserBookings(auth).observe(this, new Observer<List<Booking>>() {
+        bookingViewModel.getUserRequests(auth).observe(this, new Observer<List<Booking>>() {
             @Override
             public void onChanged(List<Booking> bookings) {
                 hideProgressBar();

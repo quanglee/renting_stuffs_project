@@ -58,7 +58,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ItemView
     @Override
     public void onBindViewHolder(BookingAdapter.ItemViewHolder holder, int position) {
 
-        if (mBookings != null) {
+        if (mBookings != null && mBookings.get(position).getItem() != null) {
             Booking current = mBookings.get(position);
             holder.itemNameView.setText(current.getItem().getName());
             holder.itemDescView.setText(current.getItem().getDescription());

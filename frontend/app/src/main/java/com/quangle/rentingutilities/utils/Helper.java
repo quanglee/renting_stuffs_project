@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.quangle.rentingutilities.R;
+import com.quangle.rentingutilities.viewmodel.UserViewModel;
 
 import java.util.List;
 
@@ -73,6 +74,15 @@ public class Helper {
                 .strokeWidth(0)
                 .fillColor(resources.getColor(R.color.colorAccentA35))
                 .radius(300); // In meters
+    }
+
+    public static boolean isUserLoggedIn(){
+        return UserViewModel.loggedInUser != null;
+    }
+
+    //NOTE: Must call isUserLoggedIn before call this method
+    public static boolean isLoggedInUserEmailMatch(String email){
+        return UserViewModel.loggedInUser.getEmail().equals(email);
     }
 
 }

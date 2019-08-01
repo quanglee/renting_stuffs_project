@@ -23,7 +23,7 @@
     <string name="address">Address</string>
 
     <!-- Items -->
-    <string name="yourItems">Your items</string>
+    <string name="yourItems">Your</string>
     <string name="wishlist">Wishlist</string>
     <string name="requests">Requests</string>
     <string name="setImage">Set Image</string>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.MenuItem;
@@ -16,8 +17,20 @@ import com.google.android.material.tabs.TabLayout;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
+import com.quangle.rentingutilities.viewmodel.UserViewModel;
 
 public class HomeActivity extends BaseActivity {
+
+    //TAB INDEX
+    public static final int HOME_TAB_INDEX = 0;
+    public static final int ITEMS_TAB_INDEX = 1;
+    public static final int BOOKINGS_TAB_INDEX = 2;
+    public static final int PROFILE_TAB_INDEX = 3;
+
+    //TOP NAV INDEX OF ITEMS TAB
+    public static final int ITEMS_TOPNAV_INDEX = 0;
+    public static final int WISHLIST_TOPNAV_INDEX = 1;
+    public static final int REQUESTS_TOPNAV_INDEX = 2;
 
     BottomNavigationView bottomNavigationView;
     private TabLayout tabLayout;
@@ -42,11 +55,16 @@ public class HomeActivity extends BaseActivity {
         itemsTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
         itemsTabsPagerAdapter.addFrag(new ItemsFragment(), getResources().getString(R.string.items));
         itemsTabsPagerAdapter.addFrag(new WishListFragment(), getResources().getString(R.string.wishlist));
-        itemsTabsPagerAdapter.addFrag(new ItemsFragment(), getResources().getString(R.string.requests));
+        itemsTabsPagerAdapter.addFrag(new RequestsFragment(), getResources().getString(R.string.requests));
         itemsViewPager.setAdapter(itemsTabsPagerAdapter);
 
+        //display target tab
         Intent intent = getIntent();
-        int selectedTab = intent.getIntExtra("selectedTab", 0);
+        int selectedTab = intent.getIntExtra("selectedTab", HOME_TAB_INDEX);
+        int selectedTopNavItem = intent.getIntExtra("topItemsTabNavIndex", ITEMS_TOPNAV_INDEX);
+
+        itemsViewPager.setCurrentItem(selectedTopNavItem);
+
         changeMenu(selectedTab);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -74,16 +92,16 @@ public class HomeActivity extends BaseActivity {
         itemSelectedOnMenu(bottomNavigationView.getMenu().getItem(index));
         View view = null;
         switch (index) {
-            case 0:
+            case HOME_TAB_INDEX:
                 view = bottomNavigationView.findViewById(R.id.home);
                 break;
-            case 1:
+            case ITEMS_TAB_INDEX:
                 view = bottomNavigationView.findViewById(R.id.items);
                 break;
-            case 2:
+            case BOOKINGS_TAB_INDEX:
                 view = bottomNavigationView.findViewById(R.id.bookings);
                 break;
-            case 4:
+            case PROFILE_TAB_INDEX:
                 view = bottomNavigationView.findViewById(R.id.profile);
                 break;
         }
@@ -93,11 +111,25 @@ public class HomeActivity extends BaseActivity {
 
     public void isUserLogged() {
         Auth auth = MySharedPreferences.getAuth(this);
+
         bottomNavigationView.getMenu().clear();
-        if (auth == null)
+        if (auth == null){
             bottomNavigationView.inflateMenu(R.menu.guest);
-        else
+            UserViewModel.loggedInUser = null;//clear logged-in user
+        }
+        else{
             bottomNavigationView.inflateMenu(R.menu.user);
+
+            //save user to UserViewModel
+            UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
+            userViewModel.get().observe(this, userNetworkResource -> {
+                hideProgressBar();
+                if (userNetworkResource.data != null) {
+                    UserViewModel.loggedInUser = userNetworkResource.data;//set logged-in user
+                }
+            });
+        }
     }
 
     public void itemSelectedOnMenu(MenuItem menuItem) {
@@ -115,7 +147,7 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.items:
                 setTitleActionBar(getResources().getString(R.string.yourItems));
-                fragmentDisplay = new ItemsFragment();
+                fragmentDisplay = itemsTabsPagerAdapter.getItem(itemsViewPager.getCurrentItem());
                 break;
             case R.id.bookings:
                 setTitleActionBar(getResources().getString(R.string.bookings));

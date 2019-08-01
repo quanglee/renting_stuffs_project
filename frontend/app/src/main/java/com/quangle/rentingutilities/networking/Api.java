@@ -52,6 +52,10 @@ public interface Api {
     @GET("/users/bookings")
     Call<List<Booking>> getBookingsOfUser(@Header("Authorization") String auth);
 
+    // get all requests (bookings send to the user) of a particular user
+    @GET("/users/requests")
+    Call<List<Booking>> getRequestsOfUser(@Header("Authorization") String auth);
+
     //Items
     // get all items for home page
     @GET("items")
@@ -80,4 +84,21 @@ public interface Api {
     //create a booking
     @DELETE("bookings/delete/{booking_id}")
     Call<JSONObject> cancelBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId);
+
+    //Reviews
+    //add a review
+    @POST("reviews/create")
+    Call<JSONObject> addReview(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
+
+    //accept a booking
+    @PUT("bookings/accept/{booking_id}")
+    Call<Booking> acceptBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
+
+    //reject a booking
+    @PUT("bookings/reject/{booking_id}")
+    Call<Booking> rejectBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
+
+    //done a booking
+    @PUT("bookings/done/{booking_id}")
+    Call<Booking> doneBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
 }

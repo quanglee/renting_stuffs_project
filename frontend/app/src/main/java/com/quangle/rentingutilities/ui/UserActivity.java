@@ -37,8 +37,8 @@ public class UserActivity extends BaseActivity implements OnMapReadyCallback {
     private UserViewModel userViewModel;
     private AuthViewModel authViewModel;
     private Button btnSubmit;
-    private TextInputLayout tiEmail;
     private GoogleMap map;
+    private TextInputLayout tiEmail, tiUsername, tiAddress, tiPassword;
 
     @SuppressLint("MissingSuperCall")
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +54,11 @@ public class UserActivity extends BaseActivity implements OnMapReadyCallback {
         final Validation validation = new Validation(this);
         tiEmail = findViewById(R.id.tiEmail);
         etEmail = findViewById(R.id.etEmail);
-        final TextInputLayout tiUsername = findViewById(R.id.tiUsername);
+        tiUsername = findViewById(R.id.tiUsername);
         etUsername = findViewById(R.id.etUsername);
-        final TextInputLayout tiPassword = findViewById(R.id.tiPassword);
+        tiPassword = findViewById(R.id.tiPassword);
         etPassword = findViewById(R.id.etPassword);
-        final TextInputLayout tiAddress = findViewById(R.id.tiAddress);
+        tiAddress = findViewById(R.id.tiAddress);
         etAddress = findViewById(R.id.etAddress);
         btnSubmit = findViewById(R.id.btnSubmit);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);

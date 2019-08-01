@@ -10,7 +10,7 @@ module.exports = class Booking {
         return db.execute(`
         SELECT b.*
         FROM bookings b 
-        WHERE b.borrowerId = '${userId}';
+        WHERE b.borrowerId = '${userId}' ORDER BY b.id DESC;
         `);
     }
 
@@ -32,7 +32,7 @@ module.exports = class Booking {
 
     //get all itemIds of user, then get all bookings that have itemIds
     static findAllRequestOfUser(userId) {
-        return db.execute(`SELECT * FROM bookings WHERE itemId IN (SELECT id FROM items WHERE ownerId = '${userId}');`);
+        return db.execute(`SELECT * FROM bookings WHERE itemId IN (SELECT id FROM items WHERE ownerId = '${userId}') ORDER BY id DESC;`);
     }
 
     //add a booking
@@ -57,6 +57,17 @@ module.exports = class Booking {
         );
     }
     
+    //update a booking
+    static updateBooking(params){
+
+        return db.execute(
+            'UPDATE bookings SET status = ? WHERE id = ?;',
+            [
+                params.status,
+                params.id
+            ]
+        );
+    }
 }
 
 // SELECT * FROM bookings WHERE borrowerId = 'user6@shareandget.com';

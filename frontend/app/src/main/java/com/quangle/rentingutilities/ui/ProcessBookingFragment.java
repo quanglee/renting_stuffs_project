@@ -3,6 +3,7 @@ package com.quangle.rentingutilities.ui;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -93,7 +94,9 @@ public class ProcessBookingFragment extends BaseFragment {
                             Toast.makeText(getContext(), "Booking Fail!", Toast.LENGTH_SHORT).show();
                         } else if (authNetworkResource.data != null) {
                             Toast.makeText(getContext(), "Booking Success!", Toast.LENGTH_SHORT).show();
-                            getActivity().finish();
+
+                            //return to booking tab to view current added booking
+                            BaseActivity.startHomeActivityAtTab(HomeActivity.BOOKINGS_TAB_INDEX);
                         }
                     });
 

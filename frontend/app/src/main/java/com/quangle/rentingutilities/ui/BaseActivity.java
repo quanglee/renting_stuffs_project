@@ -1,5 +1,7 @@
 package com.quangle.rentingutilities.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,10 +14,13 @@ import com.quangle.rentingutilities.R;
 public class BaseActivity extends AppCompatActivity {
 
     protected ProgressBar progressBar;
+    private static Context mContext;
 
     protected final void onCreate(Bundle savedInstanceState, int layoutId) {
         super.onCreate(savedInstanceState);
         setContentView(layoutId);
+
+        mContext = this;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,6 +57,23 @@ public class BaseActivity extends AppCompatActivity {
 
     public void setTitleActionBar(String title) {
         getSupportActionBar().setTitle(title);
+    }
+
+    public static void startHomeActivityAtTab(int tabIndex) {
+
+        Intent intent = new Intent(mContext, HomeActivity.class);
+        intent.putExtra("selectedTab", tabIndex);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//clear all top activity
+        mContext.startActivity(intent);
+    }
+
+    public static void startHomeActivityAtTab(int tabIndex, int topItemsTabNavIndex) {
+
+        Intent intent = new Intent(mContext, HomeActivity.class);
+        intent.putExtra("selectedTab", tabIndex);
+        intent.putExtra("topItemsTabNavIndex", topItemsTabNavIndex);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//clear all top activity
+        mContext.startActivity(intent);
     }
 
 }

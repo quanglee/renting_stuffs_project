@@ -57,6 +57,7 @@ public class Booking implements Serializable {
         SimpleDateFormat saveDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", id);
         hashMap.put("itemId", itemId);
         hashMap.put("borrowerId", borrowerId);
         hashMap.put("status", status);
