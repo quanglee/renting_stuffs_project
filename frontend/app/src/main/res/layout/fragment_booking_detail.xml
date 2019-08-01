@@ -89,6 +89,30 @@
                 android:layout_marginTop="10dp"
                 android:text="Review Booking" />
 
+            <Button
+                android:id="@+id/btnAcceptBooking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:layout_marginTop="10dp"
+                android:text="Accept Booking" />
+
+            <Button
+                android:id="@+id/btnRejectBooking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:layout_marginTop="10dp"
+                android:text="Reject Booking" />
+
+            <Button
+                android:id="@+id/btnDoneBooking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:layout_marginTop="10dp"
+                android:text="Mark as Done" />
+
         </LinearLayout>
 
     </LinearLayout>
