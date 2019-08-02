@@ -1,5 +1,7 @@
 package com.quangle.rentingutilities.core.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Review implements Serializable {
@@ -8,39 +10,59 @@ public class Review implements Serializable {
     //Owner review Borrower (itemId = -1), risk: hard to find corresponding booking
 
     //fields
-    private int id,
-            ownerId,
-            borrowerId,
-            itemId;
+    @SerializedName("id")
+    private int id;
 
-    private String title, content;
-    private double rating;//from 0 - 5
+    @SerializedName("ownerId")
+    private String ownerId;
+
+    @SerializedName("borrowerId")
+    private String borrowerId;
+
+    @SerializedName("itemId")
+    private String itemId;
+
+    @SerializedName("title")
+    private String title;
+
+    @SerializedName("content")
+    private String content;
+
+    @SerializedName("rating")
+    private double rating;
+
+    @SerializedName("bookingId")
+    private double bookingId;
 
     public int getId() {
         return id;
     }
 
-    public int getOwnerId() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
 
-    public int getBorrowerId() {
+    public String getBorrowerId() {
         return borrowerId;
     }
 
-    public void setBorrowerId(int borrowerId) {
+    public void setBorrowerId(String borrowerId) {
         this.borrowerId = borrowerId;
     }
 
-    public int getItemId() {
+    public String getItemId() {
         return itemId;
     }
 
-    public void setItemId(int itemId) {
+    public void setItemId(String itemId) {
         this.itemId = itemId;
     }
 
@@ -66,5 +88,13 @@ public class Review implements Serializable {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public double getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(double bookingId) {
+        this.bookingId = bookingId;
     }
 }

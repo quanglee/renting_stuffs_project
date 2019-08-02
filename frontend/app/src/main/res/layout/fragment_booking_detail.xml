@@ -81,14 +81,11 @@
             <TextView
                 android:id="@+id/txtDesc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
                 android:padding="1dp"
+                android:textSize="18dp"
                 android:textColor="@color/black" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2px"
-                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/labelStartDate"
@@ -103,14 +100,11 @@
             <TextView
                 android:id="@+id/txtStartDate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="39dp"
                 android:padding="1dp"
+                android:textSize="18dp"
                 android:textColor="@color/black" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2px"
-                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/labelReturnDate"
@@ -125,17 +119,14 @@
             <TextView
                 android:id="@+id/txtReturnDate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
+                android:textSize="18dp"
                 android:padding="1dp"
                 android:textColor="@color/black" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2px"
-                android:background="@color/gray" />
-
             <FrameLayout
                 android:id="@+id/fragmentDisplayInBookingDetail"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -146,15 +137,6 @@
                 android:background="@color/colorAccent"
                 android:layout_marginTop="10dp"
                 android:text="Cancel Booking" />
-
-            <!--<Button-->
-                <!--android:id="@+id/btnReviewBooking"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@color/colorAccent"-->
-                <!--android:layout_marginTop="10dp"-->
-
-                <!--android:text="Review Booking" />-->
 
             <Button
                 android:id="@+id/btnAcceptBooking"

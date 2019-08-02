@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.AddReviewFragment">
 
+    <TextView
+        android:id="@+id/labelReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="1dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="Leave your review here if any"
+        android:textColor="@color/colorAccent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,12 +27,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="36dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:isIndicator="true"
             android:numStars="5"
-            android:rating="3.5"
+            android:rating="4.0"
             android:stepSize="0.5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,14 +49,14 @@
             app:layout_constraintTop_toBottomOf="@+id/ratingBar">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etName"
+                android:id="@+id/etTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/baseline_notes_black_48px"
                 android:drawableLeft="@drawable/baseline_notes_black_48px"
                 android:drawableTint="@color/colorAccent"
                 android:ems="10"
-                android:hint="@string/name"
+                android:hint="Title"
                 android:inputType="text"
                 android:theme="@style/AppTheme.EditText"
                 tools:ignore="AutoFill"
@@ -80,19 +89,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btnSubmit"
-            android:layout_width="166dp"
+            android:id="@+id/btnReview"
+            android:layout_width="397dp"
             android:layout_height="wrap_content"
-
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="20dp"
-            android:text="@string/submit"
+            android:text="Add your review"
             android:theme="@style/AppTheme.Button"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tiDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
