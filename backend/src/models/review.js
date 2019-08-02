@@ -5,15 +5,6 @@ module.exports = class Review {
         // any
     }
 
-    //get all reviews of a specific item
-    static findAllReviewsOfItem(itemId) {
-        return db.execute(`
-        SELECT r.*
-        FROM reviews r
-        WHERE r.itemId = '${itemId}' ORDER BY r.id DESC;
-        `);
-    }
-
     //add a review for item
     static addReview(params){
         
@@ -23,5 +14,12 @@ module.exports = class Review {
                 params.itemId, params.borrowerId, params.title, params.content, params.rating, params.bookingId
             ]
         );
+    }
+
+    // find all reviews of an item
+    static findAllReviewsOfItem(itemId) {
+        return db.execute(
+            `SELECT r.* FROM reviews r
+            WHERE r.itemId = '${itemId}' ORDER BY r.id DESC;`);
     }
 }

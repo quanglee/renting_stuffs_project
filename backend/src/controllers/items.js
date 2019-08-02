@@ -1,5 +1,6 @@
 // place the wishlists logic here
 const Item = require('../models/item');
+const Review = require('../models/review');
 const { UPLOAD_IMAGE_FOLDER } = require('../config');
 const Utils = require('../util/utils');
 
@@ -76,4 +77,20 @@ exports.editItem = (req, res, next) => {
 };
 
 exports.deleteItem= (req, res, next) => {
+};
+
+exports.getAllReviewsOfItem = (req, res, next) => {
+  if (req.user == null) {
+    res.status(400).json({
+      message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+  }
+
+  Review.findAllReviewsOfItem(req.params.item_id)
+    .then(([rows, fields]) => {
+      res.status(200).json(rows);
+    }).catch(err => {
+      console.log(err);
+    });
 };

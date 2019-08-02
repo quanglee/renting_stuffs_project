@@ -1,6 +1,12 @@
 package com.quangle.rentingutilities.viewmodel;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
@@ -10,6 +16,9 @@ import com.quangle.rentingutilities.networking.RetrofitService;
 import com.quangle.rentingutilities.ui.HomeActivity;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +28,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class ItemViewModel extends ViewModel {
     MutableLiveData<NetworkResource<Item>> networkResourceItemMutableLiveData = new MutableLiveData<>();
@@ -228,8 +239,10 @@ public class ItemViewModel extends ViewModel {
                 public void onResponse(Call<Booking> call, Response<Booking> response) {
                     if (response.isSuccessful())
                         networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.body()));
-                    else
-                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                    else {
+                        networkResourceBookingMutableLiveData.setValue(new NetworkResource<>(new Booking(), response.code(), response.errorBody()));
+                    }
+
                 }
 
                 @Override
