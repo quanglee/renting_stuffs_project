@@ -7,8 +7,10 @@ const uploadImageService = require('../upload-file');
 // prefix: /items
 
 routers.get('/', itemController.getAllItems);
+routers.get('/:item_id/reviews', isAuth, itemController.getAllReviewsOfItem);
 routers.get('/:item_id', isAuth, itemController.getItemDetail);
 routers.post('/add', isAuth, uploadImageService.single('image'), itemController.createItem);
 routers.put('/edit/:item_id', isAuth, uploadImageService.single('image'), itemController.editItem);
 routers.delete('/delete/:item_id', isAuth, itemController.deleteItem);
+
 module.exports = routers;
