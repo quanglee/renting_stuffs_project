@@ -1,5 +1,6 @@
 create table reviews (
 	id              INT AUTO_INCREMENT PRIMARY KEY,
+    bookingId       INT NOT NULL,
     ownerId         VARCHAR(255),
     itemId          INT NOT NULL,
     borrowerId      VARCHAR(255) NOT NULL,

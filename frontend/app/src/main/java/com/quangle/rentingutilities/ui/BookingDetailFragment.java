@@ -66,7 +66,6 @@ public class BookingDetailFragment extends BaseFragment {
         txtReturnDate = view.findViewById(R.id.txtReturnDate);
         imageView = view.findViewById(R.id.itemImage);
         btnCancel = view.findViewById(R.id.btnCancelBooking);
-//        btnReview = view.findViewById(R.id.btnReviewBooking);
         btnAccept = view.findViewById(R.id.btnAcceptBooking);
         btnReject = view.findViewById(R.id.btnRejectBooking);
         btnDone = view.findViewById(R.id.btnDoneBooking);
@@ -87,7 +86,6 @@ public class BookingDetailFragment extends BaseFragment {
                 .into(imageView);
 
         btnCancel.setVisibility(View.GONE);
-//        btnReview.setVisibility(View.GONE);
         btnAccept.setVisibility(View.GONE);
         btnReject.setVisibility(View.GONE);
         btnDone.setVisibility(View.GONE);
@@ -104,16 +102,8 @@ public class BookingDetailFragment extends BaseFragment {
             }
 
         } else if (booking.getStatus().equals(Booking.STATUS.DONE.displayName())) {
+            displayReviewFragment();
 
-            //TODO: display if have no review yet
-            if(Helper.isUserLoggedIn() && //must check user is logging first
-                    Helper.isLoggedInUserEmailMatch(booking.getBorrowerId())) {
-                AddReviewFragment fragmentDisplay = new AddReviewFragment();
-                getChildFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentDisplayInBookingDetail, fragmentDisplay)
-                        .commit();
-            }
-//                btnReview.setVisibility(View.VISIBLE);
         } else if(booking.getStatus().equals(Booking.STATUS.ACCEPTED.displayName())) {
 
             if(Helper.isUserLoggedIn() && //must check user is logging first
@@ -126,7 +116,6 @@ public class BookingDetailFragment extends BaseFragment {
         // cancel booking
         itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
         bookingViewModel = ViewModelProviders.of(getActivity()).get(BookingViewModel.class);
-//        reviewViewModel = ViewModelProviders.of(getActivity()).get(ReviewViewModel.class);
 
         btnCancel.setOnClickListener(v -> {
             btnCancel.setEnabled(false);
@@ -164,22 +153,6 @@ public class BookingDetailFragment extends BaseFragment {
                 }
             });
         });
-
-
-//        btnReview.setOnClickListener(v -> {
-//
-//            AddReviewFragment fragmentDisplay = new AddReviewFragment();
-//            getChildFragmentManager().beginTransaction()
-//                    .replace(R.id.fragmentDisplayInBookingDetail, fragmentDisplay)
-//                    .commit();
-//
-//            btnReview.setVisibility(View.GONE);
-////            HashMap<String, Object> params = new HashMap<>();
-////            params.put("itemId", booking.getItem().getId());
-////            params.put("borrowerId", booking.getItem().getId());
-////            params.put("title", booking.getItem().getId());
-////            params.put("content", booking.getItem().getId());
-//        });
 
         //reject booking
         btnReject.setOnClickListener(v -> {
@@ -223,4 +196,17 @@ public class BookingDetailFragment extends BaseFragment {
         return view;
     }
 
+
+    private void displayReviewFragment() {
+        if(Helper.isUserLoggedIn() && //must check user is logging first
+                Helper.isLoggedInUserEmailMatch(booking.getBorrowerId())) {
+            AddReviewFragment fragmentDisplay = new AddReviewFragment();
+            Bundle i = new Bundle();
+            i.putSerializable(ARG_BOOKING, booking);
+            fragmentDisplay.setArguments(i);
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentDisplayInBookingDetail, fragmentDisplay)
+                    .commit();
+        }
+    }
 }

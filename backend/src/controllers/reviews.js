@@ -9,15 +9,14 @@ exports.addReview = (req, res, next) => {
       return;
     }else if (!req.body.itemId || 
         !req.body.borrowerId || 
-        !req.body.title || 
-        !req.body.content || 
+        !req.body.title ||
         !req.body.rating) {
         return res.status(400).send({
             success: 'false',
-            message: 'itemId, borrowerId, title, content and rating are required',
+            message: 'itemId, borrowerId, title and rating are required',
         });
     }
-
+    
     Review.addReview(req.body)
         .then(([rows, fields]) => {
             res.status(200).json(rows)

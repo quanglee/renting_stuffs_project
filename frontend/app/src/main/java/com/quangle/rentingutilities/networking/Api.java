@@ -3,6 +3,7 @@ package com.quangle.rentingutilities.networking;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
+import com.quangle.rentingutilities.core.model.Review;
 import com.quangle.rentingutilities.core.model.User;
 
 
@@ -88,7 +89,7 @@ public interface Api {
     //Reviews
     //add a review
     @POST("reviews/create")
-    Call<JSONObject> addReview(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
+    Call<Review> addReview(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
 
     //accept a booking
     @PUT("bookings/accept/{booking_id}")
