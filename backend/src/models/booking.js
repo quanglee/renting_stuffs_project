@@ -32,7 +32,7 @@ module.exports = class Booking {
 
     //get all itemIds of user, then get all bookings that have itemIds
     static findAllRequestOfUser(userId) {
-        return db.execute(`SELECT * FROM bookings WHERE itemId IN (SELECT id FROM items WHERE ownerId = '${userId}');`);
+        return db.execute(`SELECT * FROM bookings WHERE itemId IN (SELECT id FROM items WHERE ownerId = '${userId}') ORDER BY id DESC;`);
     }
 
     //add a booking

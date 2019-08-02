@@ -2,6 +2,7 @@ package com.quangle.rentingutilities.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -10,6 +11,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.viewmodel.UserViewModel;
 
@@ -65,13 +68,20 @@ public class Helper {
         dialog.show();
     }
 
+    public static CircleOptions configureMapCircle(LatLng location, Resources resources) {
+        return new CircleOptions()
+                .center(location)
+                .strokeWidth(0)
+                .fillColor(resources.getColor(R.color.colorAccentA35))
+                .radius(300); // In meters
+    }
+
     public static boolean isUserLoggedIn(){
         return UserViewModel.loggedInUser != null;
     }
 
     //NOTE: Must call isUserLoggedIn before call this method
     public static boolean isLoggedInUserEmailMatch(String email){
-
         return UserViewModel.loggedInUser.getEmail().equals(email);
     }
 

@@ -92,6 +92,7 @@ public interface Api {
     Call<Review> addReview(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
 
     //accept a booking
+    @PUT("bookings/accept/{booking_id}")
     Call<Booking> acceptBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
 
     //reject a booking

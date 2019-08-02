@@ -13,6 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCA2rjEfiP4SXeXmwheYeHKR622gCZUVSk"/>
+
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
         <activity android:name=".ui.BookingActivity"></activity>
         <activity android:name=".ui.ItemActivity" />
         <activity android:name=".ui.UserActivity" />

@@ -39,6 +39,7 @@
     <string name="condition">Condition</string>
     <string name="tags">Tags</string>
     <string name="book">Book</string>
+    <string name="pickUpLocation">Pick up location</string>
 
     <!-- Booking -->
     <string name="startDateTime">When you want to get?</string>
