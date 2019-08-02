@@ -96,7 +96,7 @@ public class ProcessBookingFragment extends BaseFragment {
                             Toast.makeText(getContext(), "Booking Success!", Toast.LENGTH_SHORT).show();
 
                             //return to booking tab to view current added booking
-                            BaseActivity.startHomeActivityAtTab(HomeActivity.BOOKINGS_TAB_INDEX);
+                            BaseActivity.startHomeActivityAtTab(R.id.bookings);
                         }
                     });
 

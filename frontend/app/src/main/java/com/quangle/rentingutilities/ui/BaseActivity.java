@@ -59,10 +59,10 @@ public class BaseActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
     }
 
-    public static void startHomeActivityAtTab(int tabIndex) {
+    public static void startHomeActivityAtTab(int tabItemId) {
 
         Intent intent = new Intent(mContext, HomeActivity.class);
-        intent.putExtra("selectedTab", tabIndex);
+        intent.putExtra(HomeActivity.ARG_TAB_ITEM_ID, tabItemId);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//clear all top activity
         mContext.startActivity(intent);
     }
@@ -70,7 +70,7 @@ public class BaseActivity extends AppCompatActivity {
     public static void startHomeActivityAtTab(int tabIndex, int topItemsTabNavIndex) {
 
         Intent intent = new Intent(mContext, HomeActivity.class);
-        intent.putExtra("selectedTab", tabIndex);
+        intent.putExtra(HomeActivity.ARG_TAB_ITEM_ID, tabIndex);
         intent.putExtra("topItemsTabNavIndex", topItemsTabNavIndex);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//clear all top activity
         mContext.startActivity(intent);
