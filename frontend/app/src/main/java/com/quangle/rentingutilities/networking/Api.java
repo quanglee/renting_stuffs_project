@@ -5,6 +5,7 @@ import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.core.model.Review;
 import com.quangle.rentingutilities.core.model.User;
+import com.quangle.rentingutilities.core.model.Wishlist;
 
 
 import org.json.JSONObject;
@@ -102,4 +103,10 @@ public interface Api {
     //done a booking
     @PUT("bookings/done/{booking_id}")
     Call<Booking> doneBooking(@Header("Authorization") String auth, @Path(value = "booking_id", encoded = true) String bookingId, @Body HashMap<String, Object> params);
+
+    //Wishlist
+    //Add to your wishlist
+    @POST("wishlists/create")
+    Call<Wishlist> createWishlist(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
+
 }

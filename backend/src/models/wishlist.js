@@ -1,20 +1,19 @@
 const db = require("../util/database");
 
 module.exports = class Wishlist {
-    constructor() {
-        // any
-    }
+  constructor() {
+    // any
+  }
 
-    static findAll() {
-        return db.execute('SELECT * FROM wishlists;');
-    }
+  static create(params) {
+    return db.execute(
+      `INSERT INTO wishlists (itemId, ownerId, endDate) 
+      VALUES (?, ?, ?)`, [
+        params.itemId, params.ownerId, params.endDate
+      ]
+    );
+  }
 
-    static findWishlistsOfUser(userId){
-        return db.execute(`SELECT * FROM items WHERE id IN (
-                SELECT itemId FROM wishlists WHERE ownerId = '${userId}' AND endDate >= CURDATE()
-                ) AND isActive = 1;`);
-    }
-    
 }
 
 // SELECT * FROM items WHERE id IN (1,2,3) AND isActive = 1;

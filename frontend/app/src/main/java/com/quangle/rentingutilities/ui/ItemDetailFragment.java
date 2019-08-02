@@ -29,6 +29,7 @@ import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.core.model.User;
+import com.quangle.rentingutilities.core.model.Wishlist;
 import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.utils.GetAddressFromName;
 import com.quangle.rentingutilities.utils.Helper;
@@ -36,6 +37,7 @@ import com.quangle.rentingutilities.utils.MySharedPreferences;
 import com.quangle.rentingutilities.utils.Validation;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
 import com.quangle.rentingutilities.viewmodel.UserViewModel;
+import com.quangle.rentingutilities.viewmodel.WishlistViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -57,7 +59,6 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
     private boolean canEdit = false;
     private ImageView imageView;
     private String imageAbsolutePath = null;
-    private Auth auth;
     private File file;
     private RatingBar ratingBar;
     private EditText etName, etDescription, etPrice, etCategory, etCondition, etTags, etPickupAddress;
@@ -66,6 +67,7 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
     private GoogleMap map;
     private Button btnSubmit;
     private ItemViewModel itemViewModel;
+    private WishlistViewModel wishlistViewModel;
 
     public static ItemDetailFragment newInstance(Item item, boolean canEdit) {
         ItemDetailFragment fragment = new ItemDetailFragment();
@@ -113,11 +115,11 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
         Button btnAddToWishlist = view.findViewById(R.id.btnAddToWishlist);
         Button btnSetImage = view.findViewById(R.id.btnSetImage);
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
-        auth = MySharedPreferences.getAuth(getActivity());
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        wishlistViewModel = ViewModelProviders.of(this).get(WishlistViewModel.class);
 
         setFields();
 
@@ -189,6 +191,20 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
         btnAddToWishlist.setOnClickListener(v -> {
             if (MySharedPreferences.getAuth(getActivity()) == null)
                 gotoLogin();
+            else {
+                btnAddToWishlist.setEnabled(false);
+                showProgressBar();
+                wishlistViewModel.create(new Wishlist(item.getId()).toHashMap()).observe(this, wishlistNetworkResource -> {
+                    btnAddToWishlist.setEnabled(true);
+                    hideProgressBar();
+                    if (wishlistNetworkResource.data != null)
+                        Toast.makeText(getContext(), "Item added successfully", Toast.LENGTH_SHORT).show();
+                    else if (wishlistNetworkResource.code == 409)
+                        Toast.makeText(getContext(), "That item is already in your wishlist", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                });
+            }
         });
 
         btnSubmit.setOnClickListener(v -> {

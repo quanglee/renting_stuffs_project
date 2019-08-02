@@ -5,7 +5,6 @@ const wishlistController = require('../controllers/wishlists');
 // ALL ROUTES OF WISHLIST
 // prefix: /wishlists
 
-routers.get('/', wishlistController.getAllWishlists);
-routers.get('/:userId', wishlistController.getWishlistsOfUser);
+routers.post('/create', isAuth, wishlistController.create);
 
 module.exports = routers;

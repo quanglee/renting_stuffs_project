@@ -42,9 +42,10 @@ module.exports = class Items {
             WHERE i.ownerId = '${userId}' ORDER BY i.id DESC;`);
     }
 
+    // AND endDate >= CURDATE()
     static findWishlistOfUser(userId){
         return db.execute(`SELECT * FROM items WHERE id IN (
-                SELECT itemId FROM wishlists WHERE ownerId = '${userId}' AND endDate >= CURDATE()
+                SELECT itemId FROM wishlists WHERE ownerId = '${userId}'
                 ) AND isActive = 1;`);
     }
 }

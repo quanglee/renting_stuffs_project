@@ -1,6 +1,7 @@
 package com.quangle.rentingutilities.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,11 @@ public class WishListFragment extends BaseFragment {
         //check user is login or not
         Auth auth = MySharedPreferences.getAuth(getContext());
 
-        final ItemAdapter adapter = new ItemAdapter(getContext(), item -> {});
+        final ItemAdapter adapter = new ItemAdapter(getContext(), item -> {
+            Intent intent = new Intent(getActivity(), ItemActivity.class);
+            ItemActivity.setItem(intent, item, false);
+            startActivityForResult(intent, ItemActivity.UPDATE_ITEMS);
+        });
         tempRecyclerView.setAdapter(adapter);
 
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);

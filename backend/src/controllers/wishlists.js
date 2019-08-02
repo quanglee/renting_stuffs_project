@@ -1,24 +1,22 @@
 // place the wishlists logic here
 const Wishlist = require('../models/wishlist');
+const Utils = require('../util/utils');
 
-exports.getAllWishlists = (req, res, next) => {
-    console.log("get all list of items from wishlist from mysql and return JSON file");
-    // we use promise which is nicer than callback
-    Wishlist.findAll()
-        .then(([rows, fields]) => {
-            res.status(200).json(rows);
-        }).catch(err => {
-            console.log(err);
-        });
-};
+exports.create = (req, res, next) => {
+  console.log("Create wishlist");
+  if (req.user == null) {
+    res.status(400).json({
+      message: "The user should be provided, add the callback to the router to check if the user is logged"
+    });
+    return;
+  }
 
-exports.getWishlistsOfUser = (req, res, next) => {
-    console.log("get all list of items from wishlist of a user from mysql and return JSON file");
-    // we use promise which is nicer than callback
-    Wishlist.findWishlistsOfUser(req.params.userId)
-        .then(([rows, fields]) => {
-            res.status(200).json(rows);
-        }).catch(err => {
-            console.log(err);
-        });
+  req.body.ownerId = req.user.email;
+  Wishlist.create(req.body).then(([rows, fields]) => {
+    res.status(201).json(req.body);
+  }).catch(err => {
+    console.log(err);
+    if (err.errno == 1062)
+      res.status(409).json({message: err.message});
+  });
 };
