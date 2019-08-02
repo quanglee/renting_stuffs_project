@@ -141,7 +141,7 @@ public class BookingDetailFragment extends BaseFragment {
                 } else if (authNetworkResource.data != null) {
 
                     //return to booking tab
-                    BaseActivity.startHomeActivityAtTab(HomeActivity.BOOKINGS_TAB_INDEX);
+                    BaseActivity.startHomeActivityAtTab(R.id.bookings);
                 }
             });
         });
@@ -160,7 +160,7 @@ public class BookingDetailFragment extends BaseFragment {
                 } else if (authNetworkResource.data != null) {
 
                     //return to Items tab / Requests top nav
-                    BaseActivity.startHomeActivityAtTab(HomeActivity.ITEMS_TAB_INDEX, HomeActivity.REQUESTS_TOPNAV_INDEX);
+                    BaseActivity.startHomeActivityAtTab(R.id.items, HomeActivity.REQUESTS_TOPNAV_INDEX);
                 }
             });
         });
@@ -195,7 +195,7 @@ public class BookingDetailFragment extends BaseFragment {
                 } else if (authNetworkResource.data != null) {
 
                     //return to Items tab / Requests top nav
-                    BaseActivity.startHomeActivityAtTab(HomeActivity.ITEMS_TAB_INDEX, HomeActivity.REQUESTS_TOPNAV_INDEX);
+                    BaseActivity.startHomeActivityAtTab(R.id.items, HomeActivity.REQUESTS_TOPNAV_INDEX);
                 }
             });
         });
@@ -214,7 +214,7 @@ public class BookingDetailFragment extends BaseFragment {
                 } else if (authNetworkResource.data != null) {
 
                     //return to Items tab / Requests top nav
-                    BaseActivity.startHomeActivityAtTab(HomeActivity.ITEMS_TAB_INDEX, HomeActivity.REQUESTS_TOPNAV_INDEX);
+                    BaseActivity.startHomeActivityAtTab(R.id.items, HomeActivity.REQUESTS_TOPNAV_INDEX);
 
                 }
             });

@@ -22,10 +22,7 @@ import com.quangle.rentingutilities.viewmodel.UserViewModel;
 public class HomeActivity extends BaseActivity {
 
     //TAB INDEX
-    public static final int HOME_TAB_INDEX = 0;
-    public static final int ITEMS_TAB_INDEX = 1;
-    public static final int BOOKINGS_TAB_INDEX = 2;
-    public static final int PROFILE_TAB_INDEX = 3;
+    public static final String ARG_TAB_ITEM_ID = "tabItemId";
 
     //TOP NAV INDEX OF ITEMS TAB
     public static final int ITEMS_TOPNAV_INDEX = 0;
@@ -60,12 +57,12 @@ public class HomeActivity extends BaseActivity {
 
         //display target tab
         Intent intent = getIntent();
-        int selectedTab = intent.getIntExtra("selectedTab", HOME_TAB_INDEX);
+        int tabItemId = intent.getIntExtra(ARG_TAB_ITEM_ID, R.id.home);
         int selectedTopNavItem = intent.getIntExtra("topItemsTabNavIndex", ITEMS_TOPNAV_INDEX);
 
         itemsViewPager.setCurrentItem(selectedTopNavItem);
 
-        changeMenu(selectedTab);
+        changeMenu(tabItemId);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -87,25 +84,9 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
-    public void changeMenu(int index) {
+    public void changeMenu(int tabItemId) {
         isUserLogged();
-        itemSelectedOnMenu(bottomNavigationView.getMenu().getItem(index));
-        View view = null;
-        switch (index) {
-            case HOME_TAB_INDEX:
-                view = bottomNavigationView.findViewById(R.id.home);
-                break;
-            case ITEMS_TAB_INDEX:
-                view = bottomNavigationView.findViewById(R.id.items);
-                break;
-            case BOOKINGS_TAB_INDEX:
-                view = bottomNavigationView.findViewById(R.id.bookings);
-                break;
-            case PROFILE_TAB_INDEX:
-                view = bottomNavigationView.findViewById(R.id.profile);
-                break;
-        }
-
+        View view = bottomNavigationView.findViewById(tabItemId);
         view.performClick();
     }
 

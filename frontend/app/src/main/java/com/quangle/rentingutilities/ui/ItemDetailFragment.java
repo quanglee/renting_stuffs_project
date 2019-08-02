@@ -110,6 +110,7 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
         etPickupAddress = view.findViewById(R.id.etAddress);
         Button btnBook = view.findViewById(R.id.btnBook);
         btnSubmit = view.findViewById(R.id.btnSubmit);
+        Button btnAddToWishlist = view.findViewById(R.id.btnAddToWishlist);
         Button btnSetImage = view.findViewById(R.id.btnSetImage);
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
         auth = MySharedPreferences.getAuth(getActivity());
@@ -129,11 +130,13 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
             etTags.setEnabled(false);
             etPickupAddress.setEnabled(false);
             btnBook.setVisibility(View.VISIBLE);
+            btnAddToWishlist.setVisibility(View.VISIBLE);
             btnSubmit.setVisibility(View.GONE);
             btnSetImage.setVisibility(View.GONE);
         } else {
             checkUserExternalFilesPermission();
             btnBook.setVisibility(View.GONE);
+            btnAddToWishlist.setVisibility(View.GONE);
             btnSubmit.setVisibility(View.VISIBLE);
             btnSetImage.setVisibility(View.VISIBLE);
             // Is a new Item
@@ -173,10 +176,19 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
         });
 
         btnBook.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), BookingActivity.class);
-            intent.putExtra("fragmentOptions", "processBooking");
-            BookingActivity.setItem(intent, item);
-            getActivity().startActivity(intent);
+            if (MySharedPreferences.getAuth(getActivity()) == null)
+                gotoLogin();
+            else {
+                Intent intent = new Intent(getActivity(), BookingActivity.class);
+                intent.putExtra("fragmentOptions", "processBooking");
+                BookingActivity.setItem(intent, item);
+                getActivity().startActivity(intent);
+            }
+        });
+
+        btnAddToWishlist.setOnClickListener(v -> {
+            if (MySharedPreferences.getAuth(getActivity()) == null)
+                gotoLogin();
         });
 
         btnSubmit.setOnClickListener(v -> {
@@ -209,6 +221,10 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
         });
 
         return view;
+    }
+
+    public void gotoLogin() {
+        BaseActivity.startHomeActivityAtTab(R.id.login);
     }
 
     @Override
