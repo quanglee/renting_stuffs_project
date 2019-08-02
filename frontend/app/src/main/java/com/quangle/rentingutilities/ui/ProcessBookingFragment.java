@@ -91,7 +91,7 @@ public class ProcessBookingFragment extends BaseFragment {
                                     .observe(getActivity(), authNetworkResource -> {
 
                         if (authNetworkResource.code == 401) {
-                            Toast.makeText(getContext(), "Booking Fail!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), authNetworkResource.errorMessage, Toast.LENGTH_SHORT).show();
                         } else if (authNetworkResource.data != null) {
                             Toast.makeText(getContext(), "Booking Success!", Toast.LENGTH_SHORT).show();
 
