@@ -19,7 +19,11 @@ module.exports = class Review {
     // find all reviews of an item
     static findAllReviewsOfItem(itemId) {
         return db.execute(
-            `SELECT r.* FROM reviews r
-            WHERE r.itemId = '${itemId}' ORDER BY r.id DESC;`);
+            `SELECT r.id, r.bookingId, r.borrowerId, r.title, r.content, r.rating
+                , b.startDate, b.returnDate
+                FROM reviews r
+                    INNER JOIN bookings b ON r.bookingId = b.id
+                
+                WHERE r.itemId = '${itemId}' ORDER BY r.id DESC;`);
     }
 }

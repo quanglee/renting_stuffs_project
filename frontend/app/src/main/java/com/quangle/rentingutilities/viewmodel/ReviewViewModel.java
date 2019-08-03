@@ -1,6 +1,7 @@
 package com.quangle.rentingutilities.viewmodel;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.JsonObject;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
@@ -9,6 +10,7 @@ import com.quangle.rentingutilities.networking.Api;
 import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.networking.RetrofitService;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import retrofit2.Response;
 public class ReviewViewModel extends ViewModel {
 
     MutableLiveData<NetworkResource<Review>> mJSReview = new MutableLiveData<>();
+    MutableLiveData<List<JsonObject>> mReviews = new MutableLiveData<>();
     Api api;
     private FirebaseAuth firebaseAuth;
 
@@ -36,6 +39,27 @@ public class ReviewViewModel extends ViewModel {
         if (firebaseAuth ==null) {
             firebaseAuth = FirebaseAuth.getInstance();
         }
+    }
+
+    // list all reviews of item
+    public LiveData<List<JsonObject>> getReviewsOfItem(String itemId) {
+
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Call<List<JsonObject>> reviewCall = api.getReviewsOfItem(getTokenResult.getToken(), itemId);
+            reviewCall.enqueue(new Callback<List<JsonObject>>() {
+                @Override
+                public void onResponse(Call<List<JsonObject>> call, Response<List<JsonObject>> response) {
+                    mReviews.setValue(response.body());
+                }
+
+                @Override
+                public void onFailure(Call<List<JsonObject>> call, Throwable t) {
+
+                }
+            });
+        });
+
+        return mReviews;
     }
 
     // add Review

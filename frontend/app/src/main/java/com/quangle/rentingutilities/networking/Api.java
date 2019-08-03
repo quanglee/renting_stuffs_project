@@ -1,5 +1,6 @@
 package com.quangle.rentingutilities.networking;
 
+import com.google.gson.JsonObject;
 import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.core.model.Item;
@@ -8,6 +9,7 @@ import com.quangle.rentingutilities.core.model.User;
 import com.quangle.rentingutilities.core.model.Wishlist;
 
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -66,6 +68,10 @@ public interface Api {
     // get item details
     @GET("items/{item_id}")
     Call<Item> getItemDetail(@Header("Authorization") String auth, @Path(value = "item_id", encoded = true) String itemId);
+
+    // get all reviews of item
+    @GET("items/{item_id}/reviews")
+    Call<List<JsonObject>> getReviewsOfItem(@Header("Authorization") String auth, @Path(value = "item_id", encoded = true) String itemId);
 
     // add new item
     @Multipart
