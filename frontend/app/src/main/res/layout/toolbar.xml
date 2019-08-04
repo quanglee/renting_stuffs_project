@@ -8,9 +8,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:titleTextColor="@color/colorAccent"/>
+        app:titleTextAppearance="@style/AppTheme.Toolbar.TitleText"
+        app:theme="@style/AppTheme.Toolbar"/>
 
     <ProgressBar
         android:id="@+id/toolbarprogress"

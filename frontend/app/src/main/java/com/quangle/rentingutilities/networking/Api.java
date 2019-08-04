@@ -28,6 +28,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface Api {
 
@@ -63,7 +64,7 @@ public interface Api {
     //Items
     // get all items for home page
     @GET("items")
-    Call<List<Item>> getAllItems();
+    Call<List<Item>> getAllItems(@Query("itemname") String itemName);
 
     // get item details
     @GET("items/{item_id}")
