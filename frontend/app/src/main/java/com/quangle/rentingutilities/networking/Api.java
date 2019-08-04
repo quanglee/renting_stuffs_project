@@ -115,4 +115,8 @@ public interface Api {
     @POST("wishlists/create")
     Call<Wishlist> createWishlist(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
 
+    //Remove to your wishlist
+    @POST("wishlists/delete")
+    Call<Wishlist> deleteWishlist(@Header("Authorization") String auth, @Body HashMap<String, Object> params);
+
 }

@@ -32,7 +32,8 @@ public class ProfileFragment extends BaseFragment {
             if (selected.equals("Logout")) {
                 FirebaseAuth.getInstance().signOut();
                 MySharedPreferences.clearSharedPreferences(getActivity());
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
+//                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                Intent intent = new Intent(getActivity(), SplashActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 getActivity().finish();

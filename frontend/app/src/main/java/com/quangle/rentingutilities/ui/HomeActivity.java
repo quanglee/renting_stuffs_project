@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
@@ -16,8 +17,13 @@ import android.widget.FrameLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Auth;
+import com.quangle.rentingutilities.core.model.Item;
+import com.quangle.rentingutilities.core.model.User;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
+import com.quangle.rentingutilities.viewmodel.ItemViewModel;
 import com.quangle.rentingutilities.viewmodel.UserViewModel;
+
+import java.util.List;
 
 public class HomeActivity extends BaseActivity {
 
@@ -61,6 +67,11 @@ public class HomeActivity extends BaseActivity {
         int selectedTopNavItem = intent.getIntExtra("topItemsTabNavIndex", ITEMS_TOPNAV_INDEX);
 
         itemsViewPager.setCurrentItem(selectedTopNavItem);
+        System.out.println("Tab Item ID " + tabItemId);
+        System.out.println("Tab Login ID " + R.id.login);
+        System.out.println("Tab Home ID " + R.id.home);
+        System.out.println("Tab Items ID " + R.id.items);
+        System.out.println("Tab Bookings ID " + R.id.bookings);
 
         changeMenu(tabItemId);
 
@@ -96,20 +107,32 @@ public class HomeActivity extends BaseActivity {
         bottomNavigationView.getMenu().clear();
         if (auth == null){
             bottomNavigationView.inflateMenu(R.menu.guest);
-            UserViewModel.loggedInUser = null;//clear logged-in user
+//            UserViewModel.loggedInUser = null;//clear logged-in user
+//            UserViewModel.wishlistItemOfLoggedInUser = null;//clear wishlist of logged-in user
         }
         else{
             bottomNavigationView.inflateMenu(R.menu.user);
 
             //save user to UserViewModel
-            UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-
-            userViewModel.get().observe(this, userNetworkResource -> {
-                hideProgressBar();
-                if (userNetworkResource.data != null) {
-                    UserViewModel.loggedInUser = userNetworkResource.data;//set logged-in user
-                }
-            });
+//            UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+//
+//            userViewModel.get().observe(this, userNetworkResource -> {
+//
+//                if (userNetworkResource.data != null) {
+//                    UserViewModel.loggedInUser = userNetworkResource.data;//set logged-in user
+//
+//                    //load wishlist of logged-in user to UserViewModel
+//                    ItemViewModel itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+//                    itemViewModel.getWishlistOfUser(auth).observe(this, new Observer<List<Item>>() {
+//                        @Override
+//                        public void onChanged(List<Item> items) {
+//                            hideProgressBar();
+//                            UserViewModel.wishlistItemOfLoggedInUser = items;
+//
+//                        }
+//                    });
+//                }
+//            });
         }
     }
 
