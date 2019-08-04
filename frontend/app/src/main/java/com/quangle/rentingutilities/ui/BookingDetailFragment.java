@@ -21,12 +21,12 @@ import java.text.SimpleDateFormat;
 
 import androidx.lifecycle.ViewModelProviders;
 
-
 public class BookingDetailFragment extends BaseFragment {
 
     private Booking booking;
     private static final String ARG_BOOKING = "booking";
-    private TextView txtNameView, txtDescView, txtPriceView, txtStatusView, txtStartDate, txtReturnDate;
+    private TextView txtNameView, txtDescView, txtPriceView, txtStatusView, txtStartDate, txtReturnDate,
+            txtBorrowerEmail, txtOwnerEmail;
     private ImageView imageView;
     private Button btnCancel, btnReview, btnAccept, btnReject, btnDone;
     private ItemViewModel itemViewModel;
@@ -58,6 +58,8 @@ public class BookingDetailFragment extends BaseFragment {
         txtStatusView = view.findViewById(R.id.txtStatus);
         txtStartDate = view.findViewById(R.id.txtStartDate);
         txtReturnDate = view.findViewById(R.id.txtReturnDate);
+        txtBorrowerEmail = view.findViewById(R.id.txtBorrowerEmail);
+        txtOwnerEmail = view.findViewById(R.id.txtOwnerEmail);
         imageView = view.findViewById(R.id.itemImage);
         btnCancel = view.findViewById(R.id.btnCancelBooking);
         btnAccept = view.findViewById(R.id.btnAcceptBooking);
@@ -69,12 +71,16 @@ public class BookingDetailFragment extends BaseFragment {
         txtDescView.setText(booking.getItem().getDescription());
         txtPriceView.setText("$" + String.valueOf(booking.getItem().getPrice()));
         txtStatusView.setText(booking.getStatus());
+        txtBorrowerEmail.setText(booking.getBorrowerId());
+        txtOwnerEmail.setText(booking.getItem().getOwnerId());//update OwnerId
         String pattern = "MM-dd-yyyy HH:mm";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String startDate = simpleDateFormat.format(booking.getStartDate());
         String returnDate = simpleDateFormat.format(booking.getReturnDate());
         txtStartDate.setText(startDate);
         txtReturnDate.setText(returnDate);
+
+
 
         Picasso.get().load(booking.getItem().getImageURL()).resize(1000, 600).onlyScaleDown()
                 .into(imageView);
