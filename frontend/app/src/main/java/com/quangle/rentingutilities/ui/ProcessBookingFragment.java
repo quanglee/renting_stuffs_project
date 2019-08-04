@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class ProcessBookingFragment extends BaseFragment {
     private int mYear, mMonth, mDay, mHour, mMinute;
     private Calendar startDate, returnDate;
     private TextInputLayout tiStartDate, tiReturnDate;
-    private Button btnStartDate, btnReturnDate, btnProcessBooking;
+    private Button btnProcessBooking;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy hh:mm aaa");
 
     public ProcessBookingFragment() {
@@ -56,15 +57,12 @@ public class ProcessBookingFragment extends BaseFragment {
 
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
 
-        btnStartDate = (Button) v.findViewById(R.id.btnStartDate);
-        btnReturnDate = (Button) v.findViewById(R.id.btnReturnDate);
         btnProcessBooking = v.findViewById(R.id.btnProcessBooking);
 
         tiStartDate = v.findViewById(R.id.tiStartDate);
         tiReturnDate = v.findViewById(R.id.tiReturnDate);
-
-        tiStartDate.setEnabled(false);
-        tiReturnDate.setEnabled(false);
+        EditText etStartDate = v.findViewById(R.id.etStartDate);
+        EditText etReturnDate = v.findViewById(R.id.etStartTime);
 
         btnProcessBooking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +102,7 @@ public class ProcessBookingFragment extends BaseFragment {
             }
         });
 
-        btnStartDate.setOnClickListener(new View.OnClickListener() {
+        etStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Get Current Date
@@ -150,7 +148,7 @@ public class ProcessBookingFragment extends BaseFragment {
             }
         });
 
-        btnReturnDate.setOnClickListener(new View.OnClickListener() {
+        etReturnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Get Current Date
