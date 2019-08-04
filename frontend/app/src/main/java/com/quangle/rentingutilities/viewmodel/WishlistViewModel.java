@@ -53,4 +53,26 @@ public class WishlistViewModel extends ViewModel {
 
         return networkResourceWishlistMutableLiveData;
     }
+
+    public LiveData<NetworkResource<Wishlist>> delete(HashMap<String, Object> params) {
+        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
+            Call<Wishlist> wishlistCall = api.deleteWishlist(getTokenResult.getToken(), params);
+            wishlistCall.enqueue(new Callback<Wishlist>() {
+                @Override
+                public void onResponse(Call<Wishlist> call, Response<Wishlist> response) {
+                    if (response.isSuccessful())
+                        networkResourceWishlistMutableLiveData.setValue(new NetworkResource<>(response.body()));
+                    else
+                        networkResourceWishlistMutableLiveData.setValue(new NetworkResource<>(response.code()));
+                }
+
+                @Override
+                public void onFailure(Call<Wishlist> call, Throwable t) {
+                    System.out.println("ON FAILURE");
+                }
+            });
+        });
+
+        return networkResourceWishlistMutableLiveData;
+    }
 }

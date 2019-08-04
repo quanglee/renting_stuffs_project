@@ -14,6 +14,14 @@ module.exports = class Wishlist {
     );
   }
 
+  static delete(params) {
+    console.log(params);
+    return db.execute(
+      `DELETE FROM wishlists WHERE itemId = ? AND ownerId = ?;`, 
+      [params.itemId, params.ownerId]
+    );
+  }
+
 }
 
 // SELECT * FROM items WHERE id IN (1,2,3) AND isActive = 1;

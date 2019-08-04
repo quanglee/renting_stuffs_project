@@ -1,12 +1,14 @@
 package com.quangle.rentingutilities.viewmodel;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.core.model.User;
 import com.quangle.rentingutilities.networking.Api;
 import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.networking.RetrofitService;
 
 import java.util.HashMap;
+import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -19,6 +21,8 @@ public class UserViewModel extends ViewModel {
 
     MutableLiveData<NetworkResource<User>> networkResourceUserMutableLiveData = new MutableLiveData<>();
     public static User loggedInUser = null;
+    public static List<Item> wishlistItemOfLoggedInUser = null;
+
     Api api;
     private FirebaseAuth firebaseAuth;
 
