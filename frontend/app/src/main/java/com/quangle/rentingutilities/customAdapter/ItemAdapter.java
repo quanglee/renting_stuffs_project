@@ -144,11 +144,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
                             holder.firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
 
+                                HashMap<String, Object> params = new HashMap<>();
+                                params.put("itemId", current.getId());
+                                params.put("fcmToken", MyFirebaseMessagingService.getToken(context));
                                 if(isChecked) {//add
-
-                                    HashMap<String, Object> params = new HashMap<>();
-                                    params.put("itemId", current.getId());
-                                    params.put("fcmToken", MyFirebaseMessagingService.getToken(context));
 
                                     Call<Wishlist> wishlistCall = holder.api.createWishlist(getTokenResult.getToken(), params);
                                     wishlistCall.enqueue(new Callback<Wishlist>() {
@@ -169,7 +168,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                                         }
                                     });
                                 }else{//delete
-                                    Call<Wishlist> wishlistCall = holder.api.deleteWishlist(getTokenResult.getToken(), new Wishlist(current.getId()).toHashMap());
+                                    Call<Wishlist> wishlistCall = holder.api.deleteWishlist(getTokenResult.getToken(), params);
                                     wishlistCall.enqueue(new Callback<Wishlist>() {
                                         @Override
                                         public void onResponse(Call<Wishlist> call, Response<Wishlist> response) {
