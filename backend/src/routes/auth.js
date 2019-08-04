@@ -6,6 +6,5 @@ const authController = require('../controllers/auth');
 
 router.post('/login', authController.loginUser);
 router.post('/refresh-token', authController.refreshToken);
-router.get('/test-fcm-message', authController.testFCMMessage);
 
 module.exports = router;

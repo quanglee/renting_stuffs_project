@@ -1,6 +1,7 @@
 // place the booking logic here
 const Booking = require('../models/booking');
 const Item = require('../models/item');
+const FCM = require('../util/fcm');
 const { sendNotificationToSubcribeTopic } = require('../util/fcm');
 
 exports.getAllBookingOfUser = (req, res, next) => {
@@ -168,11 +169,11 @@ exports.acceptBooking = (req, res, next) => {
                 rows[0].ownerId == req.user.email){//request user is the owner
                 //change status
                 req.body.status = "Accepted";
+                req.body.itemName = rows[0].name;
                 Booking.updateBooking(req.body)
                 .then(([rows, fields]) => {
                     // send notification to users who already added this item in their wishlist
-                    sendNotificationToSubcribeTopic(req.body.itemId);
-
+                    FCM.sendNotificationToSubcribeTopic(req.body.itemId, req.body.itemName);
                     res.status(200).json(rows)
                 }).catch(err => {
                     console.log(err);

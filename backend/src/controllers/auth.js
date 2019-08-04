@@ -64,29 +64,3 @@ exports.refreshToken = (req, res, next) => {
 
   res.status(xhr.status).json(JSON.parse(xhr.responseText));
 };
-
-exports.testFCMMessage = (req, res, next) => {
-  
-  //Subribe topic 
-  // firebaseAdmin.messaging().subscribeToTopic("etCFh9ria70:APA91bG25YIYldIrrtm4yVXhEjgNdKrgTGrA4bAP4PMSZV_OmeOP1skb5lYO9Ukw8UfAE-XIai7DJsCfxWlbRqWjXjQcksF4PKhx6tiI0V0TnVwK9VXMHBI9smAfWM08PmWo-DKzHtAS", "item1")
-  //   .then(response => {
-  //     console.log('Successfully subscribed to topic:', response);
-  //   })
-
-  var message = {
-    notification: {
-      "title": "FCM Message",
-      "body": "This is a message from FCM"
-    },
-    topic: "SHAREANDGET_ITEM_10"
-  };
-  
-  firebaseAdmin.messaging().send(message)
-    .then(response => {
-      console.log('Successfully sent message:', response);
-    })
-
-  res.status(200).json({
-    message: "Hello FMC"
-  });
-};
