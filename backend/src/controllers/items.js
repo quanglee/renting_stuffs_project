@@ -6,7 +6,8 @@ const Utils = require('../util/utils');
 
 exports.getAllItems = (req, res, next) => {
   // we use promise which is nicer than callback
-  Item.findAll()
+  const itemName = req.query.itemname;
+  Item.findAll(itemName)
     .then(([rows, fields]) => {
       rows.forEach((currentValue, index, array) => {
         Utils.toBoolean(currentValue, 'isActive');

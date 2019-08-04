@@ -5,8 +5,22 @@ module.exports = class Items {
         // any
     }
 
-    static findAll() {
-        return db.execute('SELECT i.* FROM items i ORDER BY i.id DESC;');
+    static findAll(item) {
+        if (item == undefined) {
+            return db.execute('SELECT i.* FROM items i ORDER BY i.id DESC;');
+        } else {
+            const searchPlacholder = '%__placeholder__%';
+            const regex = /__placeholder__/gi;
+            const itemSearch = searchPlacholder.replace(regex, item);
+            return db.execute(
+                    `SELECT i.* 
+                    FROM items i 
+                    WHERE i.name LIKE ?
+                    ORDER BY i.id DESC;`,
+                    [itemSearch]
+                );
+        }
+        
     }
 
     static findByItemId(itemId) {
