@@ -8,6 +8,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.quangle.rentingutilities.R;
@@ -146,6 +147,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                                             //update local UserWishList
                                             UserViewModel.wishlistItemOfLoggedInUser.add(current);
                                             holder.switchWishlist.setEnabled(true);
+                                            if (response.code() == 409)
+                                                Toast.makeText(context, "Error while adding", Toast.LENGTH_SHORT).show();
                                         }
 
                                         @Override

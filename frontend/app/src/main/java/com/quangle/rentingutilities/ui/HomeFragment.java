@@ -78,6 +78,7 @@ public class HomeFragment extends BaseFragment {
 
             //Clear the text from EditText view
             et.setText("");
+            searched = "";
 
             //Clear query
             mSearchView.setQuery("", false);
