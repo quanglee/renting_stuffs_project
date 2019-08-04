@@ -145,7 +145,7 @@ public class UserActivity extends BaseActivity implements OnMapReadyCallback {
                 if (auth == null) {
                     authViewModel.login(user.toHashMap()).observe(this, authNetworkResource -> {
                         authNetworkResource.data.toSharedPreferences(this);
-                        Intent intent = new Intent(this, HomeActivity.class);
+                        Intent intent = new Intent(this, SplashActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
@@ -156,7 +156,9 @@ public class UserActivity extends BaseActivity implements OnMapReadyCallback {
                     btnSubmit.setEnabled(true);
 
                     user = userNetworkResource.data;
-                    setFields();
+                    UserViewModel.loggedInUser = user;
+                    BaseActivity.startHomeActivityAtTab(R.id.profile);//redirect to profile to refresh data
+//                    setFields();
                 }
             }
         });
