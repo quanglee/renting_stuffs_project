@@ -1,6 +1,7 @@
 // place the wishlists logic here
 const Wishlist = require('../models/wishlist');
 const Utils = require('../util/utils');
+const FCM = require('../util/fcm');
 const { firebaseAdmin } = require('../util/firebase');
 
 //create wishlist item
@@ -15,17 +16,10 @@ exports.create = (req, res, next) => {
 
   req.body.ownerId = req.user.email;
   req.body.endDate = null;
-  const itemTopic = "SHAREANDGET_ITEM_" +req.body.itemId;
   const fcmToken = req.body.fcmToken;
-
-  
   Wishlist.create(req.body).then(([rows, fields]) => {
     // subscribe this item, in order to receive notification
-    firebaseAdmin.messaging().subscribeToTopic(fcmToken, itemTopic)
-      .then(response => {
-        console.log('Successfully subscribed to topic:', response);
-      })
-      
+    FCM.subscribeFromTopic(fcmToken, req.body.itemId);
     res.status(201).json(req.body);
   }).catch(err => {
     console.log(err);
@@ -45,7 +39,10 @@ exports.delete = (req, res, next) => {
   }
 
   req.body.ownerId = req.user.email;
+  const fcmToken = req.body.fcmToken;
   Wishlist.delete(req.body).then(([rows, fields]) => {
+    // unsubribe this item topic
+    FCM.unSubscribeFromTopic(fcmToken, req.body.itemId);
     res.status(201).json(req.body);
   }).catch(err => {
     console.log(err);
