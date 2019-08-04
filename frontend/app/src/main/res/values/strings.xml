@@ -56,4 +56,7 @@
     <string name="existingEmail">The email address is already in use by another account</string>
     <string name="invalidAddress">That is not a valid BC address</string>
 
+    <!-- FCM -->
+    <string name="fcm_token">FCM Token: %s</string>
+    <string name="channel_name">My Channel</string>
 </resources>

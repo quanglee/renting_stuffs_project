@@ -33,6 +33,7 @@ import com.quangle.rentingutilities.core.model.Wishlist;
 import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.utils.GetAddressFromName;
 import com.quangle.rentingutilities.utils.Helper;
+import com.quangle.rentingutilities.utils.MyFirebaseMessagingService;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
 import com.quangle.rentingutilities.utils.Validation;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
@@ -41,6 +42,7 @@ import com.quangle.rentingutilities.viewmodel.WishlistViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.HashMap;
 
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
@@ -194,7 +196,10 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
             else {
                 btnAddToWishlist.setEnabled(false);
                 showProgressBar();
-                wishlistViewModel.create(new Wishlist(item.getId()).toHashMap()).observe(this, wishlistNetworkResource -> {
+                HashMap<String, Object> params = new HashMap<>();
+                params.put("itemId", item.getId());
+                params.put("fcmToken", MyFirebaseMessagingService.getToken(getContext()));
+                wishlistViewModel.create(params).observe(this, wishlistNetworkResource -> {
                     btnAddToWishlist.setEnabled(true);
                     hideProgressBar();
                     if (wishlistNetworkResource.data != null)

@@ -1,6 +1,7 @@
 // place the booking logic here
 const Booking = require('../models/booking');
 const Item = require('../models/item');
+const { sendNotificationToSubcribeTopic } = require('../util/fcm');
 
 exports.getAllBookingOfUser = (req, res, next) => {
     console.log("get all bookings that user were made from mysql and return JSON file");
@@ -143,11 +144,6 @@ exports.createBooking = (req, res, next) => {
 
 exports.acceptBooking = (req, res, next) => {
     console.log("owner accept the booking");
-
-    // console.log(req.params);
-    // console.log(req.body);
-    // console.log(req.user);
-
     //validate
     if (req.user == null) {
     res.status(401).json({
@@ -168,16 +164,15 @@ exports.acceptBooking = (req, res, next) => {
     //check user is the owner
     Item.findByItemId(req.body.itemId)
         .then(([rows, fields]) => {
-            
-            console.log(rows);
             if(rows[0] != undefined &&//found item
                 rows[0].ownerId == req.user.email){//request user is the owner
-
                 //change status
                 req.body.status = "Accepted";
-                
                 Booking.updateBooking(req.body)
                 .then(([rows, fields]) => {
+                    // send notification to users who already added this item in their wishlist
+                    sendNotificationToSubcribeTopic(req.body.itemId);
+
                     res.status(200).json(rows)
                 }).catch(err => {
                     console.log(err);
