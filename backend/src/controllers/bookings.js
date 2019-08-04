@@ -247,11 +247,6 @@ exports.doneBooking = (req, res, next) => {
 //reject a booking
 exports.rejectBooking = (req, res, next) => {
     console.log("owner reject the booking");
-
-    // console.log(req.params);
-    // console.log(req.body);
-    // console.log(req.user);
-
     //validate
     if (req.user == null) {
     res.status(401).json({
@@ -272,16 +267,16 @@ exports.rejectBooking = (req, res, next) => {
     //check user is the owner
     Item.findByItemId(req.body.itemId)
         .then(([rows, fields]) => {
-            
-            console.log(rows);
             if(rows[0] != undefined &&//found item
                 rows[0].ownerId == req.user.email){//request user is the owner
 
                 //change status
                 req.body.status = "Rejected";
-                
+                req.body.itemName = rows[0].name;
                 Booking.updateBooking(req.body)
                 .then(([rows, fields]) => {
+                    // send notification to users who already added this item in their wishlist
+                    FCM.sendNotificationToSubcribeTopic(req.body.itemId, req.body.itemName);
                     res.status(200).json(rows)
                 }).catch(err => {
                     console.log(err);
