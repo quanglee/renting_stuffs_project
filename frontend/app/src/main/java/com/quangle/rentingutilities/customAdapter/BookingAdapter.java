@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Booking;
-import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.utils.OnClickListener;
 import com.squareup.picasso.Picasso;
 
