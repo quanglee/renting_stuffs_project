@@ -20,11 +20,13 @@ import com.quangle.rentingutilities.networking.RetrofitService;
 import com.quangle.rentingutilities.ui.BaseActivity;
 import com.quangle.rentingutilities.ui.HomeActivity;
 import com.quangle.rentingutilities.utils.Helper;
+import com.quangle.rentingutilities.utils.MyFirebaseMessagingService;
 import com.quangle.rentingutilities.utils.OnClickListener;
 import com.quangle.rentingutilities.viewmodel.UserViewModel;
 import com.quangle.rentingutilities.viewmodel.WishlistViewModel;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -61,12 +63,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             if (firebaseAuth ==null) {
                 firebaseAuth = FirebaseAuth.getInstance();
             }
+
         }
     }
 
     private final LayoutInflater mInflater;
     private List<Item> mItems;
     private OnClickListener<Item> listener;
+    private Context context;
 
     public ItemAdapter(Context context, OnClickListener<Item> listener) {
         mInflater = LayoutInflater.from(context);
@@ -77,6 +81,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.home_items_content, parent, false);
+
+        context = parent.getContext();
         return new ItemAdapter.ItemViewHolder(itemView);
     }
 
@@ -139,7 +145,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                             holder.firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
 
                                 if(isChecked) {//add
-                                    Call<Wishlist> wishlistCall = holder.api.createWishlist(getTokenResult.getToken(), new Wishlist(current.getId()).toHashMap());
+
+                                    HashMap<String, Object> params = new HashMap<>();
+                                    params.put("itemId", current.getId());
+                                    params.put("fcmToken", MyFirebaseMessagingService.getToken(context));
+
+                                    Call<Wishlist> wishlistCall = holder.api.createWishlist(getTokenResult.getToken(), params);
                                     wishlistCall.enqueue(new Callback<Wishlist>() {
                                         @Override
                                         public void onResponse(Call<Wishlist> call, Response<Wishlist> response) {
