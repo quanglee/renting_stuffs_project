@@ -38,7 +38,7 @@ public class BookingActivity extends BaseActivity {
         switch (fragmentOptions) {
             case "processBooking":
                 item = (Item) intent.getSerializableExtra(ARG_ITEM);
-                setTitleActionBar("PROCESS BOOKING");
+                setTitleActionBar("Booking");
                 System.out.println("Place your process booking fragment here");
                 fragmentDisplay = new ProcessBookingFragment();
 
@@ -48,7 +48,7 @@ public class BookingActivity extends BaseActivity {
             case "bookingDetail":
                 booking = (Booking) intent.getSerializableExtra(ARG_BOOKING);
                 System.out.println("Place your booking detail fragment here");
-                setTitleActionBar("BOOKING DETAIL");
+                setTitleActionBar("Booking detail");
                 booking = (Booking) intent.getSerializableExtra(ARG_BOOKING);
                 fragmentDisplay = new BookingDetailFragment();
                 Bundle i = new Bundle();
