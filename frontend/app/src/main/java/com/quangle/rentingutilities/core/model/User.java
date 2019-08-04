@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import androidx.annotation.NonNull;
+
 public class User implements Serializable {
 
     //user fields
@@ -47,6 +49,18 @@ public class User implements Serializable {
         if (id.equals(""))
             hashMap.put("password", password);
         return hashMap;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("\nUsername:\t" + (username != null? username : ""));
+        sb.append("\nEmail:\t\t" + (email != null? email : ""));
+        sb.append("\nAddress:\t" + (address != null? address : "") + "\n");
+
+        return sb.toString();
     }
 
     //getter & setter

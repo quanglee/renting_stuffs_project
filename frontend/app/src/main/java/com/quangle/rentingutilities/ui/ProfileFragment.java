@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.utils.MySharedPreferences;
+import com.quangle.rentingutilities.viewmodel.UserViewModel;
 
 public class ProfileFragment extends BaseFragment {
 
@@ -23,7 +24,8 @@ public class ProfileFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ListView listView = view.findViewById(R.id.listView);
 
-        String[] values = new String[] { "Edit", "Logout" };
+        String[] values = new String[] {UserViewModel.loggedInUser != null? UserViewModel.loggedInUser.toString() : "",
+                "Edit", "Logout" };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, android.R.id.text1, values);
         listView.setAdapter(adapter);
 
