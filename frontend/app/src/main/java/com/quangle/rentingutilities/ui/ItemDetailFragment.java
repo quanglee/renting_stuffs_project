@@ -70,6 +70,7 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
     private Button btnSubmit;
     private ItemViewModel itemViewModel;
     private WishlistViewModel wishlistViewModel;
+    private boolean addedToWishlist = false;
 
     public static ItemDetailFragment newInstance(Item item, boolean canEdit) {
         ItemDetailFragment fragment = new ItemDetailFragment();
@@ -134,8 +135,23 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
             etCondition.setEnabled(false);
             etTags.setEnabled(false);
             etPickupAddress.setEnabled(false);
-            btnBook.setVisibility(View.VISIBLE);
-            btnAddToWishlist.setVisibility(View.VISIBLE);
+            if (MySharedPreferences.getAuth(getActivity()) == null) {
+                btnBook.setVisibility(View.VISIBLE);
+                btnAddToWishlist.setVisibility(View.GONE);
+            } else if (Helper.isLoggedInUserEmailMatch(item.getOwnerId())) {
+                btnBook.setVisibility(View.INVISIBLE);
+                btnAddToWishlist.setVisibility(View.GONE);
+            } else {
+                btnBook.setVisibility(View.VISIBLE);
+                for(Item item : UserViewModel.wishlistItemOfLoggedInUser){
+                    if(item.getId() == this.item.getId())
+                        addedToWishlist = true;
+                }
+                if (addedToWishlist)
+                    btnAddToWishlist.setText("Remove from wishlist");
+                //btnAddToWishlist.setVisibility(View.VISIBLE);
+                btnAddToWishlist.setVisibility(View.GONE);
+            }
             btnSubmit.setVisibility(View.GONE);
             btnSetImage.setVisibility(View.GONE);
         } else {
@@ -201,16 +217,30 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
                 HashMap<String, Object> params = new HashMap<>();
                 params.put("itemId", item.getId());
                 params.put("fcmToken", MyFirebaseMessagingService.getToken(getContext()));
-                wishlistViewModel.create(params).observe(this, wishlistNetworkResource -> {
-                    btnAddToWishlist.setEnabled(true);
-                    hideProgressBar();
-                    if (wishlistNetworkResource.data != null)
-                        Toast.makeText(getContext(), "Item added successfully", Toast.LENGTH_SHORT).show();
-                    else if (wishlistNetworkResource.code == 409)
-                        Toast.makeText(getContext(), "That item is already in your wishlist", Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                });
+                if (!addedToWishlist) {
+                    wishlistViewModel.create(params).observe(this, wishlistNetworkResource -> {
+                        btnAddToWishlist.setEnabled(true);
+                        hideProgressBar();
+                        if (wishlistNetworkResource.data != null) {
+                            Toast.makeText(getContext(), "Item added successfully", Toast.LENGTH_SHORT).show();
+                            addedToWishlist = true;
+                            btnAddToWishlist.setText("Remove from wishlist");
+                        } else if (wishlistNetworkResource.code == 409)
+                            Toast.makeText(getContext(), "That item is already in your wishlist", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                    });
+                } else {
+                    wishlistViewModel.delete(params).observe(this, wishlistNetworkResource -> {
+                        btnAddToWishlist.setEnabled(true);
+                        hideProgressBar();
+                        if (wishlistNetworkResource.data != null) {
+                            Toast.makeText(getContext(), "Item removed successfully", Toast.LENGTH_SHORT).show();
+                            addedToWishlist = false;
+                            btnAddToWishlist.setText(getResources().getText(R.string.addToWishlist));
+                        }
+                    });
+                }
             }
         });
 
