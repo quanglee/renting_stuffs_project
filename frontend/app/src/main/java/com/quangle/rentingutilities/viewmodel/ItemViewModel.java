@@ -55,8 +55,8 @@ public class ItemViewModel extends ViewModel {
         }
     }
 
-    public LiveData<List<Item>> getAllItems() {
-        Call<List<Item>> itemCall = api.getAllItems();
+    public LiveData<List<Item>> getAllItems(String itemName) {
+        Call<List<Item>> itemCall = api.getAllItems(itemName);
         itemCall.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
