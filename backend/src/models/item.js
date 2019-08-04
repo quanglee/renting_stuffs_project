@@ -27,13 +27,23 @@ module.exports = class Items {
     }
 
     static editItem(params) {
-      return db.execute(
-        `UPDATE items SET ownerId = ?, name = ?, description = ?, \`condition\` = ?, category = ?, imageURLs = ?, tags = ?, lat = ?, lng = ?, price = ?, pickupAddress = ?
-        WHERE id = ?`,
-        [
-          params.ownerId, params.name, params.description, params.condition, params.category,
-          params.imageURLs, params.tags, params.lat, params.lng, params.price, params.pickupAddress, params.id
-        ]);
+
+        if(params.numberOfReview != null && params.averageRating != null){//add a review, 
+            //then update item avg rating
+            return db.execute(
+                `UPDATE items SET numberOfReview = ?, averageRating = ? WHERE id = ?`,
+                [
+                  params.numberOfReview, params.averageRating, params.id
+                ]);
+        }else{// add new item
+            return db.execute(
+                `UPDATE items SET ownerId = ?, name = ?, description = ?, \`condition\` = ?, category = ?, imageURLs = ?, tags = ?, lat = ?, lng = ?, price = ?, pickupAddress = ?
+                WHERE id = ?`,
+                [
+                  params.ownerId, params.name, params.description, params.condition, params.category,
+                  params.imageURLs, params.tags, params.lat, params.lng, params.price, params.pickupAddress, params.id
+                ]);
+        }
     }
 
     static findAllItemsOfUser(userId){
