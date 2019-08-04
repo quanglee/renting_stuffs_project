@@ -1,7 +1,6 @@
 package com.quangle.rentingutilities.ui;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,19 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quangle.rentingutilities.R;
-import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.utils.Helper;
 import com.quangle.rentingutilities.viewmodel.BookingViewModel;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
-import com.quangle.rentingutilities.viewmodel.ReviewViewModel;
-import com.quangle.rentingutilities.viewmodel.UserViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 

@@ -8,28 +8,23 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.core.model.Wishlist;
 import com.quangle.rentingutilities.networking.Api;
-import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.networking.RetrofitService;
 import com.quangle.rentingutilities.ui.BaseActivity;
-import com.quangle.rentingutilities.ui.HomeActivity;
 import com.quangle.rentingutilities.utils.Helper;
 import com.quangle.rentingutilities.utils.MyFirebaseMessagingService;
 import com.quangle.rentingutilities.utils.OnClickListener;
 import com.quangle.rentingutilities.viewmodel.UserViewModel;
-import com.quangle.rentingutilities.viewmodel.WishlistViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
 
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -133,13 +128,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                     holder.switchWishlist.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                            System.out.println();
-                            System.out.println("SWITCH WISHLIST: " + isChecked);
-                            System.out.println("ITEM ID: " + current.getId());
-                            System.out.print("OWNER ID " + current.getOwnerId());
-                            System.out.println();
-
                             holder.switchWishlist.setEnabled(false);
 
                             holder.firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {

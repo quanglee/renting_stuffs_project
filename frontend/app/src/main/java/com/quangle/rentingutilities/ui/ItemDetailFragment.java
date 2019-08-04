@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,10 +27,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputLayout;
 import com.quangle.rentingutilities.R;
-import com.quangle.rentingutilities.core.model.Auth;
 import com.quangle.rentingutilities.core.model.Item;
 import com.quangle.rentingutilities.core.model.User;
-import com.quangle.rentingutilities.core.model.Wishlist;
 import com.quangle.rentingutilities.networking.NetworkResource;
 import com.quangle.rentingutilities.utils.GetAddressFromName;
 import com.quangle.rentingutilities.utils.Helper;
@@ -64,6 +63,7 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
     private File file;
     private RatingBar ratingBar;
     private EditText etName, etDescription, etPrice, etCategory, etCondition, etTags, etPickupAddress;
+    private TextView txtRatingDetails;
     private UserViewModel userViewModel;
     private User user;
     private GoogleMap map;
@@ -97,6 +97,7 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
 
         Validation validation = new Validation(getActivity());
         ratingBar = view.findViewById(R.id.ratingBar);
+        txtRatingDetails = view.findViewById(R.id.txtPrice);
         imageView = view.findViewById(R.id.imageView);
         TextInputLayout tiName = view.findViewById(R.id.tiName);
         etName = view.findViewById(R.id.etName);
@@ -146,6 +147,7 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
             // Is a new Item
             if (item.getId() == -1) {
                 ratingBar.setVisibility(View.GONE);
+                txtRatingDetails.setVisibility(View.GONE);
                 showProgressBar();
                 userViewModel.get().observe(this, userNetworkResource -> {
                     hideProgressBar();
@@ -284,6 +286,9 @@ public class ItemDetailFragment extends BaseFragment implements OnMapReadyCallba
 
     public void setFields() {
         ratingBar.setRating((float) item.getAverageRating());
+        txtRatingDetails.setText(String.format("%.2f from %d reviews",
+                item.getAverageRating(), item.getNumberOfReview()));
+
         if (!item.getImageURL().equals(""))
             Picasso.get().load(item.getImageURL()).resize(1000, 500).onlyScaleDown().placeholder(R.mipmap.ic_launcher).into(imageView);
         etName.setText(item.getName());
