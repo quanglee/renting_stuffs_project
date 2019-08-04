@@ -128,22 +128,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                     holder.switchWishlist.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-//                            System.out.println();
-//                            System.out.println("SWITCH WISHLIST: " + isChecked);
-//                            System.out.println("ITEM ID: " + current.getId());
-//                            System.out.print("OWNER ID " + current.getOwnerId());
-//                            System.out.println();
-
                             holder.switchWishlist.setEnabled(false);
 
                             holder.firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
 
+                                HashMap<String, Object> params = new HashMap<>();
+                                params.put("itemId", current.getId());
+                                params.put("fcmToken", MyFirebaseMessagingService.getToken(context));
                                 if(isChecked) {//add
-
-                                    HashMap<String, Object> params = new HashMap<>();
-                                    params.put("itemId", current.getId());
-                                    params.put("fcmToken", MyFirebaseMessagingService.getToken(context));
 
                                     Call<Wishlist> wishlistCall = holder.api.createWishlist(getTokenResult.getToken(), params);
                                     wishlistCall.enqueue(new Callback<Wishlist>() {
@@ -164,11 +156,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                                         }
                                     });
                                 }else{//delete
-
-                                    HashMap<String, Object> params = new HashMap<>();
-                                    params.put("itemId", current.getId());
-                                    params.put("fcmToken", MyFirebaseMessagingService.getToken(context));
-
                                     Call<Wishlist> wishlistCall = holder.api.deleteWishlist(getTokenResult.getToken(), params);
                                     wishlistCall.enqueue(new Callback<Wishlist>() {
                                         @Override
