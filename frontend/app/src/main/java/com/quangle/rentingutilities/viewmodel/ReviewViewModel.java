@@ -44,19 +44,17 @@ public class ReviewViewModel extends ViewModel {
     // list all reviews of item
     public LiveData<List<JsonObject>> getReviewsOfItem(String itemId) {
 
-        firebaseAuth.getCurrentUser().getIdToken(false).addOnSuccessListener(getTokenResult -> {
-            Call<List<JsonObject>> reviewCall = api.getReviewsOfItem(getTokenResult.getToken(), itemId);
-            reviewCall.enqueue(new Callback<List<JsonObject>>() {
-                @Override
-                public void onResponse(Call<List<JsonObject>> call, Response<List<JsonObject>> response) {
-                    mReviews.setValue(response.body());
-                }
+        Call<List<JsonObject>> reviewCall = api.getReviewsOfItem(itemId);
+        reviewCall.enqueue(new Callback<List<JsonObject>>() {
+            @Override
+            public void onResponse(Call<List<JsonObject>> call, Response<List<JsonObject>> response) {
+                mReviews.setValue(response.body());
+            }
 
-                @Override
-                public void onFailure(Call<List<JsonObject>> call, Throwable t) {
+            @Override
+            public void onFailure(Call<List<JsonObject>> call, Throwable t) {
 
-                }
-            });
+            }
         });
 
         return mReviews;

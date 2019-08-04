@@ -71,7 +71,7 @@ public interface Api {
 
     // get all reviews of item
     @GET("items/{item_id}/reviews")
-    Call<List<JsonObject>> getReviewsOfItem(@Header("Authorization") String auth, @Path(value = "item_id", encoded = true) String itemId);
+    Call<List<JsonObject>> getReviewsOfItem(@Path(value = "item_id", encoded = true) String itemId);
 
     // add new item
     @Multipart
