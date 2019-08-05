@@ -10,15 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.quangle.rentingutilities.R;
 import com.quangle.rentingutilities.core.model.Booking;
 import com.quangle.rentingutilities.utils.Helper;
 import com.quangle.rentingutilities.viewmodel.BookingViewModel;
 import com.quangle.rentingutilities.viewmodel.ItemViewModel;
+import com.quangle.rentingutilities.viewmodel.ReviewViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 public class BookingDetailFragment extends BaseFragment {
@@ -31,7 +35,7 @@ public class BookingDetailFragment extends BaseFragment {
     private Button btnCancel, btnReview, btnAccept, btnReject, btnDone;
     private ItemViewModel itemViewModel;
     private BookingViewModel bookingViewModel;
-//    private ReviewViewModel reviewViewModel;
+    private ReviewViewModel reviewViewModel;
 
 
 
@@ -102,7 +106,29 @@ public class BookingDetailFragment extends BaseFragment {
             }
 
         } else if (booking.getStatus().equals(Booking.STATUS.DONE.displayName())) {
-            displayReviewFragment();
+
+            final boolean[] isBookingIdExist = {false};
+
+            reviewViewModel = ViewModelProviders.of(this).get(ReviewViewModel.class);
+            reviewViewModel.getReviewsOfItem(String.valueOf(booking.getItem().getId())).observe(this, new Observer<List<JsonObject>>() {
+                @Override
+                public void onChanged(List<JsonObject> reviews) {
+
+                    if(reviews.size() > 0){
+
+                        for(JsonObject jsonObject : reviews ){
+                            if(jsonObject.get("bookingId").getAsInt() == booking.getId())
+
+                                isBookingIdExist[0] = true; //already review
+                        }
+                    }
+
+                    if(isBookingIdExist[0] == false)
+                        displayReviewFragment();
+                }
+            });
+
+
 
         } else if(booking.getStatus().equals(Booking.STATUS.ACCEPTED.displayName())) {
 
