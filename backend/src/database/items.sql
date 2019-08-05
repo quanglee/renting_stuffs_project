@@ -15,7 +15,7 @@ create table items(
   lng             DECIMAL(10,6),
   price           DECIMAL(10,2),
   pickupAddress   VARCHAR(255),
-	isActive        TINYINT DEFAULT 11);
+	isActive        TINYINT DEFAULT 1);
 -- 5 items of user1 and 5 items of user2
 insert into items (id, ownerId, name, description, `condition`, category, imageURLs, tags, numberOfReview, averageRating, lat, lng, price, pickupAddress, isActive) values (1, 'user1@shareandget.com', 'Large Size Trek Marlin5', 'Trek Marlin 5, Size Large, barely rode,great condition, pick up only.', 'Almost new', 'Bicycle/Bike', 'https://i.ibb.co/Pgx1Qdb/trek-marlin5.png', 'bike outdoor', 0, 0, 49.203543499999995, -122.91276149999997, 10, '700 Royal Ave', 1);
 insert into items (id, ownerId, name, description, `condition`, category, imageURLs, tags, numberOfReview, averageRating, lat, lng, price, pickupAddress, isActive) values (2, 'user1@shareandget.com', 'Porsche - 911 - 2007', 'The standard 911 Carrera comes with a rear-mounted 3.6-liter, six cylinder engine. It makes 325 hp and 273 Ib-ft of torque.', 'No remarkable damage', 'Others', 'https://i.ibb.co/tqN18Kk/porsche-911-2007.jpg', 'car sport', 0, 0, 49.203543499999995, -122.91276149999997, 20, '700 Royal Ave', 1);
